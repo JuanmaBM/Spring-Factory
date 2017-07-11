@@ -1,6 +1,9 @@
 ---
 addons:
   sonarcloud:
+    branches:
+    - develop
+    - master
     github_token:
       secure: sZoeXCtx+9RPPy/+pW2ti9cLgiI29y6GqRGbRQfMEmtOdELOTHhOcsDgzl/UASqRQeWZh76MjfJEpWRBGHC3i8/75juOMOjm+coy0uiMERK6i64oyDQKpkdxew12ck1sis4M5AQ8Xtt7PSMFFj2g4I0d50HKtRlZdVq6CRuOk8tKx33CYNF2DgHOpp6rwsnd9iV+qCmp/G7zYM5VSW+DLSkBj3sD94Z60pvjAP//VrPlr4SgQjpwJkbsgi98awI1IQC2EojVCBpsR+Ah1RiFEZFIgpStxYmW4gL7UEC+OFOMp/Hco/EN6w37mbUvt9ZlpD5K0Y/1D85nEPmOngdNMdOWglu7Dx43NHMyDiWtqSkZ3lYE4W4oEGM5YlDRxhAyYYXb70YlOZEcvXCTNQjltQMJ6adJyM9vsHsz3sGlNO6Fzi540qZghwasOAvBxblZnTYdfqIqTCuq8jqQcmUuV0wFyNHtUj0i7KC1c5CQaP7Tgf3Mql+vg43MGwzV9EOqizFNea8rUeoo8v2/UcOmWIFcVvcOrYLnAffZufi6M1g/83wxHaKma+ZaL0GHCSs8/pUFAavE+VV439RJDmZpEdU7/Kud7W3nuYMZklH2elZi8wHtk96CHjaYTjRxw4SSjDnz6wmb3pvTN/TlePxLcMAadXSryfIqwZiitpHQMWM=
     organization: JuanmaBM
