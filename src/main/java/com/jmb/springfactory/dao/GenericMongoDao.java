@@ -13,7 +13,7 @@ public interface GenericMongoDao<T, ID extends Serializable> {
    * @param t
    * @throws PersistenceLayerException 
    */
-  public void save(T t) throws PersistenceLayerException;
+  public T save(T t) throws PersistenceLayerException;
   
   /**
    * Update the data of entity t in BD. If t not exists, then it be created 

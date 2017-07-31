@@ -14,10 +14,10 @@ public abstract class GenericMongoDaoImpl<T, ID extends Serializable> implements
   public abstract MongoRepository<T, ID> getRepository();
 
   @Override
-  public void save(T t) throws PersistenceLayerException {
+  public T save(T t) throws PersistenceLayerException {
 
     checkIfEntityExists(t);
-    this.getRepository().save(t);
+    return this.getRepository().save(t);
   }
 
   @Override
