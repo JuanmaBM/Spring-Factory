@@ -5,8 +5,9 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import com.jmb.springfactory.exceptions.PersistenceLayerException;
+import com.jmb.springfactory.model.entity.BaseEntity;
 
-public interface GenericMongoDao<T, ID extends Serializable> {
+public interface GenericMongoDao<T extends BaseEntity, ID extends Serializable> {
 
   /**
    * Store the entity in the BD
@@ -14,15 +15,7 @@ public interface GenericMongoDao<T, ID extends Serializable> {
    * @throws PersistenceLayerException 
    */
   public T save(T t) throws PersistenceLayerException;
-  
-  /**
-   * Update the data of entity t in BD. If t not exists, then it be created 
-   * @param t
-   * @return
-   * @throws PersistenceLayerException 
-   */
-  public void update(T t) throws PersistenceLayerException;
-  
+
   /**
    * Search and delete the entity t from the BD
    * @param t

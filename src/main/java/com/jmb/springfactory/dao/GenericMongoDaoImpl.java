@@ -7,8 +7,9 @@ import java.util.stream.Stream;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.jmb.springfactory.exceptions.PersistenceLayerException;
+import com.jmb.springfactory.model.entity.BaseEntity;
 
-public abstract class GenericMongoDaoImpl<T, ID extends Serializable> implements 
+public abstract class GenericMongoDaoImpl<T extends BaseEntity, ID extends Serializable> implements 
   GenericMongoDao<T, ID> {
   
   public abstract MongoRepository<T, ID> getRepository();
@@ -18,11 +19,6 @@ public abstract class GenericMongoDaoImpl<T, ID extends Serializable> implements
 
     checkIfEntityExists(t);
     return this.getRepository().save(t);
-  }
-
-  @Override
-  public void update(T t) throws PersistenceLayerException {
-    this.save(t);
   }
 
   @Override
