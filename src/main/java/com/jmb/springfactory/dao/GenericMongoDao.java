@@ -17,13 +17,6 @@ public interface GenericMongoDao<T extends BaseEntity, ID extends Serializable> 
   public T save(T t) throws PersistenceLayerException;
 
   /**
-   * Search and delete the entity t from the BD
-   * @param t
-   * @throws PersistenceLayerException 
-   */
-  public void delete(T t) throws PersistenceLayerException;
-  
-  /**
    * Search by his id and delete the entity t from the BD 
    * @param id
    */

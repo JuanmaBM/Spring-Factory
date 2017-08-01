@@ -22,12 +22,6 @@ public abstract class GenericMongoDaoImpl<T extends BaseEntity, ID extends Seria
   }
 
   @Override
-  public void delete(T t) throws PersistenceLayerException {
-    checkIfEntityExists(t);
-    this.getRepository().delete(t);
-  }
-  
-  @Override
   public void delete(ID id) {
     this.getRepository().delete(id);
   }
