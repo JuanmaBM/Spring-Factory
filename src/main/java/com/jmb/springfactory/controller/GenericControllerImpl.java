@@ -17,8 +17,8 @@ import com.jmb.springfactory.exceptions.ServiceLayerException;
 import com.jmb.springfactory.model.dto.BaseDto;
 import com.jmb.springfactory.service.GenericService;
 
-public abstract class GenericControllerImpl<D extends BaseDto, ID extends Serializable> implements 
-    GenericController<D, ID> {
+public abstract class GenericControllerImpl<D extends BaseDto, ID extends Serializable> extends BaseController
+    implements GenericController<D, ID> {
   
   public abstract GenericService<D, ID> genericService();
 

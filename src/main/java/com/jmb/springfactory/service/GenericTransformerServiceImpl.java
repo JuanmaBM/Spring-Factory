@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.jmb.springfactory.model.dto.BaseDto;
 import com.jmb.springfactory.model.entity.BaseEntity;
 
-public abstract class GenericTransformerServiceImpl<T extends BaseEntity, D extends BaseDto>
+public abstract class GenericTransformerServiceImpl<T extends BaseEntity, D extends BaseDto> extends BaseService
     implements GenericTransformerService<T, D>{
   
   @Autowired
