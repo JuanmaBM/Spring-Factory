@@ -2,8 +2,6 @@ package com.jmb.springfactory.service;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Stream;
 
 import com.jmb.springfactory.exceptions.NotFoundException;
 import com.jmb.springfactory.exceptions.ServiceLayerException;
