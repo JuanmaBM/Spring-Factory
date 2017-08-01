@@ -29,9 +29,8 @@ public abstract class GenericTransformerServiceImpl<T extends BaseEntity, D exte
   }
 
   @Override
-  public Stream<T> convertStreamEntityToStreamDto(Stream<D> dtos) {
-    return dtos.parallel()
-        .map(dto -> modelMapper.map(dto, getClazz()));
+  public Stream<D> convertStreamEntityToStreamDto(Stream<T> entities) {
+    return entities.map(entity -> modelMapper.map(entity, getDtoClazz()));
   }
 
   @Override

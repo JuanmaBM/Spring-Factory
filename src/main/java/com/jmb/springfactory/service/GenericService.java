@@ -5,8 +5,9 @@ import java.util.List;
 
 import com.jmb.springfactory.exceptions.NotFoundException;
 import com.jmb.springfactory.exceptions.ServiceLayerException;
+import com.jmb.springfactory.model.dto.BaseDto;
 
-public interface GenericService<T, D, ID extends Serializable> {
+public interface GenericService<D extends BaseDto, ID extends Serializable> {
 
   /**
    * Pass the entity to dao to store it in bd
@@ -34,7 +35,7 @@ public interface GenericService<T, D, ID extends Serializable> {
    * Return all entities
    * @return
    */
-  public List<T> findAll();
+  public List<D> findAll();
   
   /**
    * Return a monad searching by id 
@@ -42,20 +43,6 @@ public interface GenericService<T, D, ID extends Serializable> {
    * @return
    * @throws NotFoundException 
    */
-  public T findOne(ID id) throws NotFoundException;
+  public D findOne(ID id) throws NotFoundException;
   
-  /**
-   * To map an entity to DTO
-   * @param t
-   * @return
-   */
-  public D convertToDto(T t);
-  
-  /**
-   * To map a DTO to entity
-   * @param d
-   * @return
-   */
-  public T convertToEntity(D d);
-
 }

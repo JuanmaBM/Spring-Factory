@@ -14,7 +14,7 @@ import com.jmb.springfactory.model.dto.BaseDto;
 import com.jmb.springfactory.model.entity.BaseEntity;
 
 public abstract class GenericServiceImpl<T extends BaseEntity, D extends BaseDto, ID extends Serializable>
-    extends GenericTransformerServiceImpl<T, D> implements GenericService<T, D, ID> {
+    extends GenericTransformerServiceImpl<T, D> implements GenericService<D, ID> {
 
   public abstract GenericMongoDao<T, ID> genericDao();
   
@@ -41,14 +41,16 @@ public abstract class GenericServiceImpl<T extends BaseEntity, D extends BaseDto
   }
 
   @Override
-  public List<T> findAll() {
-    return genericDao().findAll().collect(Collectors.toList());
+  public List<D> findAll() {
+    return this.convertStreamEntityToStreamDto(genericDao().findAll())
+        .collect(Collectors.toList());
   }
 
   @Override
-  public T findOne(ID id) throws NotFoundException {
+  public D findOne(ID id) throws NotFoundException {
     return genericDao().findOne(id)
-        .orElseThrow(() -> new NotFoundException());
+        .map(this::convertToDto)
+        .orElseThrow(NotFoundException::new);
   }
   
   private final Function<T, T> saveEntity = entity -> {        

@@ -11,8 +11,8 @@ public interface GenericTransformerService<T extends BaseEntity, D extends BaseD
   
   public D convertToDto(T entity);
   
-  public Stream<T> convertStreamEntityToStreamDto(Stream<D> dtos);
-  
   public T merge(D dto, T entity);
+
+  public Stream<D> convertStreamEntityToStreamDto(Stream<T> entities);
 
 }
