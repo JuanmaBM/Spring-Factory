@@ -16,6 +16,8 @@ import com.jmb.springfactory.model.entity.BaseEntity;
 public abstract class GenericServiceImpl<T extends BaseEntity, D extends BaseDto, ID extends Serializable>
     extends GenericTransformerServiceImpl<T, D> implements GenericService<D, ID> {
 
+  private static final String DATABASE_ERROR_LOG = "A database error has ocurred: %s";
+
   public abstract GenericMongoDao<T, ID> genericDao();
   
   @Override
@@ -57,7 +59,7 @@ public abstract class GenericServiceImpl<T extends BaseEntity, D extends BaseDto
     try {
       return genericDao().save(entity);
     } catch (PersistenceLayerException e) {
-      e.printStackTrace();
+      serviceLog.error(String.format(DATABASE_ERROR_LOG, e.getMessage()));
     }
     return null;
   };
