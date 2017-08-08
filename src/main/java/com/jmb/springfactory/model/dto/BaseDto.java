@@ -1,6 +1,10 @@
 package com.jmb.springfactory.model.dto;
 
-public class BaseDto {
+import java.io.Serializable;
+
+public class BaseDto implements Serializable {
+
+  private static final long serialVersionUID = 5739080497948854510L;
 
   private String id;
 
