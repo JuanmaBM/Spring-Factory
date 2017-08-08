@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 import com.jmb.springfactory.exceptions.PersistenceLayerException;
 import com.jmb.springfactory.model.entity.BaseEntity;
 
-public interface GenericMongoDao<T extends BaseEntity, ID extends Serializable> {
+public interface GenericMongoDao<T extends BaseEntity, I extends Serializable> {
 
   /**
    * Store the entity in the BD
@@ -20,7 +20,7 @@ public interface GenericMongoDao<T extends BaseEntity, ID extends Serializable> 
    * Search by his id and delete the entity t from the BD 
    * @param id
    */
-  public void delete(ID id);
+  public void delete(I id);
   
   /**
    * Retrieve all the object from a specific type of entity from BD in stream format
@@ -33,6 +33,6 @@ public interface GenericMongoDao<T extends BaseEntity, ID extends Serializable> 
    * @param id
    * @return
    */
-  public Optional<T> findOne(ID id);
+  public Optional<T> findOne(I id);
 
 }

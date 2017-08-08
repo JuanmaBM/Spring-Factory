@@ -15,11 +15,11 @@ import com.jmb.springfactory.model.dto.BaseDto;
 import com.jmb.springfactory.model.entity.BaseEntity;
 
 public abstract class GenericServiceImpl<T extends BaseEntity, D extends BaseDto, B extends BusinessObjectBase,
-    ID extends Serializable> extends GenericTransformerServiceImpl<T, D, B> implements GenericService<D, ID> {
+    I extends Serializable> extends GenericTransformerServiceImpl<T, D, B> implements GenericService<D, I> {
 
   private static final String DATABASE_ERROR_LOG = "A database error has ocurred: %s";
 
-  public abstract GenericMongoDao<T, ID> genericDao();
+  public abstract GenericMongoDao<T, I> genericDao();
   
   @Override
   public D save(D dto) throws ServiceLayerException {
@@ -31,7 +31,7 @@ public abstract class GenericServiceImpl<T extends BaseEntity, D extends BaseDto
   }
 
   @Override
-  public void update(D dto, ID id) throws ServiceLayerException {
+  public void update(D dto, I id) throws ServiceLayerException {
     genericDao().findOne(id)
       .map(entity -> merge(dto, entity))
       .map(saveEntity)
@@ -39,7 +39,7 @@ public abstract class GenericServiceImpl<T extends BaseEntity, D extends BaseDto
   }
 
   @Override
-  public void delete(ID id) {
+  public void delete(I id) {
     genericDao().delete(id);
   }
 
@@ -50,7 +50,7 @@ public abstract class GenericServiceImpl<T extends BaseEntity, D extends BaseDto
   }
 
   @Override
-  public D findOne(ID id) throws NotFoundException {
+  public D findOne(I id) throws NotFoundException {
     return genericDao().findOne(id)
         .map(this::entityToDto)
         .orElseThrow(NotFoundException::new);

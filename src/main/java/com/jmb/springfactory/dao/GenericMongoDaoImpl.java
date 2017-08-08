@@ -9,10 +9,10 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import com.jmb.springfactory.exceptions.PersistenceLayerException;
 import com.jmb.springfactory.model.entity.BaseEntity;
 
-public abstract class GenericMongoDaoImpl<T extends BaseEntity, ID extends Serializable> extends BaseDao implements 
-  GenericMongoDao<T, ID> {
+public abstract class GenericMongoDaoImpl<T extends BaseEntity, I extends Serializable> extends BaseDao implements 
+  GenericMongoDao<T, I> {
   
-  public abstract MongoRepository<T, ID> getRepository();
+  public abstract MongoRepository<T, I> getRepository();
 
   @Override
   public T save(T t) throws PersistenceLayerException {
@@ -22,7 +22,7 @@ public abstract class GenericMongoDaoImpl<T extends BaseEntity, ID extends Seria
   }
 
   @Override
-  public void delete(ID id) {
+  public void delete(I id) {
     this.getRepository().delete(id);
   }
 
@@ -32,7 +32,7 @@ public abstract class GenericMongoDaoImpl<T extends BaseEntity, ID extends Seria
   }
 
   @Override
-  public Optional<T> findOne(ID id) {
+  public Optional<T> findOne(I id) {
     return Optional.ofNullable(this.getRepository().findOne(id));
   }
 

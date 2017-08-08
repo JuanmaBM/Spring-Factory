@@ -16,7 +16,9 @@ public class LoggerAop {
   private Logger monitorAopLog = Logger.getLogger(getClass());
 
   @Pointcut("execution(* com.jmb.springfactory.*.*(..))")
-  public void allMethods() {}
+  public void allMethods() {
+    // It's not necesary implements this method, it's be used as a pointcut
+  }
   
   @Before("allMethods()")
   public void logBeforeMethodEntries(JoinPoint jointPoint) {

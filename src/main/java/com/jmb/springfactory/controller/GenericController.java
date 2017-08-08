@@ -7,7 +7,7 @@ import com.jmb.springfactory.exceptions.NotFoundException;
 import com.jmb.springfactory.exceptions.ServiceLayerException;
 import com.jmb.springfactory.model.dto.BaseDto;
 
-public interface GenericController<D extends BaseDto, ID extends Serializable> {
+public interface GenericController<D extends BaseDto, I extends Serializable> {
 
   /**
    * Create a new resource 
@@ -23,13 +23,13 @@ public interface GenericController<D extends BaseDto, ID extends Serializable> {
    * @param id
    * @throws ServiceLayerException 
    */
-  public void update(D dto, ID id) throws ServiceLayerException;
+  public void update(D dto, I id) throws ServiceLayerException;
   
   /**
    * Delete the resource identified by id
    * @param id
    */
-  public void delete(ID id);
+  public void delete(I id);
   
   /**
    * Return a List with all resources of type D
@@ -43,6 +43,6 @@ public interface GenericController<D extends BaseDto, ID extends Serializable> {
    * @return
    * @throws NotFoundException 
    */
-  public D findOne(ID id) throws NotFoundException;
+  public D findOne(I id) throws NotFoundException;
 
 }
