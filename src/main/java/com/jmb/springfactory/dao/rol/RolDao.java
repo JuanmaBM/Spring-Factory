@@ -5,4 +5,5 @@ import com.jmb.springfactory.model.entity.Rol;
 
 public interface RolDao extends GenericMongoDao<Rol, String>{
 
+  public Rol save(Rol rol);
 }

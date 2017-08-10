@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class SpringFactoryApplication {
-
+ 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringFactoryApplication.class, args);
 	}

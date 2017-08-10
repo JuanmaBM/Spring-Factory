@@ -17,5 +17,10 @@ public class RolDaoImpl extends GenericMongoDaoImpl<Rol, String> implements RolD
   public MongoRepository<Rol, String> getRepository() {
     return repository;
   }
+  
+  @Override
+  public Rol save(Rol rol) {
+    return repository.findAll().get(0);
+  }
 
 }
