@@ -1,4 +1,4 @@
-package com.jmb.springfactory.rol;
+package com.jmb.springfactory.model.factory;
 
 public final class RolSamples {
 
