@@ -30,8 +30,7 @@ public class RolDaoImpl extends GenericMongoDaoImpl<Rol, String> implements RolD
   @Override
   public Stream<Rol> findByNameContain(String name) {
     final Example<Rol> rolByNameExample = Example.of(RolFactory.createRol(null, name));
-//    return repository.findAll(rolByNameExample).stream();
-    return null;
+    return repository.findAll(rolByNameExample).stream();
   }  
 
 }
