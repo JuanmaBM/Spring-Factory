@@ -7,12 +7,12 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
 
-import com.jmb.springfactory.dao.GenericMongoDaoImpl;
+import com.jmb.springfactory.dao.GenericMongoServiceImpl;
 import com.jmb.springfactory.model.entity.Rol;
 import com.jmb.springfactory.model.factory.RolFactory;
 
 @Service
-public class RolDaoImpl extends GenericMongoDaoImpl<Rol, String> implements RolDao {
+public class RolMongoServiceImpl extends GenericMongoServiceImpl<Rol, String> implements RolMongoService {
   
   @Autowired
   private RolRepository repository;

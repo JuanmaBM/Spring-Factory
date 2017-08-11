@@ -14,6 +14,7 @@ jdk:
   - oraclejdk8
 language: java
 install:
+  - ./gradlew assemble
   - ./gradlew test
 script: 
   - sonar-scanner

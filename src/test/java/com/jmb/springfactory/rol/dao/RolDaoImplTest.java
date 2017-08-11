@@ -18,7 +18,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Example;
 
-import com.jmb.springfactory.dao.rol.RolDaoImpl;
+import com.jmb.springfactory.dao.rol.RolMongoServiceImpl;
 import com.jmb.springfactory.dao.rol.RolRepository;
 import com.jmb.springfactory.exceptions.PersistenceLayerException;
 import com.jmb.springfactory.model.entity.Rol;
@@ -30,7 +30,7 @@ import com.jmb.springfactory.model.factory.RolSamples;
 public class RolDaoImplTest {
 
   @InjectMocks
-  private RolDaoImpl rolDaoImpl;
+  private RolMongoServiceImpl rolDaoImpl;
   
   private Rol rolSample;
   private Rol alreadyRolSample;

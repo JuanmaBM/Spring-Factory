@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 import com.jmb.springfactory.exceptions.PersistenceLayerException;
 import com.jmb.springfactory.model.entity.BaseEntity;
 
-public interface GenericMongoDao<T extends BaseEntity, I extends Serializable> {
+public interface GenericMongoService<T extends BaseEntity, I extends Serializable> {
 
   /**
    * Store the entity in the BD
