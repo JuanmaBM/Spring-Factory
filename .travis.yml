@@ -13,7 +13,7 @@ dist: trusty
 jdk: 
   - oraclejdk8
 language: java
-before-script:
+install:
   - ./gradlew test
 script: 
   - sonar-scanner
