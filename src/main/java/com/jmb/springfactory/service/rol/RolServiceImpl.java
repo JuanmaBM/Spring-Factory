@@ -42,13 +42,21 @@ public class RolServiceImpl extends GenericServiceImpl<Rol, RolDto, BusinessObje
 
   @Override
   public List<RolDto> findByNameContain(String name) throws NotFoundException {
-    final List<Rol> foundRoles = rolMongoService.findByNameContain(name)
-        .collect(Collectors.toList());
-    if (foundRoles.isEmpty()) {
-      throw new NotFoundException();
-    }
+
+    serviceLog.debug("Searching roles with name equals to " + name);
+    final List<Rol> foundRoles = rolMongoService.findByNameContain(name).collect(Collectors.toList());
+
+    throwNotFoundExceptionIfEmptyList(foundRoles);
+    serviceLog.debug("Have been found " + foundRoles.size() + " roles");
+
+    serviceLog.debug("Transforming Roles to Dtos");
     return this.convertListEntityToListDto(foundRoles);
   }
 
+  private void throwNotFoundExceptionIfEmptyList(List<Rol> roles) throws NotFoundException {
+    if (roles.isEmpty()) {
+      throw new NotFoundException();
+    }
+  }
 
 }
