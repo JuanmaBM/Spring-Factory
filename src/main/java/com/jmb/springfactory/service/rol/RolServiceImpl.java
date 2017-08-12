@@ -2,8 +2,6 @@ package com.jmb.springfactory.service.rol;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,8 +42,12 @@ public class RolServiceImpl extends GenericServiceImpl<Rol, RolDto, BusinessObje
 
   @Override
   public List<RolDto> findByNameContain(String name) throws NotFoundException {
-    final Stream<Rol> foundRoles = rolMongoService.findByNameContain(name);
-    return this.convertStreamEntityToStreamDto(foundRoles).collect(Collectors.toList());
+    final List<Rol> foundRoles = rolMongoService.findByNameContain(name)
+        .collect(Collectors.toList());
+    if (foundRoles.isEmpty()) {
+      throw new NotFoundException();
+    }
+    return this.convertListEntityToListDto(foundRoles);
   }
 
 

@@ -2,6 +2,8 @@ package com.jmb.springfactory.service.rol;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -14,6 +16,8 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.modelmapper.ModelMapper;
+import org.springframework.ui.ModelMap;
 
 import com.jmb.springfactory.dao.rol.RolMongoService;
 import com.jmb.springfactory.exceptions.NotFoundException;
@@ -36,32 +40,29 @@ public class RolServiceImplTest {
   private RolMongoService rolMongoService;
   
   @Mock
-  private GenericTransformerServiceImpl<Rol, RolDto, BusinessObjectBase> transformerService;
+  private ModelMapper mapper;
   
   private final static String SOME_ROL_NAME = "SOME ROL";
 
-  private Stream<Rol> listRolesFounded;
-  private Stream<RolDto> transformedRolesFound;
+  private Stream<Rol> rolesFounded;
+  private List<Rol> listRolesFounded;
+  private Stream<Rol> emptyRolList;
 
   @Before
   public void setUp() {
-    listRolesFounded = RolFactory.createStreamSampleDefaultRoles();
-    transformedRolesFound = RolDtoFactory.createStreamSampleDefaultRoles();
+    rolesFounded = RolFactory.createStreamSampleDefaultRoles();
+    listRolesFounded = RolFactory.createListSampleDefaultRoles();
+    emptyRolList = Stream.empty();
     
-    when(rolMongoService.findByNameContain(RolSamples.NAME_ROL_TEST_1)).thenReturn(listRolesFounded);
-    when(transformerService.convertStreamEntityToStreamDto(listRolesFounded)).thenReturn(transformedRolesFound);
+    when(rolMongoService.findByNameContain(RolSamples.NAME_ROL_TEST_1)).thenReturn(rolesFounded);
+    when(rolMongoService.findByNameContain(SOME_ROL_NAME)).thenReturn(emptyRolList);
+    when(mapper.map(any(Rol.class), eq(RolDto.class))).thenReturn(any(RolDto.class));
   }
   
   @Test
   public void whenSearchRolByNameShouldInvokeRolMongoServiceMethod() throws NotFoundException {
     rolService.findByNameContain(RolSamples.NAME_ROL_TEST_1);
     verify(rolMongoService).findByNameContain(RolSamples.NAME_ROL_TEST_1);
-  }
-  
-  @Test
-  public void whenSearchRolByNameContainShouldInvokeGenericTransformerMethod() throws NotFoundException {
-    rolService.findByNameContain(RolSamples.NAME_ROL_TEST_1);
-    verify(transformerService).convertStreamEntityToStreamDto(listRolesFounded);
   }
 
   @Test(expected = NotFoundException.class)
@@ -74,6 +75,6 @@ public class RolServiceImplTest {
     List<RolDto> rolesFounded = rolService.findByNameContain(RolSamples.NAME_ROL_TEST_1);
     
     assertNotNull(rolesFounded);
-    assertEquals(rolesFounded.size(), listRolesFounded.count());
+    assertEquals(rolesFounded.size(), listRolesFounded.size());
   }
 }
