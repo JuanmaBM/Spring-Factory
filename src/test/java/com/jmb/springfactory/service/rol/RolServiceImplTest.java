@@ -17,17 +17,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.modelmapper.ModelMapper;
-import org.springframework.ui.ModelMap;
-
 import com.jmb.springfactory.dao.rol.RolMongoService;
 import com.jmb.springfactory.exceptions.NotFoundException;
-import com.jmb.springfactory.model.bo.BusinessObjectBase;
 import com.jmb.springfactory.model.dto.RolDto;
 import com.jmb.springfactory.model.entity.Rol;
-import com.jmb.springfactory.model.factory.RolDtoFactory;
 import com.jmb.springfactory.model.factory.RolFactory;
 import com.jmb.springfactory.model.factory.RolSamples;
-import com.jmb.springfactory.service.GenericTransformerServiceImpl;
 import com.jmb.springfactory.service.rol.RolServiceImpl;
 
 @RunWith(MockitoJUnitRunner.class)

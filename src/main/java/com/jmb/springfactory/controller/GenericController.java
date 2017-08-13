@@ -3,46 +3,53 @@ package com.jmb.springfactory.controller;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.validation.Valid;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import com.jmb.springfactory.exceptions.NotFoundException;
 import com.jmb.springfactory.exceptions.ServiceLayerException;
 import com.jmb.springfactory.model.dto.BaseDto;
+import com.jmb.springfactory.service.GenericService;
 
-public interface GenericController<D extends BaseDto, I extends Serializable> {
+public abstract class GenericControllerImpl<D extends BaseDto, I extends Serializable> extends BaseController
+    implements GenericController<D, I> {
+  
+  public abstract GenericService<D, I> genericService();
 
-  /**
-   * Create a new resource 
-   * @param dto
-   * @return
-   * @throws ServiceLayerException 
-   */
-  public D create(D dto) throws ServiceLayerException;
-  
-  /**
-   * Update the resource identified by id with the data from dto
-   * @param dto
-   * @param id
-   * @throws ServiceLayerException 
-   */
-  public void update(D dto, I id) throws ServiceLayerException;
-  
-  /**
-   * Delete the resource identified by id
-   * @param id
-   */
-  public void delete(I id);
-  
-  /**
-   * Return a List with all resources of type D
-   * @return
-   */
-  public List<D> findAll();
-  
-  /**
-   * Return a resource of type D identified by id
-   * @param id
-   * @return
-   * @throws NotFoundException 
-   */
-  public D findOne(I id) throws NotFoundException;
+  @Override
+  @PostMapping
+  public D create(@Valid @RequestBody D dto) throws ServiceLayerException {
+    return genericService().save(dto);
+  }
+
+  @Override
+  @PutMapping("/{id}")
+  public void update(@Valid @RequestBody D dto, @PathVariable("id") I id) throws ServiceLayerException {
+    genericService().update(dto, id);
+  }
+
+  @Override
+  @DeleteMapping("/{id}")
+  public void delete(@PathVariable("id") I id) {
+    genericService().delete(id);
+  }
+
+  @Override
+  @GetMapping
+  public List<D> findAll() {
+    return genericService().findAll();
+  }
+
+  @Override
+  @GetMapping("/{id}")
+  public D findOne(@PathVariable("id") I id) throws NotFoundException {
+    return genericService().findOne(id);
+  }
 
 }
