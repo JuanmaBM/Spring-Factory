@@ -17,36 +17,31 @@ import com.jmb.springfactory.exceptions.ServiceLayerException;
 import com.jmb.springfactory.model.dto.BaseDto;
 import com.jmb.springfactory.service.GenericService;
 
-public abstract class GenericControllerImpl<D extends BaseDto, I extends Serializable> extends BaseController
-    implements GenericController<D, I> {
+public abstract class GenericController<D extends BaseDto, I extends Serializable>
+  extends BaseController {
   
   public abstract GenericService<D, I> genericService();
 
-  @Override
   @PostMapping
   public D create(@Valid @RequestBody D dto) throws ServiceLayerException {
     return genericService().save(dto);
   }
 
-  @Override
   @PutMapping("/{id}")
   public void update(@Valid @RequestBody D dto, @PathVariable("id") I id) throws ServiceLayerException {
     genericService().update(dto, id);
   }
 
-  @Override
   @DeleteMapping("/{id}")
   public void delete(@PathVariable("id") I id) {
     genericService().delete(id);
   }
 
-  @Override
   @GetMapping
   public List<D> findAll() {
     return genericService().findAll();
   }
 
-  @Override
   @GetMapping("/{id}")
   public D findOne(@PathVariable("id") I id) throws NotFoundException {
     return genericService().findOne(id);
