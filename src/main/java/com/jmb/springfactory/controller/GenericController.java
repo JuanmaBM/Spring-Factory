@@ -1,8 +1,6 @@
 package com.jmb.springfactory.controller;
 
 import java.io.Serializable;
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,11 +33,6 @@ public abstract class GenericController<D extends BaseDto, I extends Serializabl
   @DeleteMapping("/{id}")
   public void delete(@PathVariable("id") I id) {
     genericService().delete(id);
-  }
-
-  @GetMapping
-  public List<D> findAll() {
-    return genericService().findAll();
   }
 
   @GetMapping("/{id}")
