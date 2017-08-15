@@ -25,7 +25,7 @@ public class RolDtoFactory {
         createRol(RolSamples.ID_ROL_TEST_3, RolSamples.NAME_ROL_TEST_3));
   }
   
-  public List<RolDto> createListSampleDefaultRoles() {
+  public static List<RolDto> createListSampleDefaultRoles() {
     return createStreamSampleDefaultRoles().collect(Collectors.toList());
   }
 }
