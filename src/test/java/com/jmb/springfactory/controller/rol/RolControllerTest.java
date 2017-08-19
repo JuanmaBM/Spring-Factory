@@ -11,16 +11,18 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.skyscreamer.jsonassert.JSONAssert;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.jmb.springfactory.controller.ControllerExceptionAdvicer;
 import com.jmb.springfactory.controller.api.RolController;
 import com.jmb.springfactory.exceptions.NotFoundException;
 import com.jmb.springfactory.model.dto.RolDto;
@@ -28,14 +30,15 @@ import com.jmb.springfactory.model.factory.RolDtoFactory;
 import com.jmb.springfactory.model.factory.RolSamples;
 import com.jmb.springfactory.service.rol.RolService;
 
-@RunWith(SpringRunner.class)
-@WebMvcTest(value = RolController.class, secure = false)
+@RunWith(MockitoJUnitRunner.class)
 public class RolControllerTest {
 
-  @Autowired
   private MockMvc mockMvc;
   
-  @MockBean
+  @InjectMocks
+  private RolController controller;
+  
+  @Mock
   private RolService rolService;
   
   private final String notExistRolName = "rol_not_exist";
@@ -52,18 +55,21 @@ public class RolControllerTest {
   public void setUp() throws NotFoundException {
     listRolFound = RolDtoFactory.createListSampleDefaultRoles();
 
+    mockMvc = MockMvcBuilders.standaloneSetup(controller)
+        .setControllerAdvice(new ControllerExceptionAdvicer()).build();
+
     when(rolService.findByNameContain(notExistRolName)).thenThrow(NotFoundException.class);
     when(rolService.findByNameContain(existRolName)).thenReturn(listRolFound);
   }
   
-  // FIXME: Fix this test to check that a notfoundexception is throwed
-//  @Test(expected = NotFoundException.class)
+  @Test
   public void whenSearchRolByNameAndAnyRolContainItThenThrowNotFoundException() throws Exception {
     
     final RequestBuilder request = MockMvcRequestBuilders.get("/rol")
         .param("name", notExistRolName);
     
-    mockMvc.perform(request);
+    mockMvc.perform(request)
+      .andExpect(MockMvcResultMatchers.status().isNotFound());
   }
   
   @Test
