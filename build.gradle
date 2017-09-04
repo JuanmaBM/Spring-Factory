@@ -54,10 +54,10 @@ dependencies {
 
 sourceSets {
   test {
-    java.srcDir 'src/test/java/com/jmb/springfactory/unit'
+    java.srcDir 'src/test/java/unit'
   }
   integration {
-    java.srcDir 'src/test/java/com/jmb/springfactory/integration'
+    java.srcDir 'src/test/java/integration'
     compileClasspath += main.output + test.output
     runtimeClasspath += main.output + test.output
   }

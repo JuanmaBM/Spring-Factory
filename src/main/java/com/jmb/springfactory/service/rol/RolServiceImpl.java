@@ -43,18 +43,19 @@ public class RolServiceImpl extends GenericServiceImpl<Rol, RolDto, BusinessObje
   @Override
   public List<RolDto> findByNameContain(String name) throws NotFoundException {
 
-    serviceLog.debug("Searching roles with name equals to " + name);
+    serviceLog.info("Searching roles with name equals to " + name);
     final List<Rol> foundRoles = rolMongoService.findByNameContain(name).collect(Collectors.toList());
 
     throwNotFoundExceptionIfEmptyList(foundRoles);
-    serviceLog.debug("Have been found " + foundRoles.size() + " roles");
+    serviceLog.info("Have been found " + foundRoles.size() + " roles");
 
-    serviceLog.debug("Transforming Roles to Dtos");
+    serviceLog.info("Transforming Roles to Dtos");
     return this.convertListEntityToListDto(foundRoles);
   }
 
   private void throwNotFoundExceptionIfEmptyList(List<Rol> roles) throws NotFoundException {
     if (roles.isEmpty()) {
+      serviceLog.info("No rol found");
       throw new NotFoundException();
     }
   }
