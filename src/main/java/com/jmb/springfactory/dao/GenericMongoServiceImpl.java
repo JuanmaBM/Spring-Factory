@@ -9,8 +9,8 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import com.jmb.springfactory.exceptions.PersistenceLayerException;
 import com.jmb.springfactory.model.entity.BaseEntity;
 
-public abstract class GenericMongoDaoImpl<T extends BaseEntity, I extends Serializable> extends BaseDao implements 
-  GenericMongoDao<T, I> {
+public abstract class GenericMongoServiceImpl<T extends BaseEntity, I extends Serializable> extends BaseDao implements 
+  GenericMongoService<T, I> {
   
   public abstract MongoRepository<T, I> getRepository();
 

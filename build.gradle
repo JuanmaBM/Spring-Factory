@@ -39,6 +39,10 @@ configurations {
 dependencies {
 
 	compile group: 'org.modelmapper', name: 'modelmapper', version: '1.1.0'
+	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
+	compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5'
+	compile group: 'eu.michael-simons', name: 'datamongotest-autoconfigure-spring-boot', version: '0.0.2'
+	testCompile group: 'de.flapdoodle.embed', name: 'de.flapdoodle.embed.mongo', version: '2.0.0'
 
 	compile('org.springframework.boot:spring-boot-starter-data-mongodb')
 	compile('org.springframework.boot:spring-boot-starter-security')
@@ -46,4 +50,25 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-aop')
 	providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+sourceSets {
+  test {
+    java.srcDir 'src/test/java/com/jmb/springfactory/unit'
+  }
+  integration {
+    java.srcDir 'src/test/java/com/jmb/springfactory/integration'
+    compileClasspath += main.output + test.output
+    runtimeClasspath += main.output + test.output
+  }
+}
+
+configurations {
+  integrationCompile.extendsFrom testCompile
+  integrationRuntime.extendsFrom testRuntime
+}
+
+task integration(type: Test, description: 'Runs the integration tests.', group: 'Verification') {
+  testClassesDir = sourceSets.integration.output.classesDir
+  classpath = sourceSets.integration.runtimeClasspath
 }

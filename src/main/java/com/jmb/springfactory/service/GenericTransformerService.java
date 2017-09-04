@@ -1,5 +1,6 @@
 package com.jmb.springfactory.service;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import com.jmb.springfactory.model.bo.BusinessObjectBase;
@@ -23,5 +24,7 @@ public interface GenericTransformerService<T extends BaseEntity, D extends BaseD
   public T merge(D dto, T entity);
 
   public Stream<D> convertStreamEntityToStreamDto(Stream<T> entities);
+
+  List<D> convertListEntityToListDto(List<T> entities);
 
 }

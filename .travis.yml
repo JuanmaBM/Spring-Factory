@@ -13,6 +13,10 @@ dist: trusty
 jdk: 
   - oraclejdk8
 language: java
+install:
+  - ./gradlew assemble
+  - ./gradlew test
+  - ./gradlew integration
 script: 
   - sonar-scanner
 sudo: required

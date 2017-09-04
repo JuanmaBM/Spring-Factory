@@ -1,5 +1,7 @@
 package com.jmb.springfactory.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.modelmapper.ModelMapper;
@@ -54,6 +56,13 @@ public abstract class GenericTransformerServiceImpl<T extends BaseEntity, D exte
   @Override
   public Stream<D> convertStreamEntityToStreamDto(Stream<T> entities) {
     return entities.map(entity -> modelMapper.map(entity, getDtoClazz()));
+  }
+  
+  @Override
+  public List<D> convertListEntityToListDto(List<T> entities) {
+    return entities.stream()
+        .map(entity -> modelMapper.map(entities, getDtoClazz()))
+        .collect(Collectors.toList());
   }
 
   @Override
