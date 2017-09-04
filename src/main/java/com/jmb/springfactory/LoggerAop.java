@@ -38,7 +38,8 @@ public class LoggerAop {
     
     monitorAopLog.info(String.format(logMethod, methodName));
     for(Object param : params) {
-      monitorAopLog.info(String.format(LOG_PARAM, param.toString()));
+      String valueParam = param != null ? param.toString() : null;
+      monitorAopLog.info(String.format(LOG_PARAM, valueParam));
     }
   }
 }
