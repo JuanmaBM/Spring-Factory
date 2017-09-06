@@ -1,5 +1,7 @@
 package com.jmb.springfactory.model.entity;
 
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -7,9 +9,11 @@ import javax.validation.constraints.Size;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 @Document
 public class User extends BaseEntity{
   
@@ -32,4 +36,7 @@ public class User extends BaseEntity{
 
   @Pattern(regexp = VALIDATION_EMAIL_PATTERN)
   private String email;
+  
+  @OneToMany(fetch = FetchType.LAZY)
+  private Rol rol;
 }

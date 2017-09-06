@@ -26,8 +26,8 @@ import com.jmb.springfactory.controller.ControllerExceptionAdvicer;
 import com.jmb.springfactory.controller.api.RolController;
 import com.jmb.springfactory.exceptions.NotFoundException;
 import com.jmb.springfactory.model.dto.RolDto;
-import com.jmb.springfactory.model.factory.RolDtoFactory;
-import com.jmb.springfactory.model.factory.RolSamples;
+import com.jmb.springfactory.model.factory.rol.RolDtoFactory;
+import com.jmb.springfactory.model.factory.rol.RolSamples;
 import com.jmb.springfactory.service.rol.RolService;
 
 @RunWith(MockitoJUnitRunner.class)

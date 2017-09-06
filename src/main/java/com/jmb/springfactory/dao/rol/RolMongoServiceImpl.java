@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.jmb.springfactory.dao.GenericMongoServiceImpl;
 import com.jmb.springfactory.model.entity.Rol;
-import com.jmb.springfactory.model.factory.RolFactory;
+import com.jmb.springfactory.model.factory.rol.RolFactory;
 
 @Service
 public class RolMongoServiceImpl extends GenericMongoServiceImpl<Rol, String> implements RolMongoService {

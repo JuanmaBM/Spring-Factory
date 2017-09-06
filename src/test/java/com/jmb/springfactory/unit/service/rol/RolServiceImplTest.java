@@ -21,8 +21,8 @@ import com.jmb.springfactory.dao.rol.RolMongoService;
 import com.jmb.springfactory.exceptions.NotFoundException;
 import com.jmb.springfactory.model.dto.RolDto;
 import com.jmb.springfactory.model.entity.Rol;
-import com.jmb.springfactory.model.factory.RolFactory;
-import com.jmb.springfactory.model.factory.RolSamples;
+import com.jmb.springfactory.model.factory.rol.RolFactory;
+import com.jmb.springfactory.model.factory.rol.RolSamples;
 import com.jmb.springfactory.service.rol.RolServiceImpl;
 
 @RunWith(MockitoJUnitRunner.class)

@@ -4,9 +4,11 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class UserDto extends BaseDto {
 
   private static final long serialVersionUID = 4524700632350624818L;
@@ -28,4 +30,6 @@ public class UserDto extends BaseDto {
 
   @Pattern(regexp = VALIDATION_EMAIL_PATTERN)
   private String email;
+  
+  private RolDto rol;
 }

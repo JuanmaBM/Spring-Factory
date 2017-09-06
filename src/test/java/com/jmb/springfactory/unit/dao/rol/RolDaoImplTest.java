@@ -22,8 +22,8 @@ import com.jmb.springfactory.dao.rol.RolMongoServiceImpl;
 import com.jmb.springfactory.dao.rol.RolRepository;
 import com.jmb.springfactory.exceptions.PersistenceLayerException;
 import com.jmb.springfactory.model.entity.Rol;
-import com.jmb.springfactory.model.factory.RolFactory;
-import com.jmb.springfactory.model.factory.RolSamples;
+import com.jmb.springfactory.model.factory.rol.RolFactory;
+import com.jmb.springfactory.model.factory.rol.RolSamples;
 
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest

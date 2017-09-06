@@ -17,7 +17,7 @@ import com.jmb.springfactory.SpringFactoryApplication;
 import com.jmb.springfactory.controller.api.RolController;
 import com.jmb.springfactory.exceptions.NotFoundException;
 import com.jmb.springfactory.model.dto.RolDto;
-import com.jmb.springfactory.model.factory.RolDtoFactory;
+import com.jmb.springfactory.model.factory.rol.RolDtoFactory;
 
 
 @RunWith(SpringRunner.class)
