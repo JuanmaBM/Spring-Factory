@@ -1,8 +1,6 @@
 package com.jmb.springfactory.integration;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertNotNull;
-
 import java.util.List;
 
 import org.junit.Before;
@@ -45,8 +43,9 @@ public class RolIntegrationTest {
     
     List<RolDto> response = rolController.findAll(null);
     
-    assertNotNull(response);
-    assertThat(!response.isEmpty());
+    assertThat(response)
+      .isNotNull()
+      .isNotEmpty();
     assert(response.stream().anyMatch(rol -> rol.getId().equals(newRol.getId())));
   }
 }
