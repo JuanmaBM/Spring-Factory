@@ -3,14 +3,13 @@ package com.jmb.springfactory.unit.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.contains;
+import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.persistence.PersistenceException;
@@ -23,12 +22,15 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.modelmapper.ModelMapper;
 
+import com.jmb.springfactory.dao.user.UserMongoService;
 import com.jmb.springfactory.exceptions.NotFoundException;
+import com.jmb.springfactory.exceptions.PersistenceLayerException;
 import com.jmb.springfactory.exceptions.ServiceLayerException;
 import com.jmb.springfactory.model.dto.UserDto;
 import com.jmb.springfactory.model.entity.User;
 import com.jmb.springfactory.model.factory.user.UserDtoFactory;
 import com.jmb.springfactory.model.factory.user.UserFactory;
+import com.jmb.springfactory.service.user.UserServiceImpl;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {
@@ -57,43 +59,47 @@ public class UserServiceTest {
   }
   
   @Test
+  @SuppressWarnings("unchecked")
   public void whenSearchByNifThenShouldInvokefindByNifContainMethod() {
     
     userService.findByNifContain(SOME_NIF);
     verify(userMongoService, times(1)).findByNifContain(SOME_NIF);
-    verify(userService, times(1)).convertListEntityToListDto();
+    verify(userService, times(1)).convertListEntityToListDto(anyList());
   }
   
   @Test
+  @SuppressWarnings("unchecked")
   public void whenSearchByNameThenShouldInvokeFindByNameContainMethod() {
     
     userService.findByNameContain(SOME_NAME);
-    verify(userMongoService, times(1)).findByNameContaint(SOME_NAME);
-    verify(userService, times(1)).convertListEntityToListDto();
+    verify(userMongoService, times(1)).findByNameContain(SOME_NAME);
+    verify(userService, times(1)).convertListEntityToListDto(anyList());
   }
   
   @Test(expected = NotFoundException.class)
   public void whenSearchByNifAndNotExistAnyOneThenShouldReturnNotFoundException() {
     
     when(userMongoService.findByNifContain(any(String.class))).thenReturn(emptyUsersStream);
-    userService.findByNif(NIF_NOT_EXISTS);
+    userService.findByNifContain(NIF_NOT_EXISTS);
   }
 
   @Test(expected = NotFoundException.class)
   public void whenSearchByNameAndNotExistAnyOneThenShouldReturnNotFoundException() {
     
     when(userMongoService.findByNameContain(any(String.class))).thenReturn(emptyUsersStream);
-    userService.findByNif(NAME_NOT_EXIST);
+    userService.findByNameContain(NAME_NOT_EXIST);
   }
   
   @Test(expected = ServiceLayerException.class)
-  public void whenCreateUserThatHaveAnyIncorrectFieldThenShouldReturnPersistenceException() {
+  @SuppressWarnings("unchecked")
+  public void whenCreateUserThatHaveAnyIncorrectFieldThenShouldReturnPersistenceException() 
+      throws ServiceLayerException, PersistenceLayerException {
     
     final UserDto newUserDto = UserDto.builder().build();
     final User newUser = User.builder().build();
     
     when(userMongoService.save(newUser)).thenThrow(PersistenceException.class);
-    userService.create(newUserDto);
+    userService.save(newUserDto);
   }
   
   @Test
@@ -117,6 +123,6 @@ public class UserServiceTest {
     final List<UserDto> usersDtoFound = userService.findByNifContain(nifToSearch);
     
     assertThat(usersDtoFound).isNotNull().isNotEmpty();
-    assertTrue(usersDtoFound.stream().anyMatch(user -> user.getName().equals(nameToSearch)));
+    assertTrue(usersDtoFound.stream().anyMatch(user -> user.getName().equals(nifToSearch)));
   }
 }

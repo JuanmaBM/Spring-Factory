@@ -1,9 +1,7 @@
 package com.jmb.springfactory.integration;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Matchers.notNull;
 
 import java.util.List;
 
@@ -12,14 +10,15 @@ import javax.validation.ValidationException;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.internal.matchers.GreaterThan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.jmb.springfactory.SpringFactoryApplication;
+import com.jmb.springfactory.controller.api.UserController;
 import com.jmb.springfactory.exceptions.NotFoundException;
+import com.jmb.springfactory.exceptions.ServiceLayerException;
 import com.jmb.springfactory.model.dto.UserDto;
 import com.jmb.springfactory.model.factory.user.UserDtoFactory;
 import com.jmb.springfactory.model.factory.user.UserSamples;
@@ -33,7 +32,7 @@ public class UserCrudIntegrationTest {
   private UserController userController;
   
   @Test(expected = PersistenceException.class)
-  public void ifTheUserAlreadyExistThenShouldThrowPersistenceException() {
+  public void ifTheUserAlreadyExistThenShouldThrowPersistenceException() throws ServiceLayerException {
 
     final UserDto newUser = UserDtoFactory.createSampleDefaultUserDto();
 
@@ -42,7 +41,7 @@ public class UserCrudIntegrationTest {
   }
   
   @Test(expected = ValidationException.class)
-  public void ifUserDtoHaveAnyEmptyFieldThenShouldThrowValidationException() {
+  public void ifUserDtoHaveAnyEmptyFieldThenShouldThrowValidationException() throws ServiceLayerException  {
     
     final UserDto newUserWithEmptyField = UserDto.builder().build();
     

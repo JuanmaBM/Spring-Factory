@@ -19,9 +19,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.jmb.springfactory.controller.ControllerExceptionAdvicer;
+import com.jmb.springfactory.controller.api.UserController;
 import com.jmb.springfactory.exceptions.NotFoundException;
 import com.jmb.springfactory.model.dto.UserDto;
 import com.jmb.springfactory.model.factory.user.UserDtoFactory;
+import com.jmb.springfactory.service.user.UserService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserControllerTest {
@@ -47,7 +49,7 @@ public class UserControllerTest {
   }
   
   @Test
-  public void whenFindByNifThenUserServiceShouldInvokeFindByNifMethod() {
+  public void whenFindByNifThenUserServiceShouldInvokeFindByNifMethod() throws Exception {
     
     mockMvc.perform(MockMvcRequestBuilders.get("/user").param("nif", nifToSearch));
     
@@ -56,7 +58,7 @@ public class UserControllerTest {
   }
   
   @Test
-  public void whenSearchByNameContainThenUserServiceShouldInvokeFindByNameMethod() {
+  public void whenSearchByNameContainThenUserServiceShouldInvokeFindByNameMethod() throws Exception  {
     
     mockMvc.perform(MockMvcRequestBuilders.get("/user").param("name", nameToSearch));
     
@@ -65,7 +67,8 @@ public class UserControllerTest {
   }
   
   @Test 
-  public void whenSearchByNifAndNotExistAnyOneThenShouldReturnNotFoundException() {
+  @SuppressWarnings("unchecked")
+  public void whenSearchByNifAndNotExistAnyOneThenShouldReturnNotFoundException() throws Exception  {
     
     when(userService.findByNifContain(nifToSearch)).thenThrow(NotFoundException.class);
     mockMvc.perform(MockMvcRequestBuilders.get("/user").param("nif", nifToSearch))
@@ -73,7 +76,8 @@ public class UserControllerTest {
   }
   
   @Test
-  public void whenSearchByNameAndNotExistAnyOneThenShouldReturnNotFoundException() {
+  @SuppressWarnings("unchecked")
+  public void whenSearchByNameAndNotExistAnyOneThenShouldReturnNotFoundException() throws Exception  {
     
     when(userService.findByNameContain(nameToSearch)).thenThrow(NotFoundException.class);
     mockMvc.perform(MockMvcRequestBuilders.get("/user").param("nif", nameToSearch))
@@ -81,14 +85,14 @@ public class UserControllerTest {
   }
   
   @Test
-  public void whenCreateUserWithAnyFieldEmptyThenShouldThrowValidationException() {
+  public void whenCreateUserWithAnyFieldEmptyThenShouldThrowValidationException() throws Exception  {
     
     mockMvc.perform(MockMvcRequestBuilders.post("/user").content(emptyUser))
       .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
   }
   
   @Test
-  public void whenSearchByNifAndExistOneThenShouldReturnAListWithTheUserFound() {
+  public void whenSearchByNifAndExistOneThenShouldReturnAListWithTheUserFound() throws Exception  {
     
     when(userService.findByNifContain(nifToSearch)).thenReturn(usersFound);
     mockMvc.perform(MockMvcRequestBuilders.get("/user").param("nif", nifToSearch))
@@ -97,7 +101,7 @@ public class UserControllerTest {
   }
   
   @Test 
-  public void whenSearchByNameAndExistOneThenShouldReturnListWithTheUserFound() {
+  public void whenSearchByNameAndExistOneThenShouldReturnListWithTheUserFound() throws Exception  {
     
     when(userService.findByNameContain(nameToSearch)).thenReturn(usersFound);
     mockMvc.perform(MockMvcRequestBuilders.get("/user").param("name", nameToSearch))

@@ -1,11 +1,11 @@
 package com.jmb.springfactory.unit.dao;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -18,6 +18,8 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.data.domain.Example;
 
+import com.jmb.springfactory.dao.user.UserMongoService;
+import com.jmb.springfactory.dao.user.UserRepository;
 import com.jmb.springfactory.model.entity.User;
 import com.jmb.springfactory.model.factory.user.UserFactory;
 import com.jmb.springfactory.model.factory.user.UserSamples;
@@ -38,23 +40,26 @@ public class UserMongoServiceTest {
   private UserRepository userRepository;
   
   @Before
+  @SuppressWarnings("unchecked")
   public void beforeTest() {
     
     when(userRepository.findAll(any(Example.class))).thenReturn(usersFoundStream);
   }
   
   @Test
+  @SuppressWarnings("unchecked")
   public void whenSearchByNifContainThenInvokeFindAllMethodFromUserRepository() {
     
     userMongoService.findByNifContain(SOME_NIF);
-    verify(userRepository, times(1)).findAll(SOME_NIF);
+    verify(userRepository, times(1)).findAll(any(Example.class));
   }
 
   @Test
+  @SuppressWarnings("unchecked")
   public void whenSearchByNameContainThenInvokeFindAllMethodFromUserRepository() {
     
     userMongoService.findByNameContain(SOME_NAME);
-    verify(userRepository, times(1)).findAll(SOME_NAME);
+    verify(userRepository, times(1)).findAll(any(Example.class));
   }
   
   @Test
