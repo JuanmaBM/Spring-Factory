@@ -1,4 +1,4 @@
-package com.jmb.springfactory.unit.service.rol;
+package com.jmb.springfactory.unit.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

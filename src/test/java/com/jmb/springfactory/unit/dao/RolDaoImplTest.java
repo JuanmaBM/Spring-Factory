@@ -1,4 +1,4 @@
-package com.jmb.springfactory.unit.dao.rol;
+package com.jmb.springfactory.unit.dao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
