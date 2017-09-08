@@ -18,7 +18,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.data.domain.Example;
 
-import com.jmb.springfactory.dao.user.UserMongoService;
 import com.jmb.springfactory.dao.user.UserMongoServiceImpl;
 import com.jmb.springfactory.dao.user.UserRepository;
 import com.jmb.springfactory.model.entity.User;
