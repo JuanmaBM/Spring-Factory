@@ -55,7 +55,7 @@ public class UserCrudIntegrationTest {
   }
   
   @Test(expected = NotFoundException.class)
-  public void whenSearchUserByNifAndNotExistAnyOneThenShouldThrowNotFoundException() {
+  public void whenSearchUserByNifAndNotExistAnyOneThenShouldThrowNotFoundException() throws NotFoundException {
     
     final String nif = "11111111Q";
 
@@ -63,7 +63,7 @@ public class UserCrudIntegrationTest {
   }
   
   @Test(expected = NotFoundException.class)
-  public void whenSearchUserByNameContainAndNotExistAnyOneThenShouldThrowNotFoundException() {
+  public void whenSearchUserByNameContainAndNotExistAnyOneThenShouldThrowNotFoundException() throws NotFoundException {
     
     final String name = "some name";
     
@@ -71,7 +71,7 @@ public class UserCrudIntegrationTest {
   }
   
   @Test
-  public void whenSearchUserByNifAndExistOneThenShouldReturnAListWithAtLeastOneResult() {
+  public void whenSearchUserByNifAndExistOneThenShouldReturnAListWithAtLeastOneResult() throws NotFoundException  {
     
     final String nif = UserSamples.NIF_USER_TEST_1;
     
@@ -84,7 +84,7 @@ public class UserCrudIntegrationTest {
   }
   
   @Test 
-  public void whenSearchUserNyNameContainAndExistOneThenShouldReturnAlistWithAtLeastOneResult() {
+  public void whenSearchUserNyNameContainAndExistOneThenShouldReturnAlistWithAtLeastOneResult() throws NotFoundException  {
     
     final String name = UserSamples.NAME_USER_TEST_1;
     
@@ -97,7 +97,7 @@ public class UserCrudIntegrationTest {
   }
   
   @Test
-  public void whenSearchUsersWithoutParameterShouldReturnUserDtoList() {
+  public void whenSearchUsersWithoutParameterShouldReturnUserDtoList() throws NotFoundException  {
     
     List<UserDto> allUsers = userController.findAll(null, null);
     

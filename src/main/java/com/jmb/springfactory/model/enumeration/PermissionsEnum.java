@@ -1,4 +1,4 @@
-package com.jmb.springfactory.model.Enum;
+package com.jmb.springfactory.model.enumeration;
 
 public enum PermissionsEnum {
 

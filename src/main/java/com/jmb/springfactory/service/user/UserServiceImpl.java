@@ -1,16 +1,18 @@
 package com.jmb.springfactory.service.user;
 
 import java.util.List;
-
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jmb.springfactory.dao.GenericMongoService;
 import com.jmb.springfactory.dao.user.UserMongoService;
+import com.jmb.springfactory.exceptions.NotFoundException;
 import com.jmb.springfactory.model.bo.BusinessObjectBase;
 import com.jmb.springfactory.model.dto.UserDto;
 import com.jmb.springfactory.model.entity.User;
 import com.jmb.springfactory.service.GenericServiceImpl;
+import com.jmb.springfactory.service.UtilsService;
 
 @Service
 public class UserServiceImpl extends GenericServiceImpl<User, UserDto, BusinessObjectBase, String>
@@ -20,13 +22,27 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDto, BusinessO
   private UserMongoService userMongoService;
 
   @Override
-  public List<UserDto> findByNifContain(String nif) {
-    return null;
+  public List<UserDto> findByNifContain(String nif) throws NotFoundException {
+    
+    serviceLog.info(String.format("Search user which contain nif %s", nif));
+    final List<User> usersFound = userMongoService.findByNifContain(nif).collect(Collectors.toList());
+    
+    UtilsService.throwNotFoundExceptionIfEmptyList(usersFound);
+    UtilsService.showEntitiesFoundInLog(usersFound, serviceLog);
+    
+    return this.convertListEntityToListDto(usersFound);
   }
 
   @Override
-  public List<UserDto> findByNameContain(String name) {
-    return null;
+  public List<UserDto> findByNameContain(String name) throws NotFoundException {
+
+    serviceLog.info(String.format("Search user which contain name %s", name));
+    final List<User> usersFound = userMongoService.findByNameContain(name).collect(Collectors.toList());
+    
+    UtilsService.throwNotFoundExceptionIfEmptyList(usersFound);
+    UtilsService.showEntitiesFoundInLog(usersFound, serviceLog);
+    
+    return this.convertListEntityToListDto(usersFound);
   }
 
   @Override

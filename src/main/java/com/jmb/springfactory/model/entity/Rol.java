@@ -7,7 +7,7 @@ import javax.persistence.Enumerated;
 
 import org.springframework.data.mongodb.core.index.Indexed;
 
-import com.jmb.springfactory.model.Enum.PermissionsEnum;
+import com.jmb.springfactory.model.enumeration.PermissionsEnum;
 
 import lombok.Data;
 

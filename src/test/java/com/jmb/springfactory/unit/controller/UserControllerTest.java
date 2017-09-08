@@ -1,7 +1,6 @@
 package com.jmb.springfactory.unit.controller;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -31,7 +30,7 @@ public class UserControllerTest {
   private MockMvc mockMvc;
   
   private final String nameToSearch = "Juan";
-  private final String nifToSearch = "11111111R";
+  private final String nifToSearch = "12345678Z";
   private final String emptyUser = "{\"name\":\"Juan\"}";
   private final List<UserDto> usersFound = UserDtoFactory.createSampleDefaultListUser();
   
@@ -53,8 +52,7 @@ public class UserControllerTest {
     
     mockMvc.perform(MockMvcRequestBuilders.get("/user").param("nif", nifToSearch));
     
-    verify(userController, times(1)).findAll(nifToSearch, null);
-    verify(userService, times(1)).findByNifContain(nifToSearch);
+    verify(userService).findByNifContain(nifToSearch);
   }
   
   @Test
@@ -62,8 +60,7 @@ public class UserControllerTest {
     
     mockMvc.perform(MockMvcRequestBuilders.get("/user").param("name", nameToSearch));
     
-    verify(userController, times(1)).findAll(null, nameToSearch);
-    verify(userService, times(1)).findByNameContain(nameToSearch);
+    verify(userService).findByNameContain(nameToSearch);
   }
   
   @Test 
@@ -80,7 +77,7 @@ public class UserControllerTest {
   public void whenSearchByNameAndNotExistAnyOneThenShouldReturnNotFoundException() throws Exception  {
     
     when(userService.findByNameContain(nameToSearch)).thenThrow(NotFoundException.class);
-    mockMvc.perform(MockMvcRequestBuilders.get("/user").param("nif", nameToSearch))
+    mockMvc.perform(MockMvcRequestBuilders.get("/user").param("name", nameToSearch))
       .andExpect(MockMvcResultMatchers.status().isNotFound());
   }
   
@@ -88,7 +85,7 @@ public class UserControllerTest {
   public void whenCreateUserWithAnyFieldEmptyThenShouldThrowValidationException() throws Exception  {
     
     mockMvc.perform(MockMvcRequestBuilders.post("/user").content(emptyUser))
-      .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
+      .andExpect(MockMvcResultMatchers.status().isUnsupportedMediaType());
   }
   
   @Test

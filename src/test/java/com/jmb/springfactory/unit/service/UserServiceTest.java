@@ -3,9 +3,7 @@ package com.jmb.springfactory.unit.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -55,36 +53,36 @@ public class UserServiceTest {
   
   @Before
   public void beforeTest() {
-    when(modelMapper.map(any(User.class), eq(UserDto.class))).thenReturn(any(UserDto.class));
+    when(modelMapper.map(any(User.class), eq(UserDto.class))).thenReturn(userToSearch);
   }
   
   @Test
-  @SuppressWarnings("unchecked")
-  public void whenSearchByNifThenShouldInvokefindByNifContainMethod() {
+  public void whenSearchByNifThenShouldInvokefindByNifContainMethod() throws NotFoundException {
     
+    when(userMongoService.findByNifContain(SOME_NIF)).thenReturn(usersFoundStream);
     userService.findByNifContain(SOME_NIF);
-    verify(userMongoService, times(1)).findByNifContain(SOME_NIF);
-    verify(userService, times(1)).convertListEntityToListDto(anyList());
+
+    verify(userMongoService).findByNifContain(SOME_NIF);
   }
   
   @Test
-  @SuppressWarnings("unchecked")
-  public void whenSearchByNameThenShouldInvokeFindByNameContainMethod() {
+  public void whenSearchByNameThenShouldInvokeFindByNameContainMethod() throws NotFoundException {
     
+    when(userMongoService.findByNameContain(SOME_NAME)).thenReturn(usersFoundStream);
     userService.findByNameContain(SOME_NAME);
-    verify(userMongoService, times(1)).findByNameContain(SOME_NAME);
-    verify(userService, times(1)).convertListEntityToListDto(anyList());
+
+    verify(userMongoService).findByNameContain(SOME_NAME);
   }
   
   @Test(expected = NotFoundException.class)
-  public void whenSearchByNifAndNotExistAnyOneThenShouldReturnNotFoundException() {
+  public void whenSearchByNifAndNotExistAnyOneThenShouldReturnNotFoundException() throws NotFoundException {
     
     when(userMongoService.findByNifContain(any(String.class))).thenReturn(emptyUsersStream);
     userService.findByNifContain(NIF_NOT_EXISTS);
   }
 
   @Test(expected = NotFoundException.class)
-  public void whenSearchByNameAndNotExistAnyOneThenShouldReturnNotFoundException() {
+  public void whenSearchByNameAndNotExistAnyOneThenShouldReturnNotFoundException() throws NotFoundException {
     
     when(userMongoService.findByNameContain(any(String.class))).thenReturn(emptyUsersStream);
     userService.findByNameContain(NAME_NOT_EXIST);
@@ -103,7 +101,7 @@ public class UserServiceTest {
   }
   
   @Test
-  public void whenSearchByNameAndExistAnyOneThenReturnListWithResults() {
+  public void whenSearchByNameAndExistAnyOneThenReturnListWithResults()  throws NotFoundException {
     
     final String nameToSearch = userToSearch.getName();
     
@@ -115,7 +113,7 @@ public class UserServiceTest {
   }
   
   @Test
-  public void whenSearchByNifAndExistSomeOneThenReturnListWithResults() {
+  public void whenSearchByNifAndExistSomeOneThenReturnListWithResults() throws NotFoundException {
     
     final String nifToSearch = userToSearch.getNif();
     
@@ -123,6 +121,6 @@ public class UserServiceTest {
     final List<UserDto> usersDtoFound = userService.findByNifContain(nifToSearch);
     
     assertThat(usersDtoFound).isNotNull().isNotEmpty();
-    assertTrue(usersDtoFound.stream().anyMatch(user -> user.getName().equals(nifToSearch)));
+    assertTrue(usersDtoFound.stream().anyMatch(user -> user.getNif().equals(nifToSearch)));
   }
 }
