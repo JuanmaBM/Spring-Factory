@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import javax.persistence.PersistenceException;
+import javax.validation.ValidationException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,6 +30,7 @@ import com.jmb.springfactory.model.dto.UserDto;
 import com.jmb.springfactory.model.entity.User;
 import com.jmb.springfactory.model.factory.user.UserDtoFactory;
 import com.jmb.springfactory.model.factory.user.UserFactory;
+import com.jmb.springfactory.service.ValidatorService;
 import com.jmb.springfactory.service.user.UserServiceImpl;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -43,6 +46,9 @@ public class UserServiceTest {
   
   @Mock
   private UserMongoService userMongoService;
+  
+  @Mock
+  private ValidatorService validatorService;
   
   @Mock
   private ModelMapper modelMapper;
@@ -97,6 +103,8 @@ public class UserServiceTest {
     final User newUser = new User();
     
     when(userMongoService.save(newUser)).thenThrow(PersistenceException.class);
+    doThrow(ValidationException.class).when(validatorService).validate(newUser);
+
     userService.save(newUserDto);
   }
   
