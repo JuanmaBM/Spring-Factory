@@ -93,8 +93,8 @@ public class UserServiceTest {
   public void whenCreateUserThatHaveAnyIncorrectFieldThenShouldReturnPersistenceException() 
       throws ServiceLayerException, PersistenceLayerException {
     
-    final UserDto newUserDto = UserDto.builder().build();
-    final User newUser = User.builder().build();
+    final UserDto newUserDto = new UserDto();
+    final User newUser = new User();
     
     when(userMongoService.save(newUser)).thenThrow(PersistenceException.class);
     userService.save(newUserDto);

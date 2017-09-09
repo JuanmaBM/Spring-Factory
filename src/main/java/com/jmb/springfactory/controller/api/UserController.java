@@ -23,8 +23,8 @@ public class UserController extends GenericController<UserDto, String>{
   private UserService userService;
   
   @GetMapping
-  public List<UserDto> findAll(@RequestParam(value = "name", required = false) String name,
-      @RequestParam(value = "nif", required = false) String nif) throws NotFoundException {
+  public List<UserDto> findAll(@RequestParam(value = "nif", required = false) String nif,
+      @RequestParam(value = "name", required = false) String name) throws NotFoundException {
     
     if (isNotBlank(nif)) {
       return userService.findByNifContain(nif);

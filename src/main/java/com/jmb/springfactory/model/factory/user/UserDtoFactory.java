@@ -14,7 +14,14 @@ public final class UserDtoFactory {
   private UserDtoFactory() {}
   
   public static UserDto createUserDto(String nif, String name, String surname, String phoneNumber, String email, RolDto rol) {
-    return UserDto.builder().nif(nif).name(name).surname(surname).phoneNumber(phoneNumber).email(email).rol(rol).build();
+    final UserDto user = new UserDto();
+    user.setNif(nif);
+    user.setName(name);
+    user.setSurname(surname);
+    user.setPhoneNumber(phoneNumber);
+    user.setEmail(email);
+    user.setRol(rol);
+    return user;
   }
   
   public static UserDto createSampleDefaultUserDto() {

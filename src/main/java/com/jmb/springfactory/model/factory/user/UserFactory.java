@@ -14,7 +14,14 @@ public final class UserFactory {
   private UserFactory() {}
 
   public static User createUser(String nif, String name, String surname, String phoneNumber, String email, Rol rol) {
-    return User.builder().nif(nif).name(name).surname(surname).phoneNumber(phoneNumber).email(email).rol(rol).build();
+    final User user = new User();
+    user.setNif(nif);
+    user.setName(name);
+    user.setSurname(surname);
+    user.setPhoneNumber(phoneNumber);
+    user.setEmail(email);
+    user.setRol(rol);
+    return user;
   }
   
   public static User createSampleDefaultUser() {

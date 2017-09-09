@@ -5,9 +5,9 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
-import javax.persistence.PersistenceException;
 import javax.validation.ValidationException;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +17,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerA
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.jmb.springfactory.SpringFactoryApplication;
@@ -24,7 +25,9 @@ import com.jmb.springfactory.controller.api.UserController;
 import com.jmb.springfactory.exceptions.NotFoundException;
 import com.jmb.springfactory.exceptions.ServiceLayerException;
 import com.jmb.springfactory.model.dto.UserDto;
+import com.jmb.springfactory.model.entity.User;
 import com.jmb.springfactory.model.factory.user.UserDtoFactory;
+import com.jmb.springfactory.model.factory.user.UserFactory;
 import com.jmb.springfactory.model.factory.user.UserSamples;
 
 @RunWith(SpringRunner.class)
@@ -37,19 +40,29 @@ public class UserCrudIntegrationTest {
   @Autowired
   private UserController userController;
   
-  @Test(expected = PersistenceException.class)
+  @Autowired
+  private MongoTemplate mongoTemplate;
+  
+  private final User newUser = UserFactory.createSampleDefaultUser(); 
+
+  @Before
+  public void beforeTest() {
+    mongoTemplate.dropCollection(User.class);
+  }
+  
+  @Test(expected = ValidationException.class)
   public void ifTheUserAlreadyExistThenShouldThrowPersistenceException() throws ServiceLayerException {
 
-    final UserDto newUser = UserDtoFactory.createSampleDefaultUserDto();
+    final UserDto newUserDto = UserDtoFactory.createSampleDefaultUserDto(); 
 
-    userController.create(newUser);
-    userController.create(newUser);
+    userController.create(newUserDto);
+    userController.create(newUserDto);
   }
   
   @Test(expected = ValidationException.class)
   public void ifUserDtoHaveAnyEmptyFieldThenShouldThrowValidationException() throws ServiceLayerException  {
     
-    final UserDto newUserWithEmptyField = UserDto.builder().build();
+    final UserDto newUserWithEmptyField = new UserDto();
     
     userController.create(newUserWithEmptyField);
   }
@@ -73,6 +86,8 @@ public class UserCrudIntegrationTest {
   @Test
   public void whenSearchUserByNifAndExistOneThenShouldReturnAListWithAtLeastOneResult() throws NotFoundException  {
     
+    mongoTemplate.save(newUser);
+    System.out.println(mongoTemplate.findAll(User.class).toString());
     final String nif = UserSamples.NIF_USER_TEST_1;
     
     List<UserDto> usersWithNif = userController.findAll(nif, null);
@@ -86,6 +101,8 @@ public class UserCrudIntegrationTest {
   @Test 
   public void whenSearchUserNyNameContainAndExistOneThenShouldReturnAlistWithAtLeastOneResult() throws NotFoundException  {
     
+    mongoTemplate.save(newUser);
+    System.out.println(mongoTemplate.findAll(User.class).toString());
     final String name = UserSamples.NAME_USER_TEST_1;
     
     List<UserDto> usersWithName = userController.findAll(null, name);

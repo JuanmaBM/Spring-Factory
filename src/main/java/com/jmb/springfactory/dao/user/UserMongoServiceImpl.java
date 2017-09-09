@@ -21,7 +21,9 @@ public class UserMongoServiceImpl extends GenericMongoServiceImpl<User, String> 
   @Override
   public Stream<User> findByNameContain(String name) {
 
-    final User userWithName = User.builder().name(name).build();
+    final User userWithName = new User();
+    userWithName.setName(name);
+
     final Example<User> userByNameExample = Example.of(userWithName, createMatcherContain("name"));
 
     return userRepository.findAll(userByNameExample).stream();
@@ -30,8 +32,10 @@ public class UserMongoServiceImpl extends GenericMongoServiceImpl<User, String> 
   @Override
   public Stream<User> findByNifContain(String nif) {
 
-    final User userWithName = User.builder().nif(nif).build();
-    final Example<User> userByNifExample = Example.of(userWithName, createMatcherContain("nif"));
+    final User userWithNif = new User();
+    userWithNif.setNif(nif);
+
+    final Example<User> userByNifExample = Example.of(userWithNif, createMatcherContain("nif"));
 
     return userRepository.findAll(userByNifExample).stream();
   }
