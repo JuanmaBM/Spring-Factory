@@ -1,5 +1,6 @@
 package com.jmb.springfactory.model.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
@@ -35,6 +36,6 @@ public class User extends BaseEntity{
   @Pattern(regexp = VALIDATION_EMAIL_PATTERN)
   private String email;
   
-  @OneToMany(fetch = FetchType.LAZY)
+  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private Rol rol;
 }
