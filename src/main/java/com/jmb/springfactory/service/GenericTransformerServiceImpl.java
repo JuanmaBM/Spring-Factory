@@ -61,7 +61,7 @@ public abstract class GenericTransformerServiceImpl<T extends BaseEntity, D exte
   @Override
   public List<D> convertListEntityToListDto(List<T> entities) {
     return entities.stream()
-        .map(entity -> modelMapper.map(entities, getDtoClazz()))
+        .map(entity -> modelMapper.map(entity, getDtoClazz()))
         .collect(Collectors.toList());
   }
 
