@@ -40,14 +40,14 @@ public class UserCrudIntegrationTest {
   @Autowired
   private UserController userController;
   
-//  @Autowired
-//  private MongoTemplate mongoTemplate;
+  @Autowired
+  private MongoTemplate mongoTemplate;
   
   private final User newUser = UserFactory.createSampleDefaultUser(); 
 
   @Before
   public void beforeTest() {
-//    mongoTemplate.dropCollection(User.class);
+    mongoTemplate.dropCollection(User.class);
   }
   
   @Test(expected = ValidationException.class)
@@ -84,10 +84,9 @@ public class UserCrudIntegrationTest {
   }
   
   @Test
-  public void whenSearchUserByNifAndExistOneThenShouldReturnAListWithAtLeastOneResult() throws NotFoundException , ServiceLayerException {
+  public void whenSearchUserByNifAndExistOneThenShouldReturnAListWithAtLeastOneResult() throws NotFoundException  {
     
-//    mongoTemplate.save(newUser);
-    userController.create(UserDtoFactory.createSampleDefaultUserDto());
+    mongoTemplate.save(newUser);
     final String nif = UserSamples.NIF_USER_TEST_1;
     
     List<UserDto> usersWithNif = userController.findAll(nif, null);
@@ -99,10 +98,9 @@ public class UserCrudIntegrationTest {
   }
   
   @Test 
-  public void whenSearchUserNyNameContainAndExistOneThenShouldReturnAlistWithAtLeastOneResult() throws NotFoundException, ServiceLayerException  {
+  public void whenSearchUserNyNameContainAndExistOneThenShouldReturnAlistWithAtLeastOneResult() throws NotFoundException  {
     
-//    mongoTemplate.save(newUser);
-//    userController.create(UserDtoFactory.createSampleDefaultUserDto());
+    mongoTemplate.save(newUser);
     final String name = UserSamples.NAME_USER_TEST_1;
     
     List<UserDto> usersWithName = userController.findAll(null, name);
