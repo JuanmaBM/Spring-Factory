@@ -11,16 +11,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
-import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
-import org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.jmb.springfactory.SpringFactoryApplication;
+import com.jmb.springfactory.SpringFactoryTestConfiguration;
 import com.jmb.springfactory.controller.api.UserController;
 import com.jmb.springfactory.exceptions.NotFoundException;
 import com.jmb.springfactory.exceptions.ServiceLayerException;
@@ -31,10 +27,7 @@ import com.jmb.springfactory.model.factory.user.UserFactory;
 import com.jmb.springfactory.model.factory.user.UserSamples;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = SpringFactoryApplication.class)
-@EnableAutoConfiguration(exclude = {SecurityAutoConfiguration.class,
-  DataSourceAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class, 
-  HibernateJpaAutoConfiguration.class})
+@SpringBootTest(classes = {SpringFactoryApplication.class, SpringFactoryTestConfiguration.class})
 public class UserCrudIntegrationTest {
 
   @Autowired
