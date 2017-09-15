@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.jmb.springfactory.dao.user.UserMongoService;
 import com.jmb.springfactory.model.dto.UserDto;
 import com.jmb.springfactory.service.BaseService;
+import com.jmb.springfactory.service.UtilsService;
 import com.jmb.springfactory.service.ValidatorService;
 
 @Service
@@ -24,8 +25,7 @@ public class UserValidatorService extends BaseService implements ValidatorServic
   private static final String SURNAME_FIELD = "surname";
   private static final String NAME_FIELD = "name";
   private static final String NIF_FIELD = "nif";
-  private static final String VALIDATION_EXCEPTION_MESSAGE = "The %s fields must not be empty";
-  
+
   @Autowired
   private UserMongoService userMongoService;
 
@@ -79,18 +79,7 @@ public class UserValidatorService extends BaseService implements ValidatorServic
       emptyFields.add(PHONE_NUMBER_FIELD);
     }
     
-    throwValidationExceptionIfEmptyFieldIsNotEmpty(emptyFields);
+    UtilsService.throwValidationExceptionIfEmptyFieldIsNotEmpty(emptyFields, serviceLog);
   }
 
-  /**
-   * Auxiliar method that throw a exception with empty fields if there are any field empty
-   * @param emptyFields
-   */
-  private void throwValidationExceptionIfEmptyFieldIsNotEmpty(List<String> emptyFields) {
-    
-    if (!emptyFields.isEmpty()) {
-      serviceLog.error(String.format(VALIDATION_EXCEPTION_MESSAGE, emptyFields.toString()));
-      throw new ValidationException(String.format(VALIDATION_EXCEPTION_MESSAGE, emptyFields.toString()));
-    }
-  }
 }

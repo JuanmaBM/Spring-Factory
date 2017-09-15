@@ -19,7 +19,7 @@ public abstract class GenericController<D extends BaseDto, I extends Serializabl
   extends BaseController {
   
   public abstract GenericService<D, I> genericService();
-
+  
   @PostMapping
   public D create(@Valid @RequestBody D dto) throws ServiceLayerException {
     return genericService().save(dto);
