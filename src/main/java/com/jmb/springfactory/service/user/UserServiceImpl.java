@@ -13,7 +13,6 @@ import com.jmb.springfactory.exceptions.ServiceLayerException;
 import com.jmb.springfactory.model.bo.BusinessObjectBase;
 import com.jmb.springfactory.model.dto.UserDto;
 import com.jmb.springfactory.model.entity.User;
-import com.jmb.springfactory.model.enumeration.PermissionsEnum;
 import com.jmb.springfactory.service.GenericServiceImpl;
 import com.jmb.springfactory.service.UtilsService;
 import com.jmb.springfactory.service.ValidatorService;
