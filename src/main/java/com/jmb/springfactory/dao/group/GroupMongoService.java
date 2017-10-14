@@ -3,9 +3,9 @@ package com.jmb.springfactory.dao.group;
 import java.util.stream.Stream;
 
 import com.jmb.springfactory.dao.GenericMongoService;
-import com.jmb.springfactory.model.entity.Group;
+import com.jmb.springfactory.model.entity.WorkGroup;
 
-public interface GroupMongoService extends GenericMongoService<Group, String> {
+public interface GroupMongoService extends GenericMongoService<WorkGroup, String> {
 
-  public Stream<Group> findByName(String name);
+  public Stream<WorkGroup> findByName(String name);
 }

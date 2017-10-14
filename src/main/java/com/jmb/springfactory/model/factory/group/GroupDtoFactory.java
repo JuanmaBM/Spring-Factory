@@ -19,7 +19,7 @@ public final class GroupDtoFactory {
 
   private GroupDtoFactory() {}
 
-  public static GroupDto createGroup(String id, String name, String startHour, String finishHour) {
+  public static GroupDto createGroup(Integer id, String name, String startHour, String finishHour) {
 
     final GroupDto group = new GroupDto();
     group.setId(id);

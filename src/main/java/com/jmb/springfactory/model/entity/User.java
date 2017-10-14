@@ -2,13 +2,15 @@ package com.jmb.springfactory.model.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Pattern.Flag;
 import javax.validation.constraints.Size;
-
-import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +21,11 @@ import lombok.NoArgsConstructor;
 @Table
 public class User extends BaseEntity{
   
-  private static final String VALIDATION_EMAIL_PATTERN = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
+  private static final String VALIDATION_EMAIL_PATTERN = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z]{2,6}$";
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Integer id;
 
   @NotNull
   @Size(min = 9, max = 9)
@@ -35,7 +41,7 @@ public class User extends BaseEntity{
   @Size(min = 9, max = 9)
   private String phoneNumber;
 
-  @Pattern(regexp = VALIDATION_EMAIL_PATTERN)
+  @Pattern(regexp = VALIDATION_EMAIL_PATTERN, flags = Flag.CASE_INSENSITIVE)
   private String email;
   
   @ManyToOne(fetch = FetchType.LAZY)

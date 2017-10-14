@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.jmb.springfactory.SpringFactoryApplication;
@@ -21,9 +21,7 @@ import com.jmb.springfactory.controller.api.UserController;
 import com.jmb.springfactory.exceptions.NotFoundException;
 import com.jmb.springfactory.exceptions.ServiceLayerException;
 import com.jmb.springfactory.model.dto.UserDto;
-import com.jmb.springfactory.model.entity.User;
 import com.jmb.springfactory.model.factory.user.UserDtoFactory;
-import com.jmb.springfactory.model.factory.user.UserFactory;
 import com.jmb.springfactory.model.factory.user.UserSamples;
 
 @RunWith(SpringRunner.class)
@@ -34,19 +32,18 @@ public class UserCrudIntegrationTest {
   private UserController userController;
   
   @Autowired
-  private MongoTemplate mongoTemplate;
+  private JdbcTemplate mongoTemplate;
   
-  private final User newUser = UserFactory.createSampleDefaultUser(); 
+  private final UserDto newUserDto = UserDtoFactory.createSampleDefaultUserDto(); 
 
   @Before
   public void beforeTest() {
-    mongoTemplate.dropCollection(User.class);
+    newUserDto.setRol(null);
+    mongoTemplate.update("DELETE FROM USER");
   }
   
   @Test(expected = ValidationException.class)
   public void ifTheUserAlreadyExistThenShouldThrowPersistenceException() throws ServiceLayerException {
-
-    final UserDto newUserDto = UserDtoFactory.createSampleDefaultUserDto(); 
 
     userController.create(newUserDto);
     userController.create(newUserDto);
@@ -61,7 +58,8 @@ public class UserCrudIntegrationTest {
   }
   
   @Test(expected = NotFoundException.class)
-  public void whenSearchUserByNifAndNotExistAnyOneThenShouldThrowNotFoundException() throws NotFoundException {
+  public void whenSearchUserByNifAndNotExistAnyOneThenShouldThrowNotFoundException() throws NotFoundException, 
+    ServiceLayerException {
     
     final String nif = "11111111Q";
 
@@ -77,9 +75,10 @@ public class UserCrudIntegrationTest {
   }
   
   @Test
-  public void whenSearchUserByNifAndExistOneThenShouldReturnAListWithAtLeastOneResult() throws NotFoundException  {
+  public void whenSearchUserByNifAndExistOneThenShouldReturnAListWithAtLeastOneResult() throws NotFoundException, 
+    ServiceLayerException {
     
-    mongoTemplate.save(newUser);
+    userController.create(newUserDto);
     final String nif = UserSamples.NIF_USER_TEST_1;
     
     List<UserDto> usersWithNif = userController.findAll(nif, null);
@@ -91,9 +90,10 @@ public class UserCrudIntegrationTest {
   }
   
   @Test 
-  public void whenSearchUserNyNameContainAndExistOneThenShouldReturnAlistWithAtLeastOneResult() throws NotFoundException  {
+  public void whenSearchUserNyNameContainAndExistOneThenShouldReturnAlistWithAtLeastOneResult() throws NotFoundException, 
+   ServiceLayerException {
     
-    mongoTemplate.save(newUser);
+    userController.create(newUserDto);
     final String name = UserSamples.NAME_USER_TEST_1;
     
     List<UserDto> usersWithName = userController.findAll(null, name);

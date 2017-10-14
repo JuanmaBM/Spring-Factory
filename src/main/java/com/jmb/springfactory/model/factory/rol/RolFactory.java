@@ -10,7 +10,7 @@ public final class RolFactory {
   
   private RolFactory() {}
 
-  public static Rol createRol(String id, String name) {
+  public static Rol createRol(Integer id, String name) {
     final Rol rol = new Rol();
     rol.setId(id);
     rol.setName(name);

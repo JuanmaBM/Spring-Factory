@@ -9,12 +9,12 @@ import com.jmb.springfactory.dao.group.GroupMongoService;
 import com.jmb.springfactory.exceptions.ServiceLayerException;
 import com.jmb.springfactory.model.bo.BusinessObjectBase;
 import com.jmb.springfactory.model.dto.GroupDto;
-import com.jmb.springfactory.model.entity.Group;
+import com.jmb.springfactory.model.entity.WorkGroup;
 import com.jmb.springfactory.service.GenericServiceImpl;
 import com.jmb.springfactory.service.ValidatorService;
 
 @Service
-public class GroupServiceImpl extends GenericServiceImpl<Group, GroupDto, BusinessObjectBase, String> implements 
+public class GroupServiceImpl extends GenericServiceImpl<WorkGroup, GroupDto, BusinessObjectBase, String> implements 
   GroupService {
   
   @Autowired
@@ -25,7 +25,7 @@ public class GroupServiceImpl extends GenericServiceImpl<Group, GroupDto, Busine
   private ValidatorService groupValidatorService;
 
   @Override
-  public GenericMongoService<Group, String> genericDao() {
+  public GenericMongoService<WorkGroup, String> genericDao() {
     return groupMongoService;
   }
   
@@ -36,8 +36,8 @@ public class GroupServiceImpl extends GenericServiceImpl<Group, GroupDto, Busine
   }
 
   @Override
-  public Class<? extends Group> getClazz() {
-    return Group.class;
+  public Class<? extends WorkGroup> getClazz() {
+    return WorkGroup.class;
   }
 
   @Override

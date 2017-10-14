@@ -1,9 +1,12 @@
 package com.jmb.springfactory.dao.group;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
 
-import com.jmb.springfactory.model.entity.Group;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface GroupRepository extends MongoRepository<Group, String> {
+import com.jmb.springfactory.model.entity.WorkGroup;
+
+@Repository
+public interface GroupRepository extends JpaRepository<WorkGroup, String> {
 
 }

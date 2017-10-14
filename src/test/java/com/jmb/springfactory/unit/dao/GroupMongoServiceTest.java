@@ -15,7 +15,7 @@ import org.springframework.data.domain.Example;
 
 import com.jmb.springfactory.dao.group.GroupMongoServiceImpl;
 import com.jmb.springfactory.dao.group.GroupRepository;
-import com.jmb.springfactory.model.entity.Group;
+import com.jmb.springfactory.model.entity.WorkGroup;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GroupMongoServiceTest {
@@ -30,7 +30,7 @@ public class GroupMongoServiceTest {
   @SuppressWarnings("unchecked")
   public void whenSearchGroupByNameShoulInvokeFindAll() {
     
-    when(groupRepository.findAll(any(Example.class))).thenReturn(new ArrayList<Group>());
+    when(groupRepository.findAll(any(Example.class))).thenReturn(new ArrayList<WorkGroup>());
     
     groupMongoService.findByName(anyString());
     

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.jmb.springfactory.exceptions.PersistenceLayerException;
 import com.jmb.springfactory.model.entity.BaseEntity;
@@ -12,7 +12,7 @@ import com.jmb.springfactory.model.entity.BaseEntity;
 public abstract class GenericMongoServiceImpl<T extends BaseEntity, I extends Serializable> extends BaseDao implements 
   GenericMongoService<T, I> {
   
-  public abstract MongoRepository<T, I> getRepository();
+  public abstract JpaRepository<T, I> getRepository();
 
   @Override
   public T save(T t) throws PersistenceLayerException {

@@ -1,0 +1,12 @@
+spring:
+  profiles: local
+  datasource:
+    url: jdbc:mysql://localhost:3306/factory
+    username: root
+    password: root
+  jpa:
+    show-sql: true
+    format-sql: true
+    hibernate:
+      ddl-auto: update
+      dialect: org.hibernate.dialect.MySQL5Dialect

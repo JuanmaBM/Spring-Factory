@@ -49,13 +49,14 @@ dependencies {
 	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
 	compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5'
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '1.5.6.RELEASE'
+	
 
 	compile('mysql:mysql-connector-java')
-	compile('org.springframework.boot:spring-boot-starter-data-mongodb')
 	compile('org.springframework.boot:spring-boot-starter-security')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.boot:spring-boot-starter-aop')
 	providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
+	testCompile group: 'com.h2database', name: 'h2', version: '1.4.196'
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 

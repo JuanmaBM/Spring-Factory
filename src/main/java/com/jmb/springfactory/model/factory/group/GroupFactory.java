@@ -1,6 +1,6 @@
 package com.jmb.springfactory.model.factory.group;
 
-import com.jmb.springfactory.model.entity.Group;
+import com.jmb.springfactory.model.entity.WorkGroup;
 import static com.jmb.springfactory.model.factory.group.GroupSamples.*;
 
 import java.util.List;
@@ -9,9 +9,9 @@ import java.util.stream.Stream;
 
 public final class GroupFactory {
 
-  public static Group createGroup(String id, String name, String startHour, String finishHour) {
+  public static WorkGroup createGroup(Integer id, String name, String startHour, String finishHour) {
 
-    final Group group = new Group();
+    final WorkGroup group = new WorkGroup();
     group.setId(id);
     group.setName(name);
     group.setStartHour(startHour);
@@ -20,17 +20,17 @@ public final class GroupFactory {
     return group;
   }
   
-  public static Group createSampleDefaultGroup() {
+  public static WorkGroup createSampleDefaultGroup() {
     return createGroup(ID_GROUP_TEST_1, NAME_GROUP_TEST_1, START_HOUR_GROUP_TEST_1, FINISH_HOUR_GROUP_TEST_1);
   }
   
-  public static Stream<Group> createStreamSampleDefaultGroup() {
+  public static Stream<WorkGroup> createStreamSampleDefaultGroup() {
     return Stream.of(createGroup(ID_GROUP_TEST_1, NAME_GROUP_TEST_1, START_HOUR_GROUP_TEST_1, FINISH_HOUR_GROUP_TEST_1),
         createGroup(ID_GROUP_TEST_2, NAME_GROUP_TEST_2, START_HOUR_GROUP_TEST_2, FINISH_HOUR_GROUP_TEST_2),
         createGroup(ID_GROUP_TEST_2, NAME_GROUP_TEST_2, START_HOUR_GROUP_TEST_2, FINISH_HOUR_GROUP_TEST_2));
   }
   
-  public static List<Group> createListSampleDefaultGroup() {
+  public static List<WorkGroup> createListSampleDefaultGroup() {
     return createStreamSampleDefaultGroup().collect(Collectors.toList());
   }
 }

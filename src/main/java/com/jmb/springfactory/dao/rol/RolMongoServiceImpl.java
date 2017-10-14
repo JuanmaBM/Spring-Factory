@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatcher;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import com.jmb.springfactory.dao.GenericMongoServiceImpl;
@@ -20,7 +20,7 @@ public class RolMongoServiceImpl extends GenericMongoServiceImpl<Rol, String> im
   private RolRepository repository;
 
   @Override
-  public MongoRepository<Rol, String> getRepository() {
+  public JpaRepository<Rol, String> getRepository() {
     return repository;
   }
   

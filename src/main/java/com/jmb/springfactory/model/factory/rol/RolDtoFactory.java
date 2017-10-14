@@ -10,7 +10,7 @@ public class RolDtoFactory {
   
   private RolDtoFactory() {}
 
-  public static RolDto createRol(String id, String name) {
+  public static RolDto createRol(Integer id, String name) {
     final RolDto rol = new RolDto();
     rol.setId(id);
     rol.setName(name);
