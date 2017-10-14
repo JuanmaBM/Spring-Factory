@@ -14,7 +14,7 @@ import com.jmb.springfactory.SpringFactoryApplication;
 import com.jmb.springfactory.SpringFactoryTestConfiguration;
 import com.jmb.springfactory.controller.api.GroupController;
 import com.jmb.springfactory.exceptions.ServiceLayerException;
-import com.jmb.springfactory.model.dto.GroupDto;
+import com.jmb.springfactory.model.dto.WorkGroupDto;
 import com.jmb.springfactory.model.factory.group.GroupDtoFactory;
 import static com.jmb.springfactory.model.factory.group.GroupSamples.*;
 
@@ -28,7 +28,7 @@ public class GroupIntegrationTest {
   @Test(expected = ValidationException.class)
   public void whenCreateGroupAndExistAnyOneWithTheSameNameThenThrowValidationException() throws ServiceLayerException {
     
-    final GroupDto newGroupDto = GroupDtoFactory.createSampleDefaultGroupDto();
+    final WorkGroupDto newGroupDto = GroupDtoFactory.createSampleDefaultGroupDto();
     
     groupController.create(newGroupDto);
     groupController.create(newGroupDto);
@@ -37,7 +37,7 @@ public class GroupIntegrationTest {
   @Test(expected = ValidationException.class)
   public void whenCreateGroupThatHaveAnyEmptyFieldThenThrowValidationException() throws ServiceLayerException {
     
-    final GroupDto newGroupDto = GroupDtoFactory.createGroup(null, null, null, null);
+    final WorkGroupDto newGroupDto = GroupDtoFactory.createGroup(null, null, null, null);
     
     groupController.create(newGroupDto);
   }
@@ -46,7 +46,7 @@ public class GroupIntegrationTest {
   public void whenCreateGroupThatHaveIncorrectFomatHourFieldsThenThrowValidationException() 
       throws ServiceLayerException {
     
-    final GroupDto newGroupDto = GroupDtoFactory.createGroup(null, null, "asddas", "1231:123123");
+    final WorkGroupDto newGroupDto = GroupDtoFactory.createGroup(null, null, "asddas", "1231:123123");
     
     groupController.create(newGroupDto);
   }
@@ -54,10 +54,10 @@ public class GroupIntegrationTest {
   @Test
   public void whenCreateGroupTheGroupIdMustNotBeNull() throws ServiceLayerException {
     
-    final GroupDto newGroupDto = GroupDtoFactory.createGroup(null, NAME_GROUP_TEST_2, START_HOUR_GROUP_TEST_2,
+    final WorkGroupDto newGroupDto = GroupDtoFactory.createGroup(null, NAME_GROUP_TEST_2, START_HOUR_GROUP_TEST_2,
         FINISH_HOUR_GROUP_TEST_2);
     
-    final GroupDto groupCreated = groupController.create(newGroupDto);
+    final WorkGroupDto groupCreated = groupController.create(newGroupDto);
     
     assertNotNull(groupCreated);
     assertNotNull(groupCreated.getId());

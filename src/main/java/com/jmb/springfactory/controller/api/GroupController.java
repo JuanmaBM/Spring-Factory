@@ -8,24 +8,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jmb.springfactory.controller.GenericController;
-import com.jmb.springfactory.model.dto.GroupDto;
+import com.jmb.springfactory.model.dto.WorkGroupDto;
 import com.jmb.springfactory.service.GenericService;
 import com.jmb.springfactory.service.group.GroupService;
 
 @RestController
 @RequestMapping("/group")
-public class GroupController extends GenericController<GroupDto, String> {
+public class GroupController extends GenericController<WorkGroupDto, String> {
   
   @Autowired
   private GroupService groupService;
 
   @Override
-  public GenericService<GroupDto, String> genericService() {
+  public GenericService<WorkGroupDto, String> genericService() {
     return groupService;
   }
   
   @GetMapping
-  public List<GroupDto> findAll() {
+  public List<WorkGroupDto> findAll() {
     return groupService.findAll();
   }
 

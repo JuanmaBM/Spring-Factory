@@ -46,4 +46,7 @@ public class User extends BaseEntity{
   
   @ManyToOne(fetch = FetchType.LAZY)
   private Rol rol;
+  
+  @ManyToOne(fetch = FetchType.LAZY)
+  private WorkGroup group;
 }

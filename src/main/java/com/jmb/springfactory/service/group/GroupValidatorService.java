@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.jmb.springfactory.dao.group.GroupMongoService;
-import com.jmb.springfactory.model.dto.GroupDto;
+import com.jmb.springfactory.model.dto.WorkGroupDto;
 import com.jmb.springfactory.service.BaseService;
 import com.jmb.springfactory.service.UtilsService;
 import com.jmb.springfactory.service.ValidatorService;
@@ -31,17 +31,17 @@ public class GroupValidatorService extends BaseService implements ValidatorServi
   @Override
   public void validate(Object object) {
     
-    final GroupDto group = (GroupDto) object;
+    final WorkGroupDto group = (WorkGroupDto) object;
     
     validateIfAnyFieldIsEmpty(group);
     
     validateIfAlreadyExistGroup(group);
   }
   
-  private void validateIfAlreadyExistGroup(GroupDto group) {
+  private void validateIfAlreadyExistGroup(WorkGroupDto group) {
     
     final Boolean groupAlreadyExist = Optional.ofNullable(group)
-      .map(GroupDto::getName)
+      .map(WorkGroupDto::getName)
       .filter(StringUtils::isNotBlank)
       .flatMap(name -> groupMongoService.findByName(name).findAny())
       .isPresent();
@@ -51,7 +51,7 @@ public class GroupValidatorService extends BaseService implements ValidatorServi
     }
   }
 
-  private void validateIfAnyFieldIsEmpty(GroupDto group) {
+  private void validateIfAnyFieldIsEmpty(WorkGroupDto group) {
     
     final List<String> emptyFields = new ArrayList<>();
     

@@ -21,7 +21,7 @@ import org.modelmapper.ModelMapper;
 import com.jmb.springfactory.dao.group.GroupMongoService;
 import com.jmb.springfactory.exceptions.PersistenceLayerException;
 import com.jmb.springfactory.exceptions.ServiceLayerException;
-import com.jmb.springfactory.model.dto.GroupDto;
+import com.jmb.springfactory.model.dto.WorkGroupDto;
 import com.jmb.springfactory.model.entity.WorkGroup;
 import com.jmb.springfactory.model.factory.group.GroupDtoFactory;
 import com.jmb.springfactory.model.factory.group.GroupFactory;
@@ -43,13 +43,13 @@ public class GroupServiceTest {
   @Mock
   private ModelMapper modelMapper;
   
-  private GroupDto newGroupDto = GroupDtoFactory.createSampleDefaultGroupDto();
+  private WorkGroupDto newGroupDto = GroupDtoFactory.createSampleDefaultGroupDto();
   private WorkGroup newGroup = GroupFactory.createSampleDefaultGroup();
   
   @Before
   public void beforeTest() {
-    when(modelMapper.map(any(WorkGroup.class), eq(GroupDto.class))).thenReturn(newGroupDto);
-    when(modelMapper.map(any(GroupDto.class), eq(WorkGroup.class))).thenReturn(newGroup);
+    when(modelMapper.map(any(WorkGroup.class), eq(WorkGroupDto.class))).thenReturn(newGroupDto);
+    when(modelMapper.map(any(WorkGroupDto.class), eq(WorkGroup.class))).thenReturn(newGroup);
   }
   
   @Test

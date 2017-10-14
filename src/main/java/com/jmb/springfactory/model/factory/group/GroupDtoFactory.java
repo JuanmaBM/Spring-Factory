@@ -13,15 +13,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.jmb.springfactory.model.dto.GroupDto;
+import com.jmb.springfactory.model.dto.WorkGroupDto;
 
 public final class GroupDtoFactory {
 
   private GroupDtoFactory() {}
 
-  public static GroupDto createGroup(Integer id, String name, String startHour, String finishHour) {
+  public static WorkGroupDto createGroup(Integer id, String name, String startHour, String finishHour) {
 
-    final GroupDto group = new GroupDto();
+    final WorkGroupDto group = new WorkGroupDto();
     group.setId(id);
     group.setName(name);
     group.setStartHour(startHour);
@@ -30,17 +30,17 @@ public final class GroupDtoFactory {
     return group;
   }
 
-  public static GroupDto createSampleDefaultGroupDto() {
+  public static WorkGroupDto createSampleDefaultGroupDto() {
     return createGroup(ID_GROUP_TEST_1, NAME_GROUP_TEST_1, START_HOUR_GROUP_TEST_1, FINISH_HOUR_GROUP_TEST_1);
   }
 
-  public static Stream<GroupDto> createStreamSampleDefaultGroup() {
+  public static Stream<WorkGroupDto> createStreamSampleDefaultGroup() {
     return Stream.of(createGroup(ID_GROUP_TEST_1, NAME_GROUP_TEST_1, START_HOUR_GROUP_TEST_1, FINISH_HOUR_GROUP_TEST_1),
         createGroup(ID_GROUP_TEST_2, NAME_GROUP_TEST_2, START_HOUR_GROUP_TEST_2, FINISH_HOUR_GROUP_TEST_2),
         createGroup(ID_GROUP_TEST_2, NAME_GROUP_TEST_2, START_HOUR_GROUP_TEST_2, FINISH_HOUR_GROUP_TEST_2));
   }
 
-  public static List<GroupDto> createListSampleDefaultGroup() {
+  public static List<WorkGroupDto> createListSampleDefaultGroup() {
     return createStreamSampleDefaultGroup().collect(Collectors.toList());
   }
 }

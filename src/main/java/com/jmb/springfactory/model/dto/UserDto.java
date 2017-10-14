@@ -32,4 +32,6 @@ public class UserDto extends BaseDto {
   private String email;
   
   private RolDto rol;
+  
+  private WorkGroupDto group;
 }

@@ -8,13 +8,13 @@ import com.jmb.springfactory.dao.GenericMongoService;
 import com.jmb.springfactory.dao.group.GroupMongoService;
 import com.jmb.springfactory.exceptions.ServiceLayerException;
 import com.jmb.springfactory.model.bo.BusinessObjectBase;
-import com.jmb.springfactory.model.dto.GroupDto;
+import com.jmb.springfactory.model.dto.WorkGroupDto;
 import com.jmb.springfactory.model.entity.WorkGroup;
 import com.jmb.springfactory.service.GenericServiceImpl;
 import com.jmb.springfactory.service.ValidatorService;
 
 @Service
-public class GroupServiceImpl extends GenericServiceImpl<WorkGroup, GroupDto, BusinessObjectBase, String> implements 
+public class GroupServiceImpl extends GenericServiceImpl<WorkGroup, WorkGroupDto, BusinessObjectBase, String> implements 
   GroupService {
   
   @Autowired
@@ -30,7 +30,7 @@ public class GroupServiceImpl extends GenericServiceImpl<WorkGroup, GroupDto, Bu
   }
   
   @Override 
-  public GroupDto save(GroupDto group) throws ServiceLayerException {
+  public WorkGroupDto save(WorkGroupDto group) throws ServiceLayerException {
     groupValidatorService.validate(group);
     return super.save(group);
   }
@@ -41,8 +41,8 @@ public class GroupServiceImpl extends GenericServiceImpl<WorkGroup, GroupDto, Bu
   }
 
   @Override
-  public Class<? extends GroupDto> getDtoClazz() {
-    return GroupDto.class;
+  public Class<? extends WorkGroupDto> getDtoClazz() {
+    return WorkGroupDto.class;
   }
 
   @Override

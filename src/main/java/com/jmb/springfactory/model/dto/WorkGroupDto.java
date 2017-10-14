@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class GroupDto extends BaseDto {
+public class WorkGroupDto extends BaseDto {
 
   private static final long serialVersionUID = -4696421304807574674L;
 

@@ -24,7 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jmb.springfactory.controller.ControllerExceptionAdvicer;
 import com.jmb.springfactory.controller.api.GroupController;
 import com.jmb.springfactory.exceptions.ServiceLayerException;
-import com.jmb.springfactory.model.dto.GroupDto;
+import com.jmb.springfactory.model.dto.WorkGroupDto;
 import com.jmb.springfactory.model.factory.group.GroupDtoFactory;
 import com.jmb.springfactory.service.group.GroupService;
 
@@ -52,7 +52,7 @@ public class GroupControllerTest {
   public void whenCreateGroupShouldInvokeSaveMethodFromGroupService()throws ServiceLayerException,
   Exception {
     
-    final GroupDto newGroupDto = GroupDtoFactory.createSampleDefaultGroupDto();
+    final WorkGroupDto newGroupDto = GroupDtoFactory.createSampleDefaultGroupDto();
 
     mockMvc.perform(MockMvcRequestBuilders.post("/group")
         .content(mapper.writeValueAsString(newGroupDto))
@@ -67,7 +67,7 @@ public class GroupControllerTest {
   public void whenCreateGroupThatHaveAnyEmptyFieldThenThrowValidationException() throws ServiceLayerException,
     Exception {
 
-    final GroupDto newGroupDto = GroupDtoFactory.createGroup(null, null, null, null);
+    final WorkGroupDto newGroupDto = GroupDtoFactory.createGroup(null, null, null, null);
     
     when(groupService.save(newGroupDto)).thenThrow(ValidationException.class);
 
