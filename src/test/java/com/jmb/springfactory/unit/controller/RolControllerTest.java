@@ -43,8 +43,8 @@ public class RolControllerTest {
   
   private final String notExistRolName = "rol_not_exist";
   private final String existRolName = RolSamples.NAME_ROL_TEST_1;
-  private final String jsonRolFound = String.format("[{id:\"%s\",name:\"%s\"},{id:\"%s\",name:\"%s\"}"
-      + ",{id:\"%s\",name:\"%s\"}]",
+  private final String jsonRolFound = String.format("[{\"id\":%s,\"name\":\"%s\",\"permissions\":null},{\"id\":%s,\"name\":\"%s\",\"permissions\":null}"
+      + ",{\"id\":%s,\"name\":\"%s\",\"permissions\":null}]",
       RolSamples.ID_ROL_TEST_1, RolSamples.NAME_ROL_TEST_1, RolSamples.ID_ROL_TEST_2, 
       RolSamples.NAME_ROL_TEST_2, RolSamples.ID_ROL_TEST_3, RolSamples.NAME_ROL_TEST_3);
   
