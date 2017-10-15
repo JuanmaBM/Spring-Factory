@@ -6,7 +6,7 @@ import com.jmb.springfactory.exceptions.NotFoundException;
 import com.jmb.springfactory.model.dto.UserDto;
 import com.jmb.springfactory.service.GenericService;
 
-public interface UserService extends GenericService<UserDto, String> {
+public interface UserService extends GenericService<UserDto, Integer> {
 
   public List<UserDto> findByNifContain(String nif) throws NotFoundException;
 

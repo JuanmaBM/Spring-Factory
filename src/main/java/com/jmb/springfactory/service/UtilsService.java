@@ -78,4 +78,12 @@ public final class UtilsService extends BaseService {
     return ExampleMatcher.matching().withMatcher(propertyName, GenericPropertyMatcher::exact);
   }
   
+  /**
+   * Check if the object exists
+   * @param obj
+   * @return
+   */
+  public static Boolean exist(Object obj) {
+    return obj != null;
+  }
 }

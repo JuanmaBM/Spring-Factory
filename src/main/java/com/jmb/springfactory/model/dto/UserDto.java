@@ -11,7 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserDto extends BaseDto {
 
-  private static final long serialVersionUID = 4524700632350624818L;
+  private static final long serialVersionUID = 2773559742318503229L;
+
   private static final String VALIDATION_EMAIL_PATTERN = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z]{2,6}$";
 
   @NotNull(message = "El campo nif no puede estar vacio")

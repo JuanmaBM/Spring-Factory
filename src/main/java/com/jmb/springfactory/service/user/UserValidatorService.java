@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.validation.ValidationException;
 
-import org.apache.commons.lang3.StringUtils;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -13,13 +13,14 @@ import org.springframework.stereotype.Service;
 import com.jmb.springfactory.dao.user.UserMongoService;
 import com.jmb.springfactory.model.dto.UserDto;
 import com.jmb.springfactory.service.BaseService;
-import com.jmb.springfactory.service.UtilsService;
+import static com.jmb.springfactory.service.UtilsService.*;
 import com.jmb.springfactory.service.ValidatorService;
 
 @Service
 @Qualifier("userValidatorService")
 public class UserValidatorService extends BaseService implements ValidatorService {
 
+  private static final String VALIDATION_ASSIGN_USER_GROUP = "To assigns a user into a group, it must have a role";
   private static final String VALIDATION_DUPLICATED_USER_MESSAGE = "The user %s already exist";
   private static final String PHONE_NUMBER_FIELD = "phoneNumber";
   private static final String SURNAME_FIELD = "surname";
@@ -37,8 +38,35 @@ public class UserValidatorService extends BaseService implements ValidatorServic
     serviceLog.info("Validating main fields of user");
     validateIfEmptyUser(user);
     
-    serviceLog.info("Validating if user already exists");
-    validateIfUserAlreadyExist(user);
+    serviceLog.info("Validating if user can be assigned into a group");
+    validateIfUserCanBeAssignedIntoGroup(user);
+    
+    validateOnlyOnCreate(user);
+  }
+
+  private void validateOnlyOnCreate(final UserDto user) {
+    
+    if (!exist(user.getId())) {
+
+      serviceLog.info("Validate on create specific rules");
+
+      serviceLog.info("Validating if user already exists");
+      validateIfUserAlreadyExist(user);
+    }
+  }
+
+  /**
+   * Check that it's allow assign user into a group
+   * @param user
+   */
+  private void validateIfUserCanBeAssignedIntoGroup(UserDto user) {
+    
+    final Boolean userCanNotBeAssignedIntoGroup = exist(user.getGroup()) && !exist(user.getRol());
+    
+    if (userCanNotBeAssignedIntoGroup) {
+      serviceLog.error(VALIDATION_ASSIGN_USER_GROUP);
+      throw new ValidationException(VALIDATION_ASSIGN_USER_GROUP);
+    }
   }
 
   /**
@@ -63,23 +91,23 @@ public class UserValidatorService extends BaseService implements ValidatorServic
     
     final List<String> emptyFields = new ArrayList<>();
     
-    if (StringUtils.isBlank(user.getNif())) {
+    if (isBlank(user.getNif())) {
       emptyFields.add(NIF_FIELD);
     }
     
-    if (StringUtils.isBlank(user.getName())) {
+    if (isBlank(user.getName())) {
       emptyFields.add(NAME_FIELD);
     }
     
-    if (StringUtils.isBlank(user.getSurname())) {
+    if (isBlank(user.getSurname())) {
       emptyFields.add(SURNAME_FIELD);
     }
     
-    if (StringUtils.isBlank(user.getPhoneNumber())) {
+    if (isBlank(user.getPhoneNumber())) {
       emptyFields.add(PHONE_NUMBER_FIELD);
     }
     
-    UtilsService.throwValidationExceptionIfEmptyFieldIsNotEmpty(emptyFields, serviceLog);
+    throwValidationExceptionIfEmptyFieldIsNotEmpty(emptyFields, serviceLog);
   }
 
 }

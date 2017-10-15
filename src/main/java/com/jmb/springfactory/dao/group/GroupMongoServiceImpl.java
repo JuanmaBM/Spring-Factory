@@ -12,13 +12,13 @@ import com.jmb.springfactory.model.entity.WorkGroup;
 import com.jmb.springfactory.service.UtilsService;
 
 @Repository
-public class GroupMongoServiceImpl extends GenericMongoServiceImpl<WorkGroup, String> implements GroupMongoService {
+public class GroupMongoServiceImpl extends GenericMongoServiceImpl<WorkGroup, Integer> implements GroupMongoService {
 
   @Autowired
   private GroupRepository groupRepository;
 
   @Override
-  public JpaRepository<WorkGroup, String> getRepository() {
+  public JpaRepository<WorkGroup, Integer> getRepository() {
     return groupRepository;
   }
   

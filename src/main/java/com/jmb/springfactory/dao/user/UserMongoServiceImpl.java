@@ -13,7 +13,7 @@ import com.jmb.springfactory.dao.GenericMongoServiceImpl;
 import com.jmb.springfactory.model.entity.User;
 
 @Repository
-public class UserMongoServiceImpl extends GenericMongoServiceImpl<User, String> implements UserMongoService {
+public class UserMongoServiceImpl extends GenericMongoServiceImpl<User, Integer> implements UserMongoService {
   
   @Autowired
   private UserRepository userRepository;
@@ -41,7 +41,7 @@ public class UserMongoServiceImpl extends GenericMongoServiceImpl<User, String> 
   }
 
   @Override
-  public JpaRepository<User, String> getRepository() {
+  public JpaRepository<User, Integer> getRepository() {
     return userRepository;
   }
   

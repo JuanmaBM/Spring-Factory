@@ -14,13 +14,13 @@ import com.jmb.springfactory.service.group.GroupService;
 
 @RestController
 @RequestMapping("/group")
-public class GroupController extends GenericController<WorkGroupDto, String> {
+public class GroupController extends GenericController<WorkGroupDto, Integer> {
   
   @Autowired
   private GroupService groupService;
 
   @Override
-  public GenericService<WorkGroupDto, String> genericService() {
+  public GenericService<WorkGroupDto, Integer> genericService() {
     return groupService;
   }
   

@@ -14,13 +14,13 @@ import com.jmb.springfactory.model.entity.Rol;
 import com.jmb.springfactory.model.factory.rol.RolFactory;
 
 @Service
-public class RolMongoServiceImpl extends GenericMongoServiceImpl<Rol, String> implements RolMongoService {
+public class RolMongoServiceImpl extends GenericMongoServiceImpl<Rol, Integer> implements RolMongoService {
   
   @Autowired
   private RolRepository repository;
 
   @Override
-  public JpaRepository<Rol, String> getRepository() {
+  public JpaRepository<Rol, Integer> getRepository() {
     return repository;
   }
   

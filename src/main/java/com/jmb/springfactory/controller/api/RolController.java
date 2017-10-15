@@ -17,13 +17,13 @@ import com.jmb.springfactory.service.rol.RolService;
 
 @RestController
 @RequestMapping("/rol")
-public class RolController extends GenericController<RolDto, String>{
+public class RolController extends GenericController<RolDto, Integer>{
 
   @Autowired
   private RolService rolService;
   
   @Override
-  public GenericService<RolDto, String> genericService() {
+  public GenericService<RolDto, Integer> genericService() {
     return rolService;
   }
   

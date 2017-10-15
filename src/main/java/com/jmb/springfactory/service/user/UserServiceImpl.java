@@ -18,7 +18,7 @@ import com.jmb.springfactory.service.UtilsService;
 import com.jmb.springfactory.service.ValidatorService;
 
 @Service
-public class UserServiceImpl extends GenericServiceImpl<User, UserDto, BusinessObjectBase, String>
+public class UserServiceImpl extends GenericServiceImpl<User, UserDto, BusinessObjectBase, Integer>
   implements UserService{
   
   @Autowired
@@ -58,8 +58,15 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDto, BusinessO
     return super.save(userToSave);
   }
 
+  @Override 
+  public void update(UserDto userToUpdate, Integer id) throws ServiceLayerException {
+    userToUpdate.setId(id);
+    userValidatorService.validate(userToUpdate);
+    super.update(userToUpdate, id);
+  }
+
   @Override
-  public GenericMongoService<User, String> genericDao() {
+  public GenericMongoService<User, Integer> genericDao() {
     return userMongoService;
   }
 

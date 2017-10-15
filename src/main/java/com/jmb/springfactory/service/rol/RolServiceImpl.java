@@ -14,14 +14,14 @@ import com.jmb.springfactory.model.entity.Rol;
 import com.jmb.springfactory.service.GenericServiceImpl;
 
 @Service
-public class RolServiceImpl extends GenericServiceImpl<Rol, RolDto, BusinessObjectBase, String>
+public class RolServiceImpl extends GenericServiceImpl<Rol, RolDto, BusinessObjectBase, Integer>
   implements RolService {
   
   @Autowired
   private RolMongoService rolMongoService;
 
   @Override
-  public GenericMongoService<Rol, String> genericDao() {
+  public GenericMongoService<Rol, Integer> genericDao() {
     return rolMongoService;
   }
 

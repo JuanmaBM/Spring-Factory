@@ -6,7 +6,7 @@ import com.jmb.springfactory.exceptions.NotFoundException;
 import com.jmb.springfactory.model.dto.RolDto;
 import com.jmb.springfactory.service.GenericService;
 
-public interface RolService extends GenericService<RolDto, String> {
+public interface RolService extends GenericService<RolDto, Integer> {
 
   public List<RolDto> findByNameContain(String name) throws NotFoundException;
 }

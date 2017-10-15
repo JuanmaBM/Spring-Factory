@@ -17,7 +17,7 @@ import com.jmb.springfactory.service.user.UserService;
 
 @RestController
 @RequestMapping("/user")
-public class UserController extends GenericController<UserDto, String>{
+public class UserController extends GenericController<UserDto, Integer>{
 
   @Autowired
   private UserService userService;
@@ -37,7 +37,7 @@ public class UserController extends GenericController<UserDto, String>{
   }
   
   @Override
-  public GenericService<UserDto, String> genericService() {
+  public GenericService<UserDto, Integer> genericService() {
     return userService;
   }
 

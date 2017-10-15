@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import com.jmb.springfactory.dao.group.GroupMongoService;
 import com.jmb.springfactory.model.dto.WorkGroupDto;
 import com.jmb.springfactory.service.BaseService;
-import com.jmb.springfactory.service.UtilsService;
+import static com.jmb.springfactory.service.UtilsService.*;
 import com.jmb.springfactory.service.ValidatorService;
 
 @Service
@@ -33,9 +33,20 @@ public class GroupValidatorService extends BaseService implements ValidatorServi
     
     final WorkGroupDto group = (WorkGroupDto) object;
     
+    serviceLog.info("Validating if any fields is empty");
     validateIfAnyFieldIsEmpty(group);
     
-    validateIfAlreadyExistGroup(group);
+    validateOnlyOnCreate(group);
+  }
+
+  private void validateOnlyOnCreate(final WorkGroupDto group) {
+    if (!exist(group.getId())) {
+
+      serviceLog.info("Validate on create specific rules");
+
+      serviceLog.info("Validating if group already exists");
+      validateIfAlreadyExistGroup(group);
+    }
   }
   
   private void validateIfAlreadyExistGroup(WorkGroupDto group) {
@@ -67,7 +78,7 @@ public class GroupValidatorService extends BaseService implements ValidatorServi
       emptyFields.add(FIELD_FINISH_HOUR);
     }
     
-    UtilsService.throwValidationExceptionIfEmptyFieldIsNotEmpty(emptyFields, serviceLog);
+    throwValidationExceptionIfEmptyFieldIsNotEmpty(emptyFields, serviceLog);
   }
 
 }

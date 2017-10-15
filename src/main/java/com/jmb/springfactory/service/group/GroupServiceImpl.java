@@ -14,7 +14,7 @@ import com.jmb.springfactory.service.GenericServiceImpl;
 import com.jmb.springfactory.service.ValidatorService;
 
 @Service
-public class GroupServiceImpl extends GenericServiceImpl<WorkGroup, WorkGroupDto, BusinessObjectBase, String> implements 
+public class GroupServiceImpl extends GenericServiceImpl<WorkGroup, WorkGroupDto, BusinessObjectBase, Integer> implements 
   GroupService {
   
   @Autowired
@@ -25,7 +25,7 @@ public class GroupServiceImpl extends GenericServiceImpl<WorkGroup, WorkGroupDto
   private ValidatorService groupValidatorService;
 
   @Override
-  public GenericMongoService<WorkGroup, String> genericDao() {
+  public GenericMongoService<WorkGroup, Integer> genericDao() {
     return groupMongoService;
   }
   
