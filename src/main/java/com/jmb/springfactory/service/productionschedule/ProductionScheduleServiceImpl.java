@@ -1,6 +1,7 @@
 package com.jmb.springfactory.service.productionschedule;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.jmb.springfactory.dao.GenericMySQLService;
 import com.jmb.springfactory.dao.productionschedule.ProductionScheduleMySQLService;
@@ -9,6 +10,7 @@ import com.jmb.springfactory.model.dto.ProductionScheduleDto;
 import com.jmb.springfactory.model.entity.ProductionSchedule;
 import com.jmb.springfactory.service.GenericServiceImpl;
 
+@Service
 public class ProductionScheduleServiceImpl extends GenericServiceImpl<ProductionSchedule, ProductionScheduleDto,
   BusinessObjectBase, Integer> implements ProductionScheduleService {
 
