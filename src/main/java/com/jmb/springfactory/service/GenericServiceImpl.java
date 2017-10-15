@@ -32,6 +32,7 @@ public abstract class GenericServiceImpl<T extends BaseEntity, D extends BaseDto
 
   @Override
   public void update(D dto, I id) throws ServiceLayerException {
+    dto.setId((Integer)id);
     genericDao().findOne(id)
       .map(entity -> merge(dto, entity))
       .map(saveEntity)
