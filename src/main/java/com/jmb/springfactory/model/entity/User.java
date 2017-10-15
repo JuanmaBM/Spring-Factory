@@ -23,10 +23,6 @@ public class User extends BaseEntity{
   
   private static final String VALIDATION_EMAIL_PATTERN = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z]{2,6}$";
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Integer id;
-
   @NotNull
   @Size(min = 9, max = 9)
   private String nif;

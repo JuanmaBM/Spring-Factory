@@ -18,10 +18,6 @@ import lombok.Data;
 @Table
 public class Rol extends BaseEntity {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Integer id;
-  
   private String name;
 
   @OneToMany(fetch = FetchType.LAZY)

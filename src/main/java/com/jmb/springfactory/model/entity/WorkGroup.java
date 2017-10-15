@@ -15,11 +15,6 @@ import lombok.NoArgsConstructor;
 @Table
 public class WorkGroup extends BaseEntity{
 
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Integer id;
-
   private String name;
   private String startHour;
   private String finishHour;

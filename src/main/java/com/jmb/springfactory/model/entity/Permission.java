@@ -19,10 +19,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Permission extends BaseEntity {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Integer id;
-  
   @Enumerated(EnumType.STRING)
   private PermissionsEnum name;
 }
