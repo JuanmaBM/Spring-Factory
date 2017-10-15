@@ -29,6 +29,7 @@ public class GroupIntegrationTest {
   public void whenCreateGroupAndExistAnyOneWithTheSameNameThenThrowValidationException() throws ServiceLayerException {
     
     final WorkGroupDto newGroupDto = GroupDtoFactory.createSampleDefaultGroupDto();
+    newGroupDto.setId(null);
     
     groupController.create(newGroupDto);
     groupController.create(newGroupDto);
