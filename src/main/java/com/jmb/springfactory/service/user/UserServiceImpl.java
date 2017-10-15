@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.jmb.springfactory.dao.GenericMongoService;
+import com.jmb.springfactory.dao.GenericMySQLService;
 import com.jmb.springfactory.dao.user.UserMongoService;
 import com.jmb.springfactory.exceptions.NotFoundException;
 import com.jmb.springfactory.exceptions.ServiceLayerException;
@@ -66,7 +66,7 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDto, BusinessO
   }
 
   @Override
-  public GenericMongoService<User, Integer> genericDao() {
+  public GenericMySQLService<User, Integer> genericDao() {
     return userMongoService;
   }
 

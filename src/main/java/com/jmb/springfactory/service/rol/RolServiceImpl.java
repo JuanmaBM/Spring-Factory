@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.jmb.springfactory.dao.GenericMongoService;
+import com.jmb.springfactory.dao.GenericMySQLService;
 import com.jmb.springfactory.dao.rol.RolMongoService;
 import com.jmb.springfactory.exceptions.NotFoundException;
 import com.jmb.springfactory.model.bo.BusinessObjectBase;
@@ -21,7 +21,7 @@ public class RolServiceImpl extends GenericServiceImpl<Rol, RolDto, BusinessObje
   private RolMongoService rolMongoService;
 
   @Override
-  public GenericMongoService<Rol, Integer> genericDao() {
+  public GenericMySQLService<Rol, Integer> genericDao() {
     return rolMongoService;
   }
 

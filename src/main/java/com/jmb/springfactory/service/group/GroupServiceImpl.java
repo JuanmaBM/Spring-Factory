@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.jmb.springfactory.dao.GenericMongoService;
+import com.jmb.springfactory.dao.GenericMySQLService;
 import com.jmb.springfactory.dao.group.GroupMongoService;
 import com.jmb.springfactory.exceptions.ServiceLayerException;
 import com.jmb.springfactory.model.bo.BusinessObjectBase;
@@ -25,7 +25,7 @@ public class GroupServiceImpl extends GenericServiceImpl<WorkGroup, WorkGroupDto
   private ValidatorService groupValidatorService;
 
   @Override
-  public GenericMongoService<WorkGroup, Integer> genericDao() {
+  public GenericMySQLService<WorkGroup, Integer> genericDao() {
     return groupMongoService;
   }
   
