@@ -6,7 +6,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import com.jmb.springfactory.dao.GenericMongoService;
+import com.jmb.springfactory.dao.GenericMySQLService;
 import com.jmb.springfactory.exceptions.NotFoundException;
 import com.jmb.springfactory.exceptions.PersistenceLayerException;
 import com.jmb.springfactory.exceptions.ServiceLayerException;
@@ -19,7 +19,7 @@ public abstract class GenericServiceImpl<T extends BaseEntity, D extends BaseDto
 
   private static final String DATABASE_ERROR_LOG = "A database error has ocurred: %s";
 
-  public abstract GenericMongoService<T, I> genericDao();
+  public abstract GenericMySQLService<T, I> genericDao();
   
   @Override
   public D save(D dto) throws ServiceLayerException {

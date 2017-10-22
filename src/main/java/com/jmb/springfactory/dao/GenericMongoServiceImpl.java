@@ -10,7 +10,7 @@ import com.jmb.springfactory.exceptions.PersistenceLayerException;
 import com.jmb.springfactory.model.entity.BaseEntity;
 
 public abstract class GenericMongoServiceImpl<T extends BaseEntity, I extends Serializable> extends BaseDao implements 
-  GenericMongoService<T, I> {
+  GenericMySQLService<T, I> {
   
   public abstract JpaRepository<T, I> getRepository();
 
