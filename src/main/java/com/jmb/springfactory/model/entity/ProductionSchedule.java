@@ -1,6 +1,7 @@
 package com.jmb.springfactory.model.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -35,4 +36,6 @@ public class ProductionSchedule extends BaseEntity {
   private Date realFinishDate;
   
   private ProductionScheduleStateEnum state;
+  
+  private List<ProductionOrder> orders;
 }

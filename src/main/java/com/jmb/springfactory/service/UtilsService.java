@@ -1,5 +1,7 @@
 package com.jmb.springfactory.service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.validation.ValidationException;
@@ -12,6 +14,8 @@ import com.jmb.springfactory.exceptions.NotFoundException;
 
 public final class UtilsService extends BaseService {
 
+  private static final String THE_ENTITY_WAS_CREATED_SUCCESFULLY = "The entity was created succesfully: %s";
+  private static final String THE_ENTITY_WAS_UPDATED_SUCCESFULLY = "The entity was updated succesfully: %s";
   private static final String VALIDATION_EXCEPTION_MESSAGE = "The %s fields must not be empty";
   
   /**
@@ -23,6 +27,24 @@ public final class UtilsService extends BaseService {
     if (list.isEmpty()) {
       throw new NotFoundException();
     }
+  }
+
+  /**
+   * Add a new element into the list param if this exists, if not exists, create a new list and append the new element
+   * @param orders
+   * @param order
+   * @return
+   */
+  public static List<?> addOrCreateIfNotExist(List<?> orders, Object order) {
+    
+    if (orders == null) {
+      return Arrays.asList(order);
+    }
+
+    final List<Object> copyOrders = new ArrayList<>(orders);
+    copyOrders.add(order);
+    
+    return copyOrders;
   }
   
   /**
@@ -85,5 +107,13 @@ public final class UtilsService extends BaseService {
    */
   public static Boolean exist(Object obj) {
     return obj != null;
+  }
+  
+  public static void logCreatedEntity(Object entity, Logger log) {
+    log.info(String.format(THE_ENTITY_WAS_CREATED_SUCCESFULLY, entity.toString()));
+  }
+
+  public static void logUpdatedEntity(Object entity, Logger log) {
+    log.info(String.format(THE_ENTITY_WAS_UPDATED_SUCCESFULLY, entity.toString()));
   }
 }
