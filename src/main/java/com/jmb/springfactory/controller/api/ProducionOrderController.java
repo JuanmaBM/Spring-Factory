@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jmb.springfactory.exceptions.NotFoundException;
+import com.jmb.springfactory.exceptions.ServiceLayerException;
 import com.jmb.springfactory.model.dto.ProductionOrderDTO;
 import com.jmb.springfactory.service.productionorder.ProductionOrderService;
 
@@ -38,17 +39,18 @@ public class ProducionOrderController {
   
   @PostMapping
   public ProductionOrderDTO create(@Valid @RequestBody ProductionOrderDTO order, 
-      @PathVariable("idSchedule") Integer idSchedule) {
-    return null;
+      @PathVariable("idSchedule") Integer idSchedule) throws ServiceLayerException, NotFoundException {
+    return productionOrderService.save(order, idSchedule);
   }
   
   @PutMapping("/{idOrder}")
-  public void update(@Valid @RequestBody ProductionOrderDTO order, @PathVariable("idOrder") Integer idOrder) {
-    
+  public void update(@Valid @RequestBody ProductionOrderDTO order, @PathVariable("idOrder") Integer idOrder)
+      throws ServiceLayerException {
+    productionOrderService.update(order, idOrder);
   }
   
   @DeleteMapping("/{idOrder}")
   public void delete(@PathVariable("idOrder") Integer idOrder) {
-    
+    productionOrderService.delete(idOrder);
   }
 }

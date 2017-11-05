@@ -8,7 +8,8 @@ import com.jmb.springfactory.dao.GenericMongoServiceImpl;
 import com.jmb.springfactory.model.entity.ProductionOrder;
 
 @Service
-public class ProductionOrderMySQLImpl extends GenericMongoServiceImpl<ProductionOrder, Integer> {
+public class ProductionOrderMySQLImpl extends GenericMongoServiceImpl<ProductionOrder, Integer> 
+  implements ProductionOrderMySQL {
 
   @Autowired
   private ProductionOrderRepository productionOrderRepository;

@@ -55,7 +55,7 @@ public final class UtilsService extends BaseService {
   public static void showEntitiesFoundInLog (List<?> list, Logger log) {
 
     log.info("Entities found:");
-    list.forEach(entity -> log.info(entity));
+    list.forEach(log::info);
   }
   
   /**
