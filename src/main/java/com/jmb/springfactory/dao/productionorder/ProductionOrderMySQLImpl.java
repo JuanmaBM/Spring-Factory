@@ -4,11 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
-import com.jmb.springfactory.dao.GenericMongoServiceImpl;
+import com.jmb.springfactory.dao.GenericMySQLServiceImpl;
 import com.jmb.springfactory.model.entity.ProductionOrder;
 
 @Service
-public class ProductionOrderMySQLImpl extends GenericMongoServiceImpl<ProductionOrder, Integer> 
+public class ProductionOrderMySQLImpl extends GenericMySQLServiceImpl<ProductionOrder, Integer> 
   implements ProductionOrderMySQL {
 
   @Autowired

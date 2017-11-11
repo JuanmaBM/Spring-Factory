@@ -9,12 +9,12 @@ import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatcher;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
-import com.jmb.springfactory.dao.GenericMongoServiceImpl;
+import com.jmb.springfactory.dao.GenericMySQLServiceImpl;
 import com.jmb.springfactory.model.entity.Rol;
 import com.jmb.springfactory.model.factory.rol.RolFactory;
 
 @Service
-public class RolMongoServiceImpl extends GenericMongoServiceImpl<Rol, Integer> implements RolMongoService {
+public class RolMongoServiceImpl extends GenericMySQLServiceImpl<Rol, Integer> implements RolMongoService {
   
   @Autowired
   private RolRepository repository;

@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.jmb.springfactory.exceptions.PersistenceLayerException;
 import com.jmb.springfactory.model.entity.BaseEntity;
 
-public abstract class GenericMongoServiceImpl<T extends BaseEntity, I extends Serializable> extends BaseDao implements 
+public abstract class GenericMySQLServiceImpl<T extends BaseEntity, I extends Serializable> extends BaseDao implements 
   GenericMySQLService<T, I> {
   
   public abstract JpaRepository<T, I> getRepository();

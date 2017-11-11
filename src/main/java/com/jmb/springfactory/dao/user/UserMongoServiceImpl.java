@@ -9,11 +9,11 @@ import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatcher;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.jmb.springfactory.dao.GenericMongoServiceImpl;
+import com.jmb.springfactory.dao.GenericMySQLServiceImpl;
 import com.jmb.springfactory.model.entity.User;
 
 @Repository
-public class UserMongoServiceImpl extends GenericMongoServiceImpl<User, Integer> implements UserMongoService {
+public class UserMongoServiceImpl extends GenericMySQLServiceImpl<User, Integer> implements UserMongoService {
   
   @Autowired
   private UserRepository userRepository;
