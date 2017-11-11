@@ -3,6 +3,7 @@ package com.jmb.springfactory.service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 import javax.validation.ValidationException;
 
@@ -107,6 +108,24 @@ public final class UtilsService extends BaseService {
    */
   public static Boolean exist(Object obj) {
     return obj != null;
+  }
+  
+  /**
+   * Deny the parameter value 
+   * @param value
+   * @return
+   */
+  public static Boolean not(Boolean value) {
+    return exist(value) ? !value : false;
+  }
+  
+  /**
+   * Check if the object not exists
+   * @param obj
+   * @return
+   */
+  public static Boolean notExist(Object obj) {
+    return not(exist(obj));
   }
   
   public static void logCreatedEntity(Object entity, Logger log) {

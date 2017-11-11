@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.jmb.springfactory.model.enumeration.PriorityEnum;
@@ -45,5 +46,8 @@ public class Task extends BaseEntity {
 
   @OneToMany(fetch = FetchType.LAZY)
   private List<WorkLog> workLogs;
+  
+  @ManyToOne(fetch = FetchType.LAZY)
+  private ProductionOrder order;
 
 }

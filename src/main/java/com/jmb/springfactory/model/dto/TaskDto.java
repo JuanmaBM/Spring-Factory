@@ -3,7 +3,10 @@ package com.jmb.springfactory.model.dto;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -18,6 +21,7 @@ public class TaskDto extends BaseDto {
   private String name;
 
   @NotNull
+  @Max(value = 255, message = "El campo descripcion tiene un limite de 255 caracteres")
   private String description;
 
   @NotNull
@@ -43,4 +47,8 @@ public class TaskDto extends BaseDto {
   private List<CommentDto> comments;
 
   private List<WorkLogDto> workLogs;
+
+  @JsonIgnore
+  private ProductionOrderDTO order;
+
 }
