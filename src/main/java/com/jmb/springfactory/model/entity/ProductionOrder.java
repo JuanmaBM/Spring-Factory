@@ -15,6 +15,9 @@ import lombok.NoArgsConstructor;
 public class ProductionOrder extends BaseEntity {
 
   private String name;
+
   private String description;
+
   private Measurements measurements;
+
 }
