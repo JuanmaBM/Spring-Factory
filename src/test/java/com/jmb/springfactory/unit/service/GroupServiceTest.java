@@ -56,12 +56,12 @@ public class GroupServiceTest {
   public void whenCreateGroupShouldInvokeValidateAndThenSaveMethod() throws ServiceLayerException,
     PersistenceLayerException {
     
-    doNothing().when(groupValidatorService).validate(newGroupDto);
+    doNothing().when(groupValidatorService).validateOnCreate(newGroupDto);
     when(groupMongoService.save(newGroup)).thenReturn(newGroup);
     
     groupService.save(newGroupDto);
     
-    verify(groupValidatorService).validate(newGroupDto);
+    verify(groupValidatorService).validateOnCreate(newGroupDto);
     verify(groupMongoService).save(newGroup);
   }
   
@@ -69,7 +69,7 @@ public class GroupServiceTest {
   public void whenCreateGroupAndAlreadyExistOneThenThrowValidationException() throws ServiceLayerException,
     PersistenceLayerException {
     
-    doThrow(ValidationException.class).when(groupValidatorService).validate(newGroupDto);
+    doThrow(ValidationException.class).when(groupValidatorService).validateOnCreate(newGroupDto);
     
     groupService.save(newGroupDto);
     

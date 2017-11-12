@@ -29,26 +29,17 @@ public class GroupValidatorService extends BaseService implements ValidatorServi
   private GroupMongoService groupMongoService;
 
   @Override
-  public void validate(Object object) {
+  public void validateOnCreate(Object object) {
     
     final WorkGroupDto group = (WorkGroupDto) object;
     
     serviceLog.info("Validating if any fields is empty");
     validateIfAnyFieldIsEmpty(group);
-    
-    validateOnlyOnCreate(group);
+
+    serviceLog.info("Validating if group already exists");
+    validateIfAlreadyExistGroup(group);
   }
 
-  private void validateOnlyOnCreate(final WorkGroupDto group) {
-    if (!exist(group.getId())) {
-
-      serviceLog.info("Validate on create specific rules");
-
-      serviceLog.info("Validating if group already exists");
-      validateIfAlreadyExistGroup(group);
-    }
-  }
-  
   private void validateIfAlreadyExistGroup(WorkGroupDto group) {
     
     final Boolean groupAlreadyExist = Optional.ofNullable(group)
@@ -79,6 +70,16 @@ public class GroupValidatorService extends BaseService implements ValidatorServi
     }
     
     throwValidationExceptionIfEmptyFieldIsNotEmpty(emptyFields, serviceLog);
+  }
+
+  @Override
+  public void validateOnUpdate(Object object) {
+    // There are not validation to update
+  }
+
+  @Override
+  public void validateOnDelete(Object object) {
+    // There are not validation to delete
   }
 
 }

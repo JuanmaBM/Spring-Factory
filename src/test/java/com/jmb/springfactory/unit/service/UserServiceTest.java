@@ -103,7 +103,7 @@ public class UserServiceTest {
     final User newUser = new User();
     
     when(userMongoService.save(newUser)).thenThrow(PersistenceException.class);
-    doThrow(ValidationException.class).when(validatorService).validate(newUser);
+    doThrow(ValidationException.class).when(validatorService).validateOnCreate(newUser);
 
     userService.save(newUserDto);
   }

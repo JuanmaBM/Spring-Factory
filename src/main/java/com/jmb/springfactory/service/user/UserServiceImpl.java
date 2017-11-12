@@ -54,14 +54,14 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDto, BusinessO
   
   @Override
   public UserDto save(UserDto userToSave) throws ServiceLayerException {
-    userValidatorService.validate(userToSave);
+    userValidatorService.validateOnCreate(userToSave);
     return super.save(userToSave);
   }
 
   @Override 
   public void update(UserDto userToUpdate, Integer id) throws ServiceLayerException {
     userToUpdate.setId(id);
-    userValidatorService.validate(userToUpdate);
+    userValidatorService.validateOnUpdate(userToUpdate);
     super.update(userToUpdate, id);
   }
 
