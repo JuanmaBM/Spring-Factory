@@ -38,6 +38,7 @@ public class TaskDto extends BaseDto {
   @NotNull
   private String priority;
 
+  @NotNull
   private UserDto creator;
 
   private String reasonRejection;

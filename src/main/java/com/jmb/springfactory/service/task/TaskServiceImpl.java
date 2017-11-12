@@ -1,6 +1,7 @@
 package com.jmb.springfactory.service.task;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.jmb.springfactory.dao.GenericMySQLService;
@@ -13,6 +14,8 @@ import com.jmb.springfactory.model.dto.TaskDto;
 import com.jmb.springfactory.model.entity.Task;
 import com.jmb.springfactory.model.enumeration.TaskStatusEnum;
 import com.jmb.springfactory.service.GenericServiceImpl;
+import com.jmb.springfactory.service.ValidatorService;
+
 import static com.jmb.springfactory.service.UtilsService.notExist;
 import com.jmb.springfactory.service.productionorder.ProductionOrderService;
 
@@ -25,6 +28,10 @@ public class TaskServiceImpl extends GenericServiceImpl<Task, TaskDto, BusinessO
   
   @Autowired
   private ProductionOrderService productionOrderService;
+  
+  @Autowired
+  @Qualifier("TaskValidatorService")
+  private ValidatorService taskValidatorService;
 
   private static final String TASK_INITIAL_STATUS = TaskStatusEnum.OPENED.name();
 
@@ -46,6 +53,12 @@ public class TaskServiceImpl extends GenericServiceImpl<Task, TaskDto, BusinessO
   @Override
   public Class<? extends BusinessObjectBase> getBoClazz() {
     return BusinessObjectBase.class;
+  }
+  
+  @Override
+  public void update(TaskDto taskDto, Integer idTask) throws ServiceLayerException {
+    taskValidatorService.validate(taskDto);
+    super.update(taskDto, idTask);
   }
   
   @Override
