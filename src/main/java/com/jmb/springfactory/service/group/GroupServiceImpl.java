@@ -31,7 +31,7 @@ public class GroupServiceImpl extends GenericServiceImpl<WorkGroup, WorkGroupDto
   
   @Override 
   public WorkGroupDto save(WorkGroupDto group) throws ServiceLayerException {
-    groupValidatorService.validate(group);
+    groupValidatorService.validateOnCreate(group);
     return super.save(group);
   }
 

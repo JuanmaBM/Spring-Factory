@@ -30,29 +30,24 @@ public class UserValidatorService extends BaseService implements ValidatorServic
   @Autowired
   private UserMongoService userMongoService;
 
-  @Override
-  public void validate(Object object) {
-
-    final UserDto user = (UserDto) object;
+  public void validate(UserDto user) {
 
     serviceLog.info("Validating main fields of user");
     validateIfEmptyUser(user);
     
     serviceLog.info("Validating if user can be assigned into a group");
     validateIfUserCanBeAssignedIntoGroup(user);
-    
-    validateOnlyOnCreate(user);
   }
 
-  private void validateOnlyOnCreate(final UserDto user) {
+  @Override
+  public void validateOnCreate(Object object) {
     
-    if (!exist(user.getId())) {
+    final UserDto user = (UserDto) object;
 
-      serviceLog.info("Validate on create specific rules");
-
-      serviceLog.info("Validating if user already exists");
-      validateIfUserAlreadyExist(user);
-    }
+    serviceLog.info("Validating if user already exists");
+    validateIfUserAlreadyExist(user);
+    
+    validate(user);
   }
 
   /**
@@ -108,6 +103,17 @@ public class UserValidatorService extends BaseService implements ValidatorServic
     }
     
     throwValidationExceptionIfEmptyFieldIsNotEmpty(emptyFields, serviceLog);
+  }
+
+  @Override
+  public void validateOnUpdate(Object object) {
+    final UserDto user = (UserDto) object;
+    validate(user);
+  }
+
+  @Override
+  public void validateOnDelete(Object object) {
+    // There are not validation to delete an user
   }
 
 }
