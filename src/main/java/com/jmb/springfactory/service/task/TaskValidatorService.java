@@ -60,7 +60,7 @@ public class TaskValidatorService extends BaseService implements ValidatorServic
 
   @Override
   public void validateOnDelete(Object object) {
-    // TODO: para eliminar comprobar que es el mismo usuario
+    // There are not rules on delete task
   }
 
 }
