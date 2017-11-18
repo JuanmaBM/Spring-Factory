@@ -57,7 +57,7 @@ public class TaskServiceImpl extends GenericServiceImpl<Task, TaskDto, BusinessO
   
   @Override
   public void update(TaskDto taskDto, Integer idTask) throws ServiceLayerException {
-    taskValidatorService.validate(taskDto);
+    taskValidatorService.validateOnUpdate(taskDto);
     super.update(taskDto, idTask);
   }
   
@@ -67,6 +67,11 @@ public class TaskServiceImpl extends GenericServiceImpl<Task, TaskDto, BusinessO
     
     addInitialInformation(orderId, taskDto);
     return super.save(taskDto);
+  }
+  
+  @Override 
+  public void delete(Integer id) {
+    throw new UnsupportedOperationException();
   }
 
   /**
