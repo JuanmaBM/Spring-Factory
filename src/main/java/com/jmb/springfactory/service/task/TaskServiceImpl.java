@@ -20,6 +20,7 @@ import com.jmb.springfactory.service.ValidatorService;
 import static com.jmb.springfactory.service.UtilsService.notExist;
 
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import com.jmb.springfactory.service.productionorder.ProductionOrderService;
@@ -76,7 +77,18 @@ public class TaskServiceImpl extends GenericServiceImpl<Task, TaskDto, BusinessO
   
   @Override 
   public void delete(Integer id) {
-    throw new UnsupportedOperationException();
+    
+    final Consumer<Task> updateAsDeleted = task -> {
+       task.setStatus(TaskStatusEnum.DELETED); 
+       try {
+         taskMySQLService.save(task);
+       } catch (Exception e) {
+         serviceLog.error(String.format("A error has ocurred when update as DELETED the task [%s]", e.getMessage()));
+      }
+    };
+
+    serviceLog.info(String.format("Search task with id %s", id));
+    taskMySQLService.findOne(id).ifPresent(updateAsDeleted);
   }
 
   /**

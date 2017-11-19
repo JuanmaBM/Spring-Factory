@@ -35,7 +35,7 @@ public class TaskController {
   
   @DeleteMapping("/{id}")
   public void delete(@PathVariable("id") Integer id) {
-    throw new UnsupportedOperationException();
+    taskService.delete(id);
   }
 
   @PostMapping
