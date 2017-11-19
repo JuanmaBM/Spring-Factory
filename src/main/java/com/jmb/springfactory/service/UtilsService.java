@@ -1,7 +1,10 @@
 package com.jmb.springfactory.service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.ValidationException;
@@ -133,5 +136,14 @@ public final class UtilsService extends BaseService {
 
   public static void logUpdatedEntity(Object entity, Logger log) {
     log.info(String.format(THE_ENTITY_WAS_UPDATED_SUCCESFULLY, entity.toString()));
+  }
+  
+  /**
+   * Transform a Date to a LocalDate entity
+   * @param date
+   * @return
+   */
+  public static LocalDate dateToLocalDate(Date date) {
+    return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
   }
 }

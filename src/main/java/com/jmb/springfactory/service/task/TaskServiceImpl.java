@@ -10,6 +10,7 @@ import com.jmb.springfactory.exceptions.NotFoundException;
 import com.jmb.springfactory.exceptions.PersistenceLayerException;
 import com.jmb.springfactory.exceptions.ServiceLayerException;
 import com.jmb.springfactory.model.bo.BusinessObjectBase;
+import com.jmb.springfactory.model.bo.QueryTaskObject;
 import com.jmb.springfactory.model.dto.TaskDto;
 import com.jmb.springfactory.model.entity.Task;
 import com.jmb.springfactory.model.enumeration.TaskStatusEnum;
@@ -17,6 +18,10 @@ import com.jmb.springfactory.service.GenericServiceImpl;
 import com.jmb.springfactory.service.ValidatorService;
 
 import static com.jmb.springfactory.service.UtilsService.notExist;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.jmb.springfactory.service.productionorder.ProductionOrderService;
 
 @Service
@@ -111,6 +116,12 @@ public class TaskServiceImpl extends GenericServiceImpl<Task, TaskDto, BusinessO
         orderId, numberOrders, lastNumberOrder));
 
     return lastNumberOrder;
+  }
+
+  @Override
+  public List<TaskDto> findAll(QueryTaskObject queryParams) {
+    serviceLog.info(String.format("Search task with the follow arguments: %s", queryParams.toString()));
+    return taskMySQLService.findAll(queryParams).map(this::entityToDto).collect(Collectors.toList());
   }
 
 }

@@ -2,6 +2,7 @@ package com.jmb.springfactory.model.bo;
 
 import java.util.Date;
 
+import com.jmb.springfactory.model.enumeration.PriorityEnum;
 import com.jmb.springfactory.model.enumeration.TaskStatusEnum;
 
 import lombok.Builder;
@@ -15,6 +16,6 @@ public class QueryTaskObject {
   private TaskStatusEnum status;
   private Date startDate;
   private Date finishDate;
-  private String priority;
+  private PriorityEnum priority;
   private String creator;
 }
