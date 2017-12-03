@@ -40,7 +40,7 @@ public class TaskServiceImpl extends GenericServiceImpl<Task, TaskDto, BusinessO
   private ProductionOrderService productionOrderService;
   
   @Autowired
-  @Qualifier("TaskValidatorService")
+  @Qualifier("taskValidatorService")
   private ValidatorService taskValidatorService;
 
   private static final String TASK_INITIAL_STATUS = TaskStatusEnum.OPENED.name();

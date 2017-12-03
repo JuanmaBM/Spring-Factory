@@ -3,6 +3,7 @@ package com.jmb.springfactory.service.comment;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.jmb.springfactory.dao.GenericMySQLService;
@@ -13,6 +14,8 @@ import com.jmb.springfactory.model.dto.CommentDto;
 import com.jmb.springfactory.model.dto.TaskDto;
 import com.jmb.springfactory.model.entity.Comment;
 import com.jmb.springfactory.service.GenericServiceImpl;
+import com.jmb.springfactory.service.ValidatorService;
+
 import static com.jmb.springfactory.service.UtilsService.exist;
 import com.jmb.springfactory.service.task.TaskService;
 
@@ -24,7 +27,8 @@ public class CommentServiceImpl extends GenericServiceImpl<Comment, CommentDto, 
   private TaskService taskService;
   
   @Autowired
-  private CommentValidatorService commentValidatorService;
+  @Qualifier("commentValidatorService")
+  private ValidatorService commentValidatorService;
   
   @Override
   public GenericMySQLService<Comment, Integer> genericDao() {

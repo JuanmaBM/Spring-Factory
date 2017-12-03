@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.jmb.springfactory.dao.comment.CommentMySQLService;
@@ -17,6 +18,7 @@ import com.jmb.springfactory.model.entity.User;
 import com.jmb.springfactory.service.ValidatorService;
 
 @Service
+@Qualifier("commentValidatorService")
 public class CommentValidatorService implements ValidatorService {
   
   @Autowired

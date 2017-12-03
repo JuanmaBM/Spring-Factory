@@ -1,6 +1,7 @@
 package com.jmb.springfactory.service.task;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.jmb.springfactory.dao.task.TaskMySQLService;
@@ -19,6 +20,7 @@ import com.jmb.springfactory.service.BaseService;
 import com.jmb.springfactory.service.ValidatorService;
 
 @Service
+@Qualifier("taskValidatorService")
 public class TaskValidatorService extends BaseService implements ValidatorService {
 
   @Autowired

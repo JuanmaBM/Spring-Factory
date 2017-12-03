@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import com.jmb.springfactory.model.enumeration.PriorityEnum;
 import com.jmb.springfactory.model.enumeration.TaskStatusEnum;
@@ -16,6 +17,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
@@ -35,6 +37,7 @@ public class Task extends BaseEntity {
 
   private PriorityEnum priority;
 
+  @ManyToOne(fetch = FetchType.LAZY)
   private User creator;
 
   private String reasonRejection;
