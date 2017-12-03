@@ -1,5 +1,10 @@
 package com.jmb.springfactory.service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.ValidationException;
@@ -12,6 +17,8 @@ import com.jmb.springfactory.exceptions.NotFoundException;
 
 public final class UtilsService extends BaseService {
 
+  private static final String THE_ENTITY_WAS_CREATED_SUCCESFULLY = "The entity was created succesfully: %s";
+  private static final String THE_ENTITY_WAS_UPDATED_SUCCESFULLY = "The entity was updated succesfully: %s";
   private static final String VALIDATION_EXCEPTION_MESSAGE = "The %s fields must not be empty";
   
   /**
@@ -24,6 +31,24 @@ public final class UtilsService extends BaseService {
       throw new NotFoundException();
     }
   }
+
+  /**
+   * Add a new element into the list param if this exists, if not exists, create a new list and append the new element
+   * @param orders
+   * @param order
+   * @return
+   */
+  public static List<?> addIntoList(List<?> orders, Object order) {
+    
+    if (orders == null) {
+      return Arrays.asList(order);
+    }
+
+    final List<Object> copyOrders = new ArrayList<>(orders);
+    copyOrders.add(order);
+    
+    return copyOrders;
+  }
   
   /**
    * Shows by log the entities in the parameter list 
@@ -33,7 +58,7 @@ public final class UtilsService extends BaseService {
   public static void showEntitiesFoundInLog (List<?> list, Logger log) {
 
     log.info("Entities found:");
-    list.forEach(entity -> log.info(entity));
+    list.forEach(log::info);
   }
   
   /**
@@ -85,5 +110,40 @@ public final class UtilsService extends BaseService {
    */
   public static Boolean exist(Object obj) {
     return obj != null;
+  }
+  
+  /**
+   * Deny the parameter value 
+   * @param value
+   * @return
+   */
+  public static Boolean not(Boolean value) {
+    return exist(value) ? !value : false;
+  }
+  
+  /**
+   * Check if the object not exists
+   * @param obj
+   * @return
+   */
+  public static Boolean notExist(Object obj) {
+    return not(exist(obj));
+  }
+  
+  public static void logCreatedEntity(Object entity, Logger log) {
+    log.info(String.format(THE_ENTITY_WAS_CREATED_SUCCESFULLY, entity.toString()));
+  }
+
+  public static void logUpdatedEntity(Object entity, Logger log) {
+    log.info(String.format(THE_ENTITY_WAS_UPDATED_SUCCESFULLY, entity.toString()));
+  }
+  
+  /**
+   * Transform a Date to a LocalDate entity
+   * @param date
+   * @return
+   */
+  public static LocalDate dateToLocalDate(Date date) {
+    return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
   }
 }

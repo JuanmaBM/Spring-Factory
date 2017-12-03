@@ -7,12 +7,12 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.jmb.springfactory.dao.GenericMongoServiceImpl;
+import com.jmb.springfactory.dao.GenericMySQLServiceImpl;
 import com.jmb.springfactory.model.entity.WorkGroup;
 import com.jmb.springfactory.service.UtilsService;
 
 @Repository
-public class GroupMongoServiceImpl extends GenericMongoServiceImpl<WorkGroup, Integer> implements GroupMongoService {
+public class GroupMongoServiceImpl extends GenericMySQLServiceImpl<WorkGroup, Integer> implements GroupMongoService {
 
   @Autowired
   private GroupRepository groupRepository;
