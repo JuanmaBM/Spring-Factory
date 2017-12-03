@@ -29,6 +29,10 @@ public class WorkLogServiceImpl extends GenericServiceImpl<WorkLog, WorkLogDto, 
   @Autowired
   private TaskService taskService;
 
+  private Function<Integer, Optional<List<WorkLogDto>>> getWorkLogFromTask = idTask -> Optional.ofNullable(idTask)
+      .flatMap(taskService::findOneById)
+      .map(TaskDto::getWorkLogs);
+
   @Override
   public GenericMySQLService<WorkLog, Integer> genericDao() {
     return workLogMySQLService;
@@ -75,7 +79,4 @@ public class WorkLogServiceImpl extends GenericServiceImpl<WorkLog, WorkLogDto, 
         .orElse(new ArrayList<>());
   }
   
-  private Function<Integer, Optional<List<WorkLogDto>>> getWorkLogFromTask = idTask -> Optional.ofNullable(idTask)
-      .flatMap(taskService::findOneById)
-      .map(TaskDto::getWorkLogs);
 }

@@ -24,6 +24,19 @@ public class CommentValidatorService implements ValidatorService {
   @Autowired
   private CommentMySQLService commentMySQLService;
 
+  private Function<CommentDto, Integer> getIdAuthor = comment -> Optional.ofNullable(comment)
+      .map(CommentDto::getAuthor)
+      .map(UserDto::getId)
+      .orElse(null);
+  
+  private Predicate<CommentDto> isTheSameAuthor = comment -> Optional.ofNullable(comment)
+      .map(CommentDto::getId)
+      .flatMap(commentMySQLService::findOne)
+      .map(Comment::getAuthor)
+      .map(User::getId)
+      .map(idOriginalAuthor -> idOriginalAuthor.equals(getIdAuthor.apply(comment)))
+      .orElse(Boolean.FALSE);
+
   @Override
   public void validateOnCreate(Object object) {
     // Nothing to validate
@@ -42,18 +55,4 @@ public class CommentValidatorService implements ValidatorService {
   public void validateOnDelete(Object object) {
     // Nothing to validate
   }
-
-  private Function<CommentDto, Integer> getIdAuthor = comment -> Optional.ofNullable(comment)
-      .map(CommentDto::getAuthor)
-      .map(UserDto::getId)
-      .orElse(null);
-  
-  private Predicate<CommentDto> isTheSameAuthor = comment -> Optional.ofNullable(comment)
-      .map(CommentDto::getId)
-      .flatMap(commentMySQLService::findOne)
-      .map(Comment::getAuthor)
-      .map(User::getId)
-      .map(idOriginalAuthor -> idOriginalAuthor.equals(getIdAuthor.apply(comment)))
-      .orElse(Boolean.FALSE);
-      
 }

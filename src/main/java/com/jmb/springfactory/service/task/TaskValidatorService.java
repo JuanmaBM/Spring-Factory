@@ -26,6 +26,14 @@ public class TaskValidatorService extends BaseService implements ValidatorServic
   @Autowired
   private TaskMySQLService taskMySQLService;
   
+  private Predicate<TaskDto> creatorHasChanged = taskDto -> Optional.ofNullable(taskDto)
+      .map(TaskDto::getId)
+      .flatMap(taskMySQLService::findOne)
+      .map(Task::getCreator)
+      .map(User::getId)
+      .map(userId -> !userId.equals(taskDto.getCreator().getId()))
+      .orElse(Boolean.TRUE);
+
   @Override
   public void validateOnCreate(Object obj) {
     
@@ -36,13 +44,6 @@ public class TaskValidatorService extends BaseService implements ValidatorServic
   private void generalValidate(TaskDto taskDto) {
     throwValidationExceptionIfTaskIsNull(taskDto);
   }
-
-  final Predicate<TaskDto> creatorHasChanged = taskDto -> Optional.ofNullable(taskDto.getId())
-      .flatMap(taskMySQLService::findOne)
-      .map(Task::getCreator)
-      .map(User::getId)
-      .map(userId -> !userId.equals(taskDto.getCreator().getId()))
-      .orElse(Boolean.TRUE);
 
   private void throwValidationExceptionIfTaskIsNull(final TaskDto taskDto) {
     if (notExist(taskDto)) 
