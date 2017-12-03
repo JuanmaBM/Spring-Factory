@@ -2,6 +2,7 @@ package com.jmb.springfactory.service.comment;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.jmb.springfactory.dao.GenericMySQLService;
 import com.jmb.springfactory.dao.comment.CommentValidatorService;
@@ -15,6 +16,7 @@ import com.jmb.springfactory.service.GenericServiceImpl;
 import com.jmb.springfactory.service.UtilsService;
 import com.jmb.springfactory.service.task.TaskService;
 
+@Service
 public class CommentServiceImpl extends GenericServiceImpl<Comment, CommentDto, BusinessObjectBase, Integer> implements 
   CommentService {
 
