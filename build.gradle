@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '1.5.4.RELEASE'
+		springBootVersion = '1.5.7.RELEASE'
 	}
 	repositories {
 		mavenCentral()
@@ -10,10 +10,27 @@ buildscript {
 	}
 }
 
+plugins {
+  id "org.sonarqube" version "2.4"
+  id 'io.franzbecker.gradle-lombok' version '1.10'
+}
+
 apply plugin: 'java'
 apply plugin: 'eclipse-wtp'
 apply plugin: 'org.springframework.boot'
+apply plugin: "jacoco"
 apply plugin: 'war'
+
+sonarqube {
+    properties {
+        property 'Spring-Factory', 'Factory data management tool'
+    }
+}
+
+lombok { 
+	version = "1.16.4"
+	sha256 = "3ca225ce3917eac8bf4b7d2186845df4e70dcdede356dca8537b6d78a535c91e"
+}
 
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
@@ -27,9 +44,39 @@ configurations {
 }
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-data-mongodb')
+
+	compile group: 'org.modelmapper', name: 'modelmapper', version: '1.1.0'
+	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
+	compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5'
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '1.5.6.RELEASE'
+	
+
+	compile('mysql:mysql-connector-java')
 	compile('org.springframework.boot:spring-boot-starter-security')
 	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.boot:spring-boot-starter-aop')
 	providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
+	testCompile group: 'com.h2database', name: 'h2', version: '1.4.196'
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+sourceSets {
+  test {
+    java.srcDir 'src/test/java/unit'
+  }
+  integration {
+    java.srcDir 'src/test/java/integration'
+    compileClasspath += main.output + test.output
+    runtimeClasspath += main.output + test.output
+  }
+}
+
+configurations {
+  integrationCompile.extendsFrom testCompile
+  integrationRuntime.extendsFrom testRuntime
+}
+
+task integration(type: Test, description: 'Runs the integration tests.', group: 'Verification') {
+  testClassesDir = sourceSets.integration.output.classesDir
+  classpath = sourceSets.integration.runtimeClasspath
 }
