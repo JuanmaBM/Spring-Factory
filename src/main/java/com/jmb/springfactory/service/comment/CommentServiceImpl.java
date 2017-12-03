@@ -1,11 +1,11 @@
 package com.jmb.springfactory.service.comment;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jmb.springfactory.dao.GenericMySQLService;
-import com.jmb.springfactory.dao.comment.CommentValidatorService;
 import com.jmb.springfactory.exceptions.NotFoundException;
 import com.jmb.springfactory.exceptions.ServiceLayerException;
 import com.jmb.springfactory.model.bo.BusinessObjectBase;
@@ -13,7 +13,8 @@ import com.jmb.springfactory.model.dto.CommentDto;
 import com.jmb.springfactory.model.dto.TaskDto;
 import com.jmb.springfactory.model.entity.Comment;
 import com.jmb.springfactory.service.GenericServiceImpl;
-import com.jmb.springfactory.service.UtilsService;
+import static com.jmb.springfactory.service.UtilsService.exist;
+import static com.jmb.springfactory.service.UtilsService.addIntoList;
 import com.jmb.springfactory.service.task.TaskService;
 
 @Service
@@ -53,7 +54,7 @@ public class CommentServiceImpl extends GenericServiceImpl<Comment, CommentDto, 
     final CommentDto comment = super.save(commentDto);
     final TaskDto task = taskService.findOne(idTask);
     
-    task.setComments((List<CommentDto>)UtilsService.addIntoList(task.getComments(), comment));
+    task.setComments((List<CommentDto>)addIntoList(task.getComments(), comment));
     taskService.save(task);
     
     return comment;
@@ -64,6 +65,23 @@ public class CommentServiceImpl extends GenericServiceImpl<Comment, CommentDto, 
     commentDto.setId(id);
     commentValidatorService.validateOnUpdate(commentDto);
     super.update(commentDto, id);
+  }
+
+  @Override
+  public CommentDto findOne(Integer idTask, Integer id) throws NotFoundException {
+    final TaskDto task = taskService.findOne(idTask);
+    final List<CommentDto> taskComments = exist(task.getComments()) ? task.getComments() : new ArrayList<>(); 
+    
+    return taskComments.parallelStream()
+      .filter(comment -> comment.getId().equals(id))
+      .findFirst()
+      .orElseThrow(NotFoundException::new);
+  }
+
+  @Override
+  public List<CommentDto> findAll(Integer idTask) throws NotFoundException {
+    final TaskDto task = taskService.findOne(idTask);
+    return exist(task.getComments()) ? task.getComments() : new ArrayList<>(); 
   }
   
 }

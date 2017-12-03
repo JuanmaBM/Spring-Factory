@@ -1,4 +1,4 @@
-package com.jmb.springfactory.dao.comment;
+package com.jmb.springfactory.service.comment;
 
 import java.util.Optional;
 import java.util.function.Function;
@@ -9,6 +9,7 @@ import javax.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.jmb.springfactory.dao.comment.CommentMySQLService;
 import com.jmb.springfactory.model.dto.CommentDto;
 import com.jmb.springfactory.model.dto.UserDto;
 import com.jmb.springfactory.model.entity.Comment;
