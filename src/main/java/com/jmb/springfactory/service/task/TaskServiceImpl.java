@@ -11,15 +11,19 @@ import com.jmb.springfactory.exceptions.PersistenceLayerException;
 import com.jmb.springfactory.exceptions.ServiceLayerException;
 import com.jmb.springfactory.model.bo.BusinessObjectBase;
 import com.jmb.springfactory.model.bo.QueryTaskObject;
+import com.jmb.springfactory.model.dto.CommentDto;
 import com.jmb.springfactory.model.dto.TaskDto;
+import com.jmb.springfactory.model.dto.WorkLogDto;
 import com.jmb.springfactory.model.entity.Task;
 import com.jmb.springfactory.model.enumeration.TaskStatusEnum;
 import com.jmb.springfactory.service.GenericServiceImpl;
 import com.jmb.springfactory.service.ValidatorService;
 
 import static com.jmb.springfactory.service.UtilsService.notExist;
+import static com.jmb.springfactory.service.UtilsService.addIntoList;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -135,5 +139,28 @@ public class TaskServiceImpl extends GenericServiceImpl<Task, TaskDto, BusinessO
     serviceLog.info(String.format("Search task with the follow arguments: %s", queryParams.toString()));
     return taskMySQLService.findAll(queryParams).map(this::entityToDto).collect(Collectors.toList());
   }
+  
+  @SuppressWarnings("unchecked")
+  @Override
+  public void addComment(Integer idTask, CommentDto comment) throws NotFoundException, ServiceLayerException {
+    
+    final TaskDto task = findOne(idTask);
+    task.setComments((List<CommentDto>)addIntoList(task.getComments(), comment));
+    save(task);
+  }
 
+  @SuppressWarnings("unchecked")
+  @Override
+  public void addWorkLog(Integer idTask, WorkLogDto workLog) throws NotFoundException, ServiceLayerException {
+    
+    final TaskDto task = findOne(idTask);
+    task.setWorkLogs((List<WorkLogDto>)addIntoList(task.getWorkLogs(), workLog));
+    save(task);
+  }
+  
+  @Override
+  public Optional<TaskDto> findOneById(Integer id) {
+    return taskMySQLService.findOne(id).map(this::entityToDto);
+  }
+  
 }

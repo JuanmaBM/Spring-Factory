@@ -14,7 +14,6 @@ import com.jmb.springfactory.model.dto.TaskDto;
 import com.jmb.springfactory.model.entity.Comment;
 import com.jmb.springfactory.service.GenericServiceImpl;
 import static com.jmb.springfactory.service.UtilsService.exist;
-import static com.jmb.springfactory.service.UtilsService.addIntoList;
 import com.jmb.springfactory.service.task.TaskService;
 
 @Service
@@ -47,15 +46,11 @@ public class CommentServiceImpl extends GenericServiceImpl<Comment, CommentDto, 
     return BusinessObjectBase.class;
   }
   
-  @SuppressWarnings("unchecked")
   @Override
   public CommentDto save(Integer idTask, CommentDto commentDto) throws NotFoundException, ServiceLayerException {
     
     final CommentDto comment = super.save(commentDto);
-    final TaskDto task = taskService.findOne(idTask);
-    
-    task.setComments((List<CommentDto>)addIntoList(task.getComments(), comment));
-    taskService.save(task);
+    taskService.addComment(idTask, comment);
     
     return comment;
   }
