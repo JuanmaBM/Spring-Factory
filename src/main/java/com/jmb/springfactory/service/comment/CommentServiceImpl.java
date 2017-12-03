@@ -1,0 +1,67 @@
+package com.jmb.springfactory.service.comment;
+
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.jmb.springfactory.dao.GenericMySQLService;
+import com.jmb.springfactory.dao.comment.CommentValidatorService;
+import com.jmb.springfactory.exceptions.NotFoundException;
+import com.jmb.springfactory.exceptions.ServiceLayerException;
+import com.jmb.springfactory.model.bo.BusinessObjectBase;
+import com.jmb.springfactory.model.dto.CommentDto;
+import com.jmb.springfactory.model.dto.TaskDto;
+import com.jmb.springfactory.model.entity.Comment;
+import com.jmb.springfactory.service.GenericServiceImpl;
+import com.jmb.springfactory.service.UtilsService;
+import com.jmb.springfactory.service.task.TaskService;
+
+public class CommentServiceImpl extends GenericServiceImpl<Comment, CommentDto, BusinessObjectBase, Integer> implements 
+  CommentService {
+
+  @Autowired
+  private TaskService taskService;
+  
+  @Autowired
+  private CommentValidatorService commentValidatorService;
+  
+  @Override
+  public GenericMySQLService<Comment, Integer> genericDao() {
+    return null;
+  }
+
+  @Override
+  public Class<? extends Comment> getClazz() {
+    return Comment.class;
+  }
+
+  @Override
+  public Class<? extends CommentDto> getDtoClazz() {
+    return CommentDto.class;
+  }
+
+  @Override
+  public Class<? extends BusinessObjectBase> getBoClazz() {
+    return BusinessObjectBase.class;
+  }
+  
+  @SuppressWarnings("unchecked")
+  @Override
+  public CommentDto save(Integer idTask, CommentDto commentDto) throws NotFoundException, ServiceLayerException {
+    
+    final CommentDto comment = super.save(commentDto);
+    final TaskDto task = taskService.findOne(idTask);
+    
+    task.setComments((List<CommentDto>)UtilsService.addIntoList(task.getComments(), comment));
+    taskService.save(task);
+    
+    return comment;
+  }
+  
+  @Override
+  public void update(CommentDto commentDto, Integer id) throws ServiceLayerException {
+    commentDto.setId(id);
+    commentValidatorService.validateOnUpdate(commentDto);
+    super.update(commentDto, id);
+  }
+  
+}

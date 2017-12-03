@@ -38,7 +38,7 @@ public final class UtilsService extends BaseService {
    * @param order
    * @return
    */
-  public static List<?> addOrCreateIfNotExist(List<?> orders, Object order) {
+  public static List<?> addIntoList(List<?> orders, Object order) {
     
     if (orders == null) {
       return Arrays.asList(order);

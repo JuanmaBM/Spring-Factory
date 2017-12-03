@@ -82,7 +82,7 @@ public class ProductionOrderServiceImpl extends GenericServiceImpl<ProductionOrd
 
     final ProductionScheduleDto schedule = productionScheduleService.findOne(idSchedule);
 
-    schedule.setOrders((List<ProductionOrderDTO>) addOrCreateIfNotExist(schedule.getOrders(), order));
+    schedule.setOrders((List<ProductionOrderDTO>) addIntoList(schedule.getOrders(), order));
     productionScheduleService.update(schedule, idSchedule);
   }
 
