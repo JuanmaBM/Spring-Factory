@@ -1,5 +1,6 @@
 package com.jmb.springfactory.dao.user;
 
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,17 @@ public class UserMongoServiceImpl extends GenericMySQLServiceImpl<User, Integer>
     final Example<User> userByNifExample = Example.of(userWithNif, createMatcherContain("nif"));
 
     return userRepository.findAll(userByNifExample).stream();
+  }
+  
+  @Override
+  public Optional<User> findByNif(String nif) {
+
+    final User userWithNif = new User();
+    userWithNif.setNif(nif);
+    
+    final Example<User> userByNifExample = Example.of(userWithNif);
+    
+    return Optional.ofNullable(userRepository.findOne(userByNifExample));
   }
 
   @Override
