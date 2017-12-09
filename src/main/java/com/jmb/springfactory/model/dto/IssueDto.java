@@ -7,7 +7,9 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class IssueDto {
+public class IssueDto extends BaseDto {
+
+  private static final long serialVersionUID = 2454000008007887556L;
 
   private String name;
 
