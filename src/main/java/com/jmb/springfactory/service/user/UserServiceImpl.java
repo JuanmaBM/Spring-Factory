@@ -1,7 +1,9 @@
 package com.jmb.springfactory.service.user;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -52,6 +54,15 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDto, BusinessO
     return this.convertListEntityToListDto(usersFound);
   }
   
+  @Override
+  public Optional<UserDto> findByNif(String nif) {
+
+    serviceLog.info(String.format("Search user with nif %s", nif));
+    return Optional.ofNullable(nif)
+        .flatMap(userMongoService::findByNif)
+        .map(this::entityToDto);
+  }
+
   @Override
   public UserDto save(UserDto userToSave) throws ServiceLayerException {
     userValidatorService.validateOnCreate(userToSave);
