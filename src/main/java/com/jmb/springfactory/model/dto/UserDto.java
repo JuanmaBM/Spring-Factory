@@ -4,6 +4,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -20,6 +22,10 @@ public class UserDto extends BaseDto {
   @NotNull(message = "El campo nif no puede estar vacio")
   @Size(min = 9, max = 9, message = "El nif debe contener 9 caracteres")
   private String nif;
+  
+  @Size(min = 4)
+  @JsonIgnore
+  private String password;
 
   @NotNull(message = "El campo nombre no puede estar vacio")
   private String name;

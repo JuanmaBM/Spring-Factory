@@ -28,6 +28,8 @@ public class User extends BaseEntity{
 
   @NotNull
   private String name;
+  
+  private String password;
 
   @NotNull
   private String surname;
