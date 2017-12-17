@@ -23,7 +23,7 @@ import com.jmb.springfactory.service.ValidatorService;
 @Qualifier("userValidatorService")
 public class UserValidatorService extends BaseService implements ValidatorService {
 
-  private static final String PASSWORD_MUST_NOT_BE_EMPTY = "Password mustn't be empty";
+  private static final String PASS_WORD_MUST_NOT_BE_EMPTY = "Password mustn't be empty";
   private static final String VALIDATION_ASSIGN_USER_GROUP = "To assigns a user into a group, it must have a role";
   private static final String VALIDATION_DUPLICATED_USER_MESSAGE = "The user %s already exist";
   private static final String PHONE_NUMBER_FIELD = "phoneNumber";
@@ -61,7 +61,7 @@ public class UserValidatorService extends BaseService implements ValidatorServic
     Optional.ofNullable(user)
       .map(UserDto::getPassword)
       .filter(StringUtils::isNotBlank)
-      .orElseThrow(() -> new ValidationException(PASSWORD_MUST_NOT_BE_EMPTY));
+      .orElseThrow(() -> new ValidationException(PASS_WORD_MUST_NOT_BE_EMPTY));
   }
 
   /**
