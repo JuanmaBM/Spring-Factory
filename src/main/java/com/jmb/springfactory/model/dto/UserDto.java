@@ -4,7 +4,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -24,7 +25,7 @@ public class UserDto extends BaseDto {
   private String nif;
   
   @Size(min = 4)
-  @JsonIgnore
+  @JsonProperty(access = Access.WRITE_ONLY)
   private String password;
 
   @NotNull(message = "El campo nombre no puede estar vacio")

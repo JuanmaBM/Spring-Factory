@@ -1,5 +1,6 @@
 package com.jmb.springfactory.dao.rol;
 
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,14 +11,20 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import com.jmb.springfactory.dao.GenericMySQLServiceImpl;
+import com.jmb.springfactory.dao.permission.PermissionMySQLService;
 import com.jmb.springfactory.model.entity.Rol;
 import com.jmb.springfactory.model.factory.rol.RolFactory;
+
+import lombok.val;
 
 @Service
 public class RolMongoServiceImpl extends GenericMySQLServiceImpl<Rol, Integer> implements RolMongoService {
   
   @Autowired
   private RolRepository repository;
+  
+  @Autowired
+  private PermissionMySQLService permissionMySQLService;
 
   @Override
   public JpaRepository<Rol, Integer> getRepository() {
@@ -26,6 +33,15 @@ public class RolMongoServiceImpl extends GenericMySQLServiceImpl<Rol, Integer> i
   
   @Override
   public Rol save(Rol rol) {
+    
+    // Retrieve permission from BD to get hibernete proxy session
+    val permissions = rol.getPermissions().stream()
+//      .map(permission -> permissionMySQLService.findPermissionByName(permission.getName()))
+        .map(permission -> permissionMySQLService.findOne(permission.getId()))
+      .collect(Collectors.toList());        
+    
+    rol.setPermissions(permissions);
+
     return repository.save(rol);
   }
 
