@@ -36,8 +36,9 @@ public class RolMongoServiceImpl extends GenericMySQLServiceImpl<Rol, Integer> i
     
     // Retrieve permission from BD to get hibernete proxy session
     val permissions = rol.getPermissions().stream()
-//      .map(permission -> permissionMySQLService.findPermissionByName(permission.getName()))
-        .map(permission -> permissionMySQLService.findOne(permission.getId()))
+      .map(permission -> {
+        return permissionMySQLService.findPermissionByName(permission.getName()); 
+      })
       .collect(Collectors.toList());        
     
     rol.setPermissions(permissions);
@@ -49,7 +50,7 @@ public class RolMongoServiceImpl extends GenericMySQLServiceImpl<Rol, Integer> i
   public Stream<Rol> findByNameContain(String name) {
     final ExampleMatcher matcher = ExampleMatcher.matching()
         .withMatcher("name", GenericPropertyMatcher::contains);
-    final Example<Rol> rolByNameExample = Example.of(RolFactory.createRol(null, name), matcher);
+    final Example<Rol> rolByNameExample = Example.of(RolFactory.createRol(null, name, null), matcher);
 
     return repository.findAll(rolByNameExample).stream();
   }  
