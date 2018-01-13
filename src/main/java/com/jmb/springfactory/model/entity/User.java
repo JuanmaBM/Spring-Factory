@@ -41,7 +41,7 @@ public class User extends BaseEntity{
   @Pattern(regexp = VALIDATION_EMAIL_PATTERN, flags = Flag.CASE_INSENSITIVE)
   private String email;
   
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.EAGER)
   private Rol rol;
   
   @ManyToOne(fetch = FetchType.LAZY)

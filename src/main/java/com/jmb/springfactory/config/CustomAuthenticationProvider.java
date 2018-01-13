@@ -1,11 +1,12 @@
 package com.jmb.springfactory.config;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -43,21 +44,27 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
   private UsernamePasswordAuthenticationToken validateUserLogin(String userName, String password) {
     
     final Predicate<Optional<UserDto>> userPasswordIsTheSameLoginPassword = user ->
-      user.map(UserDto::getPassword).map(pass -> pass.equals(DigestUtils.sha1Hex(password))).orElse(Boolean.FALSE);
+      user.map(UserDto::getPassword).map(pass -> pass.equals(password)).orElse(Boolean.FALSE);
     
     val user = userService.findByNif(userName);
 
     if (userPasswordIsTheSameLoginPassword.test(user)) {
 
       val encryptPassword = user.map(UserDto::getPassword).orElse(StringUtils.EMPTY);
-      val rol = user.map(UserDto::getRol).map(RolDto::getName).orElse(StringUtils.EMPTY);
-      final List<SimpleGrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority(rol));
+      final List<SimpleGrantedAuthority> authorities = user.map(UserDto::getRol).map(getGrantedAuthoritiesFromRol)
+          .orElse(new ArrayList<>());
         
       return new UsernamePasswordAuthenticationToken(user.get(), encryptPassword, authorities);
     } else {
       throw new UsernameNotFoundException("The credentials introduced is not correct");
     }
   }
+  
+  final Function<RolDto, List<SimpleGrantedAuthority>> getGrantedAuthoritiesFromRol = rol ->
+    rol.getPermissions().parallelStream()
+      .map(p -> new SimpleGrantedAuthority(p.getName()))
+      .collect(Collectors.toList());
+        
 
   @Override
   public boolean supports(Class<?> authentication) {
