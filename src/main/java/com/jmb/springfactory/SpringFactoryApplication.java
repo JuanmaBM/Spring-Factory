@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 @EnableAspectJAutoProxy
 @EnableJpaRepositories
-@EnableAutoConfiguration(exclude = {SecurityAutoConfiguration.class})
+@EnableAutoConfiguration
 public class SpringFactoryApplication {
  
 	public static void main(String[] args) {
