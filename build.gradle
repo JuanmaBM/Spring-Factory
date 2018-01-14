@@ -60,6 +60,14 @@ dependencies {
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = false
+	xml.destination "${buildDir}/reports/jacoco/report.xml"
+    }
+}
+
 sourceSets {
   test {
     java.srcDir 'src/test/java/unit'
