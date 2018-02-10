@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.jmb.springfactory.dao.GenericMySQLServiceImpl;
+import com.jmb.springfactory.model.entity.Permission;
 import com.jmb.springfactory.model.entity.User;
 
 @Repository
@@ -50,6 +51,11 @@ public class UserMongoServiceImpl extends GenericMySQLServiceImpl<User, Integer>
     final Example<User> userByNifExample = Example.of(userWithNif);
     
     return Optional.ofNullable(userRepository.findOne(userByNifExample));
+  }
+  
+  @Override
+  public Stream<User> findByPermission(final Permission permission) {
+    return userRepository.findByRol_PermissionsIn(permission);
   }
 
   @Override

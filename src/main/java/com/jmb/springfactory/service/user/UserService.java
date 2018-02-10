@@ -14,4 +14,6 @@ public interface UserService extends GenericService<UserDto, Integer> {
   public List<UserDto> findByNameContain(String name) throws NotFoundException;
 
   public Optional<UserDto> findByNif(String nif); 
+
+  public List<UserDto> findIssueManagerUsers() throws NotFoundException;
 }
