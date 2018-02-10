@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.jmb.springfactory.dao.GenericMySQLService;
 import com.jmb.springfactory.dao.issue.IssueMySQLService;
+import com.jmb.springfactory.exceptions.NotFoundException;
 import com.jmb.springfactory.exceptions.ServiceLayerException;
 import com.jmb.springfactory.model.bo.BusinessObjectBase;
 import com.jmb.springfactory.model.dto.IssueDto;
@@ -49,10 +50,14 @@ public class IssueServiceImpl extends GenericServiceImpl<Issue, IssueDto, Busine
   }
 
   @Override
-  public IssueDto save(IssueDto issue, String userName) throws ServiceLayerException {
+  public IssueDto save(IssueDto issue, String userName) throws ServiceLayerException, NotFoundException {
 
     userService.findByNif(userName).ifPresent(issue::setReporter);
     issueValidatorService.validateOnCreate(issue);
+    
+    // Searchs a reviser and assigned the new issue
+    // FIXME: Searh the issue manager who have less opened issues
+    userService.findIssueManagerUsers().stream().findFirst().ifPresent(issue::setReviser);
 
     return save(issue);
   }
