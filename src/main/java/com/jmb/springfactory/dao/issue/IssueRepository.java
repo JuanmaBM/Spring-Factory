@@ -8,4 +8,5 @@ import com.jmb.springfactory.model.entity.Issue;
 @Repository
 public interface IssueRepository extends JpaRepository<Issue, Integer>{
 
+  public Long countByReviser_Nif(String nif);
 }

@@ -17,5 +17,10 @@ public class IssueMySQLServiceImpl extends GenericMySQLServiceImpl<Issue, Intege
   public JpaRepository<Issue, Integer> getRepository() {
     return issueRepository;
   }
+  
+  @Override
+  public Long countIssueByReviserNif(String nif) {
+    return issueRepository.countByReviser_Nif(nif);
+  }
 
 }

@@ -5,4 +5,5 @@ import com.jmb.springfactory.model.entity.Issue;
 
 public interface IssueMySQLService extends GenericMySQLService<Issue, Integer> {
 
+  public Long countIssueByReviserNif(String nif);
 }
