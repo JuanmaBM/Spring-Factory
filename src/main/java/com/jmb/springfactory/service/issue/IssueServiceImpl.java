@@ -68,6 +68,14 @@ public class IssueServiceImpl extends GenericServiceImpl<Issue, IssueDto, Busine
     return save(issue);
   }
   
+  @Override
+  public void update(IssueDto issue, Integer id, String userName) throws ServiceLayerException {
+    
+    userService.findByNif(userName).ifPresent(issue::setReporter);
+    issueValidatorService.validateOnUpdate(issue);
+    super.update(issue, id);
+  }
+  
   /**
    * Retrieve the user that has got less issues assigned
    * @return

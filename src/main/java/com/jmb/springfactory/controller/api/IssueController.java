@@ -19,7 +19,6 @@ import com.jmb.springfactory.exceptions.ServiceLayerException;
 import com.jmb.springfactory.model.dto.IssueDto;
 import com.jmb.springfactory.service.issue.IssueService;
 
-import lombok.val;
 
 @RestController
 @RequestMapping("/issue")
@@ -31,13 +30,13 @@ public class IssueController extends BaseController {
   @PostMapping
   public IssueDto create(Authentication ath, @Valid @RequestBody IssueDto dto)
       throws ServiceLayerException, NotFoundException {
-    final val username = super.getUserName(ath);
-    return issueService.save(dto, username);
+    return issueService.save(dto, super.getUserName(ath));
   }
 
   @PutMapping("/{id}")
-  public void update(@Valid @RequestBody IssueDto dto, @PathVariable("id") Integer id) throws ServiceLayerException {
-    issueService.update(dto, id);
+  public void update(Authentication ath, @Valid @RequestBody IssueDto dto, @PathVariable("id") Integer id)
+      throws ServiceLayerException {
+    issueService.update(dto, id, super.getUserName(ath));
   }
 
   @DeleteMapping("/{id}")

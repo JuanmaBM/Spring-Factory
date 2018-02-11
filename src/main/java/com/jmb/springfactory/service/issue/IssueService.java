@@ -8,5 +8,5 @@ import com.jmb.springfactory.service.GenericService;
 public interface IssueService extends GenericService<IssueDto, Integer> {
   
   public IssueDto save(IssueDto issue, String userName) throws ServiceLayerException, NotFoundException;
-
+  public void update(IssueDto issue, Integer id, String userName) throws ServiceLayerException;
 }
