@@ -29,7 +29,8 @@ public class IssueController extends BaseController {
   private IssueService issueService;
 
   @PostMapping
-  public IssueDto create(Authentication ath, @Valid @RequestBody IssueDto dto) throws ServiceLayerException {
+  public IssueDto create(Authentication ath, @Valid @RequestBody IssueDto dto)
+      throws ServiceLayerException, NotFoundException {
     final val username = super.getUserName(ath);
     return issueService.save(dto, username);
   }
