@@ -15,9 +15,13 @@ import com.jmb.springfactory.model.dto.PermisionDto;
 import com.jmb.springfactory.model.dto.RolDto;
 import com.jmb.springfactory.model.dto.UserDto;
 import com.jmb.springfactory.model.entity.Issue;
+import com.jmb.springfactory.model.entity.ValidatorObject;
 import com.jmb.springfactory.model.enumeration.PermissionsEnum;
 import com.jmb.springfactory.service.BaseService;
 import com.jmb.springfactory.service.ValidatorService;
+import com.jmb.springfactory.service.user.UserService;
+
+import lombok.val;
 
 @Service
 @Qualifier("issueValidatorService")
@@ -25,9 +29,12 @@ public class IssueValidatorService extends BaseService implements ValidatorServi
   
   @Autowired
   private IssueMySQLService issueMySQLService;
+  
+  @Autowired
+  private UserService userService;
 
-  private Predicate<IssueDto> reporterHasPermissionToManageIssues = issue -> Optional.ofNullable(issue)
-      .map(IssueDto::getReporter)
+  private Predicate<String> modifierUserHasPermissionToManageIssues = nif -> Optional.ofNullable(nif)
+      .flatMap(userService::findByNif)
       .map(UserDto::getRol)
       .map(RolDto::getPermissions)
       .map(permissions -> permissions.stream().map(PermisionDto::getName))
@@ -43,9 +50,11 @@ public class IssueValidatorService extends BaseService implements ValidatorServi
   @Override
   public void validateOnUpdate(Object object) {
 
-    final IssueDto issue = (IssueDto) object;
+    final val validatorObject = (ValidatorObject) object;
+    final val issue = (IssueDto) validatorObject.getEntity();
+    final val modifierUser = validatorObject.getModifierUser();
 
-    if (!reporterHasPermissionToManageIssues.test(issue)) {
+    if (!modifierUserHasPermissionToManageIssues.test(modifierUser)) {
 
       final Issue storedIssue = issueMySQLService.findOne(issue.getId())
           .orElseThrow(() -> new ValidationException("The issue not exists yet"));
@@ -59,11 +68,7 @@ public class IssueValidatorService extends BaseService implements ValidatorServi
 
   @Override
   public void validateOnDelete(Object object) {
-
-    final IssueDto issue = (IssueDto) object;
-    if (!reporterHasPermissionToManageIssues.test(issue)) {
-      throw new ValidationException("Only user with manages issue permission can created issues");
-    }
+    // There are not any rules to create
   }
 
 

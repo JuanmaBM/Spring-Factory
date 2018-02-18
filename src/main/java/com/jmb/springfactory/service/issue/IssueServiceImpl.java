@@ -17,6 +17,7 @@ import com.jmb.springfactory.model.bo.BusinessObjectBase;
 import com.jmb.springfactory.model.dto.IssueDto;
 import com.jmb.springfactory.model.dto.UserDto;
 import com.jmb.springfactory.model.entity.Issue;
+import com.jmb.springfactory.model.entity.ValidatorObject;
 import com.jmb.springfactory.service.GenericServiceImpl;
 import com.jmb.springfactory.service.ValidatorService;
 import com.jmb.springfactory.service.user.UserService;
@@ -62,7 +63,7 @@ public class IssueServiceImpl extends GenericServiceImpl<Issue, IssueDto, Busine
     // Although there are not any restrictions, we do the validation because maybe it could be created in the future
     issueValidatorService.validateOnCreate(issue);
     
-    // Searchs a reviser and assigned the new issue
+    // Searchs a reviser and assigned to the new issue
     findRevisorLessBusy().ifPresent(issue::setReviser);
 
     return save(issue);
@@ -71,8 +72,9 @@ public class IssueServiceImpl extends GenericServiceImpl<Issue, IssueDto, Busine
   @Override
   public void update(IssueDto issue, Integer id, String userName) throws ServiceLayerException {
     
-    userService.findByNif(userName).ifPresent(issue::setReporter);
-    issueValidatorService.validateOnUpdate(issue);
+    issue.setId(id);
+    issueValidatorService.validateOnUpdate(new ValidatorObject(issue, userName));
+
     super.update(issue, id);
   }
   
@@ -83,6 +85,7 @@ public class IssueServiceImpl extends GenericServiceImpl<Issue, IssueDto, Busine
    */
   private Optional<UserDto> findRevisorLessBusy() throws NotFoundException {
     
+    // FIXME: Do the agrupation in the repository to reduce the complexity
     return userService.findIssueManagerUsers().stream()
        // Collects the users list into a map which the key is the user and the value is the number of issues that the 
        // user has got assigned
