@@ -19,6 +19,6 @@ public class Rol extends BaseEntity {
 
   private String name;
 
-  @ManyToMany(fetch = FetchType.EAGER)
+  @ManyToMany(fetch = FetchType.LAZY)
   private List<Permission> permissions;
 }
