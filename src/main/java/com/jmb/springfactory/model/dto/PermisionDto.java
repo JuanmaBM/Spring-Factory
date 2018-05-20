@@ -7,7 +7,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class PermisionDto extends BaseDto {
 
-  private static final long serialVersionUID = -3597965386587437015L;
-  private Integer id;
-  private String name;
+    private static final long serialVersionUID = -3597965386587437015L;
+    private String name;
 }

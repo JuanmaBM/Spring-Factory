@@ -7,6 +7,9 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import javax.security.sasl.AuthenticationException;
+
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -24,51 +27,49 @@ import lombok.val;
 
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
-  
-  @Autowired
-  private UserService userService;
 
-  @Override
-  public Authentication authenticate(Authentication authentication) {
-    
-    val username = Optional.ofNullable(authentication).map(Authentication::getName);
-    val password = Optional.ofNullable(authentication).map(Authentication::getCredentials).map(Object::toString);
-    
-    if (username.isPresent() && password.isPresent()) {
-      return validateUserLogin(username.get(), password.get());
+    @Autowired
+    private UserService userService;
+
+    @Override
+    public Authentication authenticate(Authentication authentication) {
+
+        val username = Optional.ofNullable(authentication).map(Authentication::getName);
+        val password = Optional.ofNullable(authentication).map(Authentication::getCredentials).map(Object::toString);
+
+        if (username.isPresent() && password.isPresent()) {
+            return validateUserLogin(username.get(), password.get());
+        }
+
+        throw new UsernameNotFoundException("Username and password must not be empty");
     }
 
-    throw new UsernameNotFoundException("Username and password must not be empty");
-  }
+    private UsernamePasswordAuthenticationToken validateUserLogin(String userName, String password) {
 
-  private UsernamePasswordAuthenticationToken validateUserLogin(String userName, String password) {
-    
-    final Predicate<Optional<UserDto>> userPasswordIsTheSameLoginPassword = user ->
-      user.map(UserDto::getPassword).map(pass -> pass.equals(password)).orElse(Boolean.FALSE);
-    
-    val user = userService.findByNif(userName);
+        final Optional<UserDto> user = userService.findByNif(userName);
+        val encryptPassword = Optional.ofNullable(password).map(DigestUtils::sha1Hex).orElse(StringUtils.EMPTY);
+        val userPasswordIsTheSameLoginPassword = user.map(UserDto::getPassword).map(encryptPassword::equals)
+                .orElse(Boolean.FALSE);
 
-    if (userPasswordIsTheSameLoginPassword.test(user)) {
+        if (user.isPresent() && userPasswordIsTheSameLoginPassword) {
 
-      val encryptPassword = user.map(UserDto::getPassword).orElse(StringUtils.EMPTY);
-      final List<SimpleGrantedAuthority> authorities = user.map(UserDto::getRol).map(getGrantedAuthoritiesFromRol)
-          .orElse(new ArrayList<>());
-        
-      return new UsernamePasswordAuthenticationToken(user.get(), encryptPassword, authorities);
-    } else {
-      throw new UsernameNotFoundException("The credentials introduced is not correct");
+            final List<SimpleGrantedAuthority> authorities = user.map(UserDto::getRol).map(getGrantedAuthoritiesFromRol)
+                    .orElse(new ArrayList<>());
+            val userAuthenticated = user.orElseThrow(
+                    () -> new UsernameNotFoundException("It cannot extracts the user from the body of request"));
+
+            return new UsernamePasswordAuthenticationToken(userAuthenticated, encryptPassword, authorities);
+        } else {
+            throw new UsernameNotFoundException("The credentials introduced is not correct");
+        }
     }
-  }
-  
-  final Function<RolDto, List<SimpleGrantedAuthority>> getGrantedAuthoritiesFromRol = rol ->
-    rol.getPermissions().parallelStream()
-      .map(p -> new SimpleGrantedAuthority(p.getName()))
-      .collect(Collectors.toList());
-        
 
-  @Override
-  public boolean supports(Class<?> authentication) {
-    return authentication.equals(UsernamePasswordAuthenticationToken.class);
-  }
+    final Function<RolDto, List<SimpleGrantedAuthority>> getGrantedAuthoritiesFromRol = rol -> rol.getPermissions()
+            .parallelStream().map(p -> new SimpleGrantedAuthority(p.getName())).collect(Collectors.toList());
+
+    @Override
+    public boolean supports(Class<?> authentication) {
+        return authentication.equals(UsernamePasswordAuthenticationToken.class);
+    }
 
 }
