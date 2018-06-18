@@ -38,7 +38,8 @@ public class UserDto extends BaseDto {
   @Size(min = 9, max = 9, message = "El campo telefeno debe contener 9 caracteres")
   private String phoneNumber;
 
-  @Pattern(regexp = VALIDATION_EMAIL_PATTERN)
+  // FIXME: Pattern not work corretly
+  //@Pattern(regexp = VALIDATION_EMAIL_PATTERN)
   private String email;
   
   private RolDto rol;

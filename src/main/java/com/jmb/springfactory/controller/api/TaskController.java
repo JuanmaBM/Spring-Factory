@@ -30,45 +30,47 @@ import com.jmb.springfactory.service.task.TaskService;
 @RequestMapping("/schedule/{idSchedule}/order/{idOrder}/task")
 public class TaskController {
 
-  @Autowired
-  private TaskService taskService;
-  
-  @DeleteMapping("/{id}")
-  public void delete(@PathVariable("id") Integer id) {
-    taskService.delete(id);
-  }
+    @Autowired
+    private TaskService taskService;
 
-  @PostMapping
-  public TaskDto create(@Valid @RequestBody TaskDto task, @PathVariable("idOrder") Integer orderId) 
-      throws ServiceLayerException, NotFoundException, PersistenceLayerException {
-    return taskService.save(orderId, task);
-  }
-  
-  @PutMapping
-  public void update(@Valid @RequestBody TaskDto task, @PathVariable("idOrder") Integer orderId,
-     @PathVariable("id") Integer taskId) throws ServiceLayerException {
-    taskService.update(task, taskId);
-  }
-  
-  @GetMapping("/{id}")
-  public TaskDto findOne(@PathVariable("id") Integer taskId) throws NotFoundException {
-    return taskService.findOne(taskId);
-  }
-  
-  @GetMapping
-  public List<TaskDto> findAll(@RequestParam(value = "name", required = false) String name,
-      @RequestParam(value = "status", required = false) String status,
-      @RequestParam(value = "startDate", required = false) Date startDate,
-      @RequestParam(value = "finishDate", required = false) Date finishDate,
-      @RequestParam(value = "priority", required = false) String priority,
-      @RequestParam(value = "creator", required = false) String creator) {
-    
-    final TaskStatusEnum taskStatus = exist(status) ? TaskStatusEnum.valueOf(status) : null;
-    final PriorityEnum taskPriority = exist(priority) ? PriorityEnum.valueOf(priority) : null;
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable("id") Integer id) {
+        taskService.delete(id);
+    }
 
-    final QueryTaskObject queryParams = QueryTaskObject.builder().name(name).startDate(startDate).finishDate(finishDate)
-        .creator(creator).priority(taskPriority).status(taskStatus).build();
+    @PostMapping
+    public TaskDto create(@Valid @RequestBody TaskDto task, @PathVariable("idOrder") Integer orderId)
+            throws ServiceLayerException, NotFoundException, PersistenceLayerException {
+        return taskService.save(orderId, task);
+    }
 
-    return taskService.findAll(queryParams);
-  }
+    @PutMapping
+    public void update(@Valid @RequestBody TaskDto task, @PathVariable("idOrder") Integer orderId,
+            @PathVariable("id") Integer taskId) throws ServiceLayerException {
+        taskService.update(task, taskId);
+    }
+
+    @GetMapping("/{id}")
+    public TaskDto findOne(@PathVariable("id") Integer taskId) throws NotFoundException {
+        return taskService.findOne(taskId);
+    }
+
+    @GetMapping
+    public List<TaskDto> findAll(@PathVariable("idSchedule") Integer scheduleId,
+            @PathVariable("idOrder") Integer orderId, @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "status", required = false) String status,
+            @RequestParam(value = "startDate", required = false) Date startDate,
+            @RequestParam(value = "finishDate", required = false) Date finishDate,
+            @RequestParam(value = "priority", required = false) String priority,
+            @RequestParam(value = "creator", required = false) String creator) {
+
+        final TaskStatusEnum taskStatus = exist(status) ? TaskStatusEnum.valueOf(status) : null;
+        final PriorityEnum taskPriority = exist(priority) ? PriorityEnum.valueOf(priority) : null;
+
+        final QueryTaskObject queryParams = QueryTaskObject.builder().name(name).startDate(startDate)
+                .finishDate(finishDate).creator(creator).priority(taskPriority).status(taskStatus).orderId(orderId)
+                .scheduleId(scheduleId).build();
+
+        return taskService.findAll(queryParams);
+    }
 }

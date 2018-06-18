@@ -2,6 +2,8 @@ package com.jmb.springfactory.controller;
 
 import java.util.Optional;
 
+import javax.validation.ValidationException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,7 +14,7 @@ import com.jmb.springfactory.exceptions.NotFoundException;
 import com.jmb.springfactory.exceptions.PersistenceLayerException;
 import com.jmb.springfactory.exceptions.ServiceLayerException;
 
-@ControllerAdvice(basePackages = "com.jmb.springfactory.controller")
+@ControllerAdvice(basePackages = "com.jmb.springfactory.controller.api")
 public class ControllerExceptionAdvicer {
   
   private static final  Integer INTERNAL_SERVER_ERROR_CODE = 500;
@@ -29,7 +31,7 @@ public class ControllerExceptionAdvicer {
   @ExceptionHandler(ServiceLayerException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ApiError serverError(ServiceLayerException e) {
-    return new ApiError(INTERNAL_SERVER_ERROR_CODE, e.getClass().getSimpleName().concat(getExceptionMessage(e)));
+    return new ApiError(422, e.getClass().getSimpleName().concat(getExceptionMessage(e)));
   }
 
   @ResponseBody
@@ -38,7 +40,14 @@ public class ControllerExceptionAdvicer {
   public ApiError notFound(NotFoundException e) {
     return new ApiError(NOT_FOUND_CODE, e.getClass().getSimpleName().concat(getExceptionMessage(e)));
   }
-  
+
+  @ResponseBody
+  @ExceptionHandler(ValidationException.class)
+  @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+  public ApiError validationError(ValidationException e) {
+    return new ApiError(422, e.getClass().getSimpleName().concat(getExceptionMessage(e)));
+  }
+
   private String getExceptionMessage(Exception exception) {
     return Optional.ofNullable(exception)
         .map(Exception::getMessage)

@@ -11,64 +11,71 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.jmb.springfactory.dao.GenericMySQLServiceImpl;
+import com.jmb.springfactory.dao.rol.RolMongoService;
+import com.jmb.springfactory.exceptions.PersistenceLayerException;
+import com.jmb.springfactory.model.entity.Rol;
 import com.jmb.springfactory.model.entity.User;
 
 @Repository
 public class UserMongoServiceImpl extends GenericMySQLServiceImpl<User, Integer> implements UserMongoService {
-  
-  @Autowired
-  private UserRepository userRepository;
 
-  @Override
-  public Stream<User> findByNameContain(String name) {
+    @Autowired
+    private UserRepository userRepository;
 
-    final User userWithName = new User();
-    userWithName.setName(name);
+    @Autowired
+    private RolMongoService rolMongoService;
 
-    final Example<User> userByNameExample = Example.of(userWithName, createMatcherContain("name"));
+    @Override
+    public Stream<User> findByNameContain(String name) {
 
-    return userRepository.findAll(userByNameExample).stream();
-  }
+        final User userWithName = new User();
+        userWithName.setName(name);
 
-  @Override
-  public Stream<User> findByNifContain(String nif) {
+        final Example<User> userByNameExample = Example.of(userWithName, createMatcherContain("name"));
 
-    final User userWithNif = new User();
-    userWithNif.setNif(nif);
-
-    final Example<User> userByNifExample = Example.of(userWithNif, createMatcherContain("nif"));
-
-    return userRepository.findAll(userByNifExample).stream();
-  }
-  
-  @Override
-  public Optional<User> findByNif(String nif) {
-
-    final User userWithNif = new User();
-    userWithNif.setNif(nif);
-    
-    final Example<User> userByNifExample = Example.of(userWithNif);
-    
-    return Optional.ofNullable(userRepository.findOne(userByNifExample));
-  }
-
-  @Override
-  public JpaRepository<User, Integer> getRepository() {
-    return userRepository;
-  }
-  
-  /**
-   * Create a example matcher to search a entity that contains the value in field propertyName 
-   * 
-   * @param propertyName
-   * @return
-   */
-  private ExampleMatcher createMatcherContain(String propertyName) {
-
-    if (propertyName == null) {
-      return null;
+        return userRepository.findAll(userByNameExample).stream();
     }
 
-    return ExampleMatcher.matching().withMatcher(propertyName, GenericPropertyMatcher::contains);
-  }
+    @Override
+    public Stream<User> findByNifContain(String nif) {
+
+        final User userWithNif = new User();
+        userWithNif.setNif(nif);
+
+        final Example<User> userByNifExample = Example.of(userWithNif, createMatcherContain("nif"));
+
+        return userRepository.findAll(userByNifExample).stream();
+    }
+
+    @Override
+    public Optional<User> findByNif(String nif) {
+
+        final User userWithNif = new User();
+        userWithNif.setNif(nif);
+
+        final Example<User> userByNifExample = Example.of(userWithNif);
+
+        return Optional.ofNullable(userRepository.findOne(userByNifExample));
+    }
+
+    @Override
+    public JpaRepository<User, Integer> getRepository() {
+        return userRepository;
+    }
+
+    /**
+     * Create a example matcher to search a entity that contains the value in
+     * field propertyName
+     * 
+     * @param propertyName
+     * @return
+     */
+    private ExampleMatcher createMatcherContain(String propertyName) {
+
+        if (propertyName == null) {
+            return null;
+        }
+
+        return ExampleMatcher.matching().withMatcher(propertyName, GenericPropertyMatcher::contains);
+    }
 }

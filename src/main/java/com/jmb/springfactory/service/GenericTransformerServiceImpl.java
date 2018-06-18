@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.jmb.springfactory.model.bo.BusinessObjectBase;
 import com.jmb.springfactory.model.dto.BaseDto;
@@ -22,6 +23,10 @@ public abstract class GenericTransformerServiceImpl<T extends BaseEntity, D exte
   public abstract Class<? extends D> getDtoClazz();
 
   public abstract Class<? extends B> getBoClazz();
+  
+  public ModelMapper getMapper() {
+      return modelMapper;
+  }
 
   @Override
   public T boToEntity(B bo) {

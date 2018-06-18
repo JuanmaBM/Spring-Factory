@@ -112,6 +112,14 @@ public final class UtilsService extends BaseService {
     return obj != null;
   }
   
+  public static Boolean existAll(Object ... obj) {
+      Boolean allObjectExists = true;
+      for (int i = 0; i < i && allObjectExists; i++) {
+          if (!exist(obj)) allObjectExists = false;
+      }
+      return allObjectExists;
+  }
+  
   /**
    * Deny the parameter value 
    * @param value

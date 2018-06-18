@@ -12,10 +12,12 @@ import lombok.Data;
 @Builder
 public class QueryTaskObject {
 
-  private String name;
-  private TaskStatusEnum status;
-  private Date startDate;
-  private Date finishDate;
-  private PriorityEnum priority;
-  private String creator;
+    private Integer scheduleId;
+    private Integer orderId;
+    private String name;
+    private TaskStatusEnum status;
+    private Date startDate;
+    private Date finishDate;
+    private PriorityEnum priority;
+    private String creator;
 }

@@ -18,9 +18,7 @@ public class CorsConfiguration {
         return new WebMvcConfigurerAdapter() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins(PRE).allowedMethods("PUT", "GET", "OPTIONS", "DELETE", "POST")
-                        .allowedHeaders("Cache-Control", "Pragma", "Origin", "Authorization", "Content-Type",
-                                "X-Requested-With");
+                registry.addMapping("/**").allowedOrigins(PRE).allowedMethods("PUT", "GET", "OPTIONS", "DELETE", "POST");
             }
         };
     }

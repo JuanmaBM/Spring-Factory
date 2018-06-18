@@ -122,12 +122,15 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDto, BusinessO
     }
 
     private void mapUserDetails(UserDto dto, User entity) {
-        entity.setEmail(dto.getEmail());
-        entity.setName(dto.getName());
-        entity.setNif(dto.getNif());
-        entity.setPassword(dto.getPassword());
-        entity.setPhoneNumber(dto.getPhoneNumber());
-        entity.setSurname(dto.getSurname());
+
+        if (UtilsService.exist(entity) && UtilsService.exist(dto)) {
+            entity.setEmail(dto.getEmail());
+            entity.setName(dto.getName());
+            entity.setNif(dto.getNif());
+            entity.setPassword(dto.getPassword());
+            entity.setPhoneNumber(dto.getPhoneNumber());
+            entity.setSurname(dto.getSurname());
+        }
     }
 
     @Override

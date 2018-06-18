@@ -21,7 +21,6 @@ public class TaskDto extends BaseDto {
   private String name;
 
   @NotNull
-  @Max(value = 255, message = "El campo descripcion tiene un limite de 255 caracteres")
   private String description;
 
   @NotNull
@@ -29,16 +28,13 @@ public class TaskDto extends BaseDto {
 
   private String status;
 
-  @NotNull
   private Date startDate;
 
-  @NotNull
   private Date finishDate;
 
   @NotNull
   private String priority;
 
-  @NotNull
   private UserDto creator;
 
   private String reasonRejection;

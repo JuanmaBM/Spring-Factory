@@ -58,12 +58,13 @@ public abstract class GenericServiceImpl<T extends BaseEntity, D extends BaseDto
   }
   
   private final Function<T, T> saveEntity = entity -> {        
+    T storedEntity = null;
     try {
-      return genericDao().save(entity);
+      storedEntity = genericDao().save(entity);
     } catch (PersistenceLayerException e) {
       serviceLog.error(String.format(DATABASE_ERROR_LOG, e.getMessage()));
     }
-    return null;
+    return storedEntity;
   };
 
 }

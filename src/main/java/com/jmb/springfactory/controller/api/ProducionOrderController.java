@@ -34,7 +34,7 @@ public class ProducionOrderController {
   @GetMapping("/{idOrder}")
   public ProductionOrderDTO findById(@PathVariable("idSchedule") Integer idSchedule, 
       @PathVariable("idOrder") Integer idOrder) throws NotFoundException {
-    return productionOrderService.findOneByIdInSchedule(idSchedule, idOrder);
+      return productionOrderService.findOne(idOrder);
   }
   
   @PostMapping
