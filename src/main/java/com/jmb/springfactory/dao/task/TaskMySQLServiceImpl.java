@@ -1,6 +1,8 @@
 package com.jmb.springfactory.dao.task;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -12,9 +14,17 @@ import com.jmb.springfactory.dao.GenericMySQLServiceImpl;
 import com.jmb.springfactory.dao.user.UserMongoService;
 import com.jmb.springfactory.exceptions.PersistenceLayerException;
 import com.jmb.springfactory.model.bo.QueryTaskObject;
+import com.jmb.springfactory.model.entity.ProductionOrder;
+import com.jmb.springfactory.model.entity.ProductionSchedule;
 import com.jmb.springfactory.model.entity.Task;
+import com.jmb.springfactory.service.UtilsService;
+
+import lombok.val;
+
 import static com.jmb.springfactory.service.UtilsService.*;
 
+import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 @Service
@@ -42,39 +52,32 @@ public class TaskMySQLServiceImpl extends GenericMySQLServiceImpl<Task, Integer>
 
     @Override
     public Stream<Task> findAll(QueryTaskObject queryParams) {
+        
+        final Function<Integer, ProductionOrder> buildOrderWithId = orderId -> {
+            val order = new ProductionOrder();
+            order.setId(queryParams.getOrderId());
+            return order;
+        };
 
+        final Optional<QueryTaskObject> params = Optional.ofNullable(queryParams);
         final ExampleMatcher matcher = ExampleMatcher.matching();
         final Task queryTask = new Task();
-
-        if (isNotBlank(queryParams.getName())) {
-            queryTask.setName(queryParams.getName());
-            matcher.withMatcher("name", GenericPropertyMatcher::contains);
-        }
-
-        if (exist(queryParams.getStatus())) {
-            queryTask.setStatus(queryParams.getStatus());
-        }
 
         if (exist(queryParams.getCreator())) {
             userMongoService.findByNameContain(queryParams.getCreator()).findFirst().ifPresent(queryTask::setCreator);
         }
 
-        if (exist(queryParams.getPriority())) {
-            queryTask.setPriority(queryParams.getPriority());
-        }
+        params.map(QueryTaskObject::getStatus).ifPresent(queryTask::setStatus);
+        params.map(QueryTaskObject::getPriority).ifPresent(queryTask::setPriority);
+        params.map(QueryTaskObject::getStartDate).map(UtilsService::dateToLocalDate).ifPresent(queryTask::setStartDate);
+        params.map(QueryTaskObject::getFinishDate).map(UtilsService::dateToLocalDate).ifPresent(queryTask::setFinishDate);
+        params.map(QueryTaskObject::getOrderId).map(buildOrderWithId).ifPresent(queryTask::setOrder);
 
-        if (exist(queryParams.getStartDate())) {
-            queryTask.setStartDate(dateToLocalDate(queryParams.getStartDate()));
-        }
-
-        if (exist(queryParams.getFinishDate())) {
-            queryTask.setFinishDate(dateToLocalDate(queryParams.getFinishDate()));
-        }
-
-        if (exist(queryParams.getOrderId())) {
-            queryTask.setOrder(order);
-        }
-
+        params.map(QueryTaskObject::getName).filter(StringUtils::isNotBlank).ifPresent(name -> {
+            queryTask.setName(name);
+            matcher.withMatcher("name", GenericPropertyMatcher::contains);
+        });
+        
         return taskRepository.findAll(Example.of(queryTask, matcher)).stream();
     }
 
