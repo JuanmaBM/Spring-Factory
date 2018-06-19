@@ -79,22 +79,6 @@ public class TaskServiceImpl extends GenericServiceImpl<Task, TaskDto, BusinessO
     return super.save(taskDto);
   }
   
-  @Override 
-  public void delete(Integer id) {
-    
-    final Consumer<Task> updateAsDeleted = task -> {
-       task.setStatus(TaskStatusEnum.DELETED); 
-       try {
-         taskMySQLService.save(task);
-       } catch (Exception e) {
-         serviceLog.error(String.format("A error has ocurred when update as DELETED the task [%s]", e.getMessage()));
-      }
-    };
-
-    serviceLog.info(String.format("Search task with id %s", id));
-    taskMySQLService.findOne(id).ifPresent(updateAsDeleted);
-  }
-
   /**
    * Add essential information to create a task
    * @param orderId
