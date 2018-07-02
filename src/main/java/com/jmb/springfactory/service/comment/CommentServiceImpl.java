@@ -1,6 +1,5 @@
 package com.jmb.springfactory.service.comment;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -17,21 +16,14 @@ import com.jmb.springfactory.exceptions.PersistenceLayerException;
 import com.jmb.springfactory.exceptions.ServiceLayerException;
 import com.jmb.springfactory.model.bo.BusinessObjectBase;
 import com.jmb.springfactory.model.dto.CommentDto;
-import com.jmb.springfactory.model.dto.TaskDto;
 import com.jmb.springfactory.model.entity.Comment;
 import com.jmb.springfactory.model.entity.Task;
 import com.jmb.springfactory.service.GenericServiceImpl;
 import com.jmb.springfactory.service.ValidatorService;
 
-import static com.jmb.springfactory.service.UtilsService.exist;
-import com.jmb.springfactory.service.task.TaskService;
-
 @Service
 public class CommentServiceImpl extends GenericServiceImpl<Comment, CommentDto, BusinessObjectBase, Integer>
         implements CommentService {
-
-    @Autowired
-    private TaskService taskService;
 
     @Autowired
     private TaskMySQLService taskMySQLService;

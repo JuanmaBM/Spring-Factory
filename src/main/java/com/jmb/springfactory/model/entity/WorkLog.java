@@ -2,6 +2,7 @@ package com.jmb.springfactory.model.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import lombok.Data;
@@ -18,4 +19,8 @@ public class WorkLog extends BaseEntity {
 
   @OneToOne(fetch = FetchType.LAZY)
   private Comment comment;
+  
+  @OneToMany
+  private Task task;
+
 }

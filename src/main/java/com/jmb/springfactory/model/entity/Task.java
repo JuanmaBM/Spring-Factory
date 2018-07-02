@@ -44,12 +44,6 @@ public class Task extends BaseEntity {
 
   private Integer orderNumber;
 
-  @OneToMany(fetch = FetchType.LAZY)
-  private List<Comment> comments;
-
-  @OneToMany(fetch = FetchType.LAZY)
-  private List<WorkLog> workLogs;
-  
   // TODO: cambiar por one to one
   @ManyToOne(fetch = FetchType.LAZY)
   private ProductionOrder order;
