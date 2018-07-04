@@ -1,6 +1,5 @@
 package com.jmb.springfactory.dao.productionorder;
 
-import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import com.jmb.springfactory.dao.GenericMySQLServiceImpl;
 import com.jmb.springfactory.dao.productionschedule.ProductionScheduleMySQLService;
 import com.jmb.springfactory.exceptions.NotFoundException;
 import com.jmb.springfactory.exceptions.PersistenceLayerException;
-import com.jmb.springfactory.model.dto.ProductionOrderDTO;
 import com.jmb.springfactory.model.entity.ProductionOrder;
 import com.jmb.springfactory.service.UtilsService;
 

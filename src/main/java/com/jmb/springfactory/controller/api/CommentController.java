@@ -33,9 +33,9 @@ public class CommentController {
   }
 
   @GetMapping("/{id}")
-  public CommentDto findOne(@PathVariable("idTask") Integer idTask, @PathVariable("id") Integer id)
+  public CommentDto findOne(@PathVariable("id") Integer id)
       throws NotFoundException {
-    return commentService.findOne(idTask, id);
+    return commentService.findOne(id);
   }
   
   @GetMapping

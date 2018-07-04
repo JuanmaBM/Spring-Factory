@@ -33,9 +33,9 @@ public class WorkLogController {
   }
 
   @GetMapping("/{id}")
-  public WorkLogDto findOne(@PathVariable("idTask") Integer idTask, @PathVariable("id") Integer id)
+  public WorkLogDto findOne(@PathVariable("id") Integer id)
       throws NotFoundException {
-    return workLogService.findOne(idTask, id);
+    return workLogService.findOne(id);
   }
   
   @GetMapping

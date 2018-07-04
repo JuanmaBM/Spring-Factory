@@ -1,6 +1,5 @@
 package com.jmb.springfactory.service.productionorder;
 
-import static com.jmb.springfactory.service.UtilsService.addIntoList;
 import static com.jmb.springfactory.service.UtilsService.logCreatedEntity;
 
 import java.util.List;
@@ -10,8 +9,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.jmb.springfactory.dao.GenericMySQLService;
 import com.jmb.springfactory.dao.productionorder.ProductionOrderMySQL;
 import com.jmb.springfactory.exceptions.NotFoundException;
@@ -19,9 +16,7 @@ import com.jmb.springfactory.exceptions.PersistenceLayerException;
 import com.jmb.springfactory.exceptions.ServiceLayerException;
 import com.jmb.springfactory.model.bo.BusinessObjectBase;
 import com.jmb.springfactory.model.dto.ProductionOrderDTO;
-import com.jmb.springfactory.model.dto.ProductionScheduleDto;
 import com.jmb.springfactory.model.entity.ProductionOrder;
-import com.jmb.springfactory.model.entity.ProductionSchedule;
 import com.jmb.springfactory.service.GenericServiceImpl;
 import com.jmb.springfactory.service.productionschedule.ProductionScheduleService;
 
