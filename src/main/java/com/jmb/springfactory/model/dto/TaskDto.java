@@ -3,7 +3,6 @@ package com.jmb.springfactory.model.dto;
 import java.util.Date;
 import java.util.List;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
