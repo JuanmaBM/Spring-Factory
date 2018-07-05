@@ -1,8 +1,11 @@
 package com.jmb.springfactory.controller.api;
 
 import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,18 +38,19 @@ public class ProductionScheduleController extends GenericController<ProductionSc
     @GetMapping
     public PageDto<ProductionScheduleDto> findAll(@RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "state", required = false) String state,
-            @RequestParam(value = "estimatedStartDate", required = false) @DateTimeFormat(pattern = "yyy-MM-dd") Date estimatedStartDate,
-            @RequestParam(value = "estimatedFinishDate", required = false) @DateTimeFormat(pattern = "yyy-MM-dd") Date estimatedFinishDate,
-            @RequestParam(value = "realStartDate", required = false) @DateTimeFormat(pattern = "yyy-MM-dd") Date realStartDate,
-            @RequestParam(value = "realFinishDate", required = false) @DateTimeFormat(pattern = "yyy-MM-dd") Date realFinishDate,
+            @RequestParam(value = "estimatedStartDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date estimatedStartDate,
+            @RequestParam(value = "estimatedFinishDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date estimatedFinishDate,
+            @RequestParam(value = "realStartDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date realStartDate,
+            @RequestParam(value = "realFinishDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date realFinishDate,
             @RequestParam(value = "page", required = false) Integer page, 
-            @RequestParam(value = "size", required = false) Integer size) { 
+            @RequestParam(value = "size", required = false) Integer size,
+            @RequestParam(value = "sort", required = false) List<String> sort) { 
 
         val stateEnum = UtilsService.exist(state) ? ProductionScheduleStateEnum.valueOf(state) : null;
         val parameterScheduleObject = QueryProductionScheduleObject.builder().estimatedFinishDate(estimatedFinishDate)
                 .estimatedStartDate(estimatedStartDate).realFinishDate(realFinishDate).realStartDate(realStartDate)
                 .name(name).state(stateEnum).build();
-        Pageable paginator = createPaginator(page, size);
+        Pageable paginator = createPaginator(page, size, sort);
 
         return productionScheduleService.findAll(parameterScheduleObject, paginator);
     }
