@@ -84,8 +84,8 @@ public abstract class GenericTransformerServiceImpl<T extends BaseEntity, D exte
         final Optional<Page<T>> maybePageEntity = Optional.ofNullable(pageEntity);
 
         maybePageEntity.map(Page::getContent).map(this::convertListEntityToListDto).ifPresent(pageDto::setList);
-        maybePageEntity.map(Page::getSize).ifPresent(pageDto::setSize);
         maybePageEntity.map(Page::getNumber).ifPresent(pageDto::setPage);
+        maybePageEntity.map(Page::getTotalPages).ifPresent(pageDto::setTotalPages);
 
         return pageDto;
     }

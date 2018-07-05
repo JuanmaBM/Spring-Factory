@@ -8,5 +8,5 @@ import lombok.Data;
 public class PageDto<T extends BaseDto> {
     private List<T> list;
     private Integer page;
-    private Integer size;
+    private Integer totalPages;
 }
