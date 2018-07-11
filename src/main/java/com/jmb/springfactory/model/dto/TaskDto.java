@@ -6,6 +6,8 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -46,5 +48,8 @@ public class TaskDto extends BaseDto {
 
   @JsonIgnore
   private ProductionOrderDTO order;
+  
+  @JsonProperty(access = Access.WRITE_ONLY)
+  private WorkGroupDto groupAssigned;
 
 }

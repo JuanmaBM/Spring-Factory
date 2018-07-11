@@ -57,8 +57,8 @@ public class TaskValidatorService extends BaseService implements ValidatorServic
     generalValidate(taskDto);
 
     serviceLog.info("Validating if create user has not changed");
-    if (creatorHasChanged.test(taskDto)) 
-      throw new ValidationException("The task creator cant be changed");
+    //if (creatorHasChanged.test(taskDto)) 
+      //throw new ValidationException("The task creator cant be changed");
   }
 
   @Override

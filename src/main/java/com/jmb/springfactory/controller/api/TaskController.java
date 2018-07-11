@@ -44,7 +44,7 @@ public class TaskController {
         return taskService.save(orderId, task);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public void update(@Valid @RequestBody TaskDto task, @PathVariable("idOrder") Integer orderId,
             @PathVariable("id") Integer taskId) throws ServiceLayerException {
         taskService.update(task, taskId);
@@ -62,14 +62,15 @@ public class TaskController {
             @RequestParam(value = "startDate", required = false) Date startDate,
             @RequestParam(value = "finishDate", required = false) Date finishDate,
             @RequestParam(value = "priority", required = false) String priority,
-            @RequestParam(value = "creator", required = false) String creator) {
+            @RequestParam(value = "creator", required = false) String creator,
+            @RequestParam(value = "group", required = false) Integer groupId) {
 
         final TaskStatusEnum taskStatus = exist(status) ? TaskStatusEnum.valueOf(status) : null;
         final PriorityEnum taskPriority = exist(priority) ? PriorityEnum.valueOf(priority) : null;
 
         final QueryTaskObject queryParams = QueryTaskObject.builder().name(name).startDate(startDate)
                 .finishDate(finishDate).creator(creator).priority(taskPriority).status(taskStatus).orderId(orderId)
-                .scheduleId(scheduleId).build();
+                .scheduleId(scheduleId).groupId(groupId).build();
 
         return taskService.findAll(queryParams);
     }

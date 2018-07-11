@@ -14,9 +14,11 @@ import com.jmb.springfactory.dao.GenericMySQLServiceImpl;
 import com.jmb.springfactory.dao.user.UserMongoService;
 import com.jmb.springfactory.exceptions.PersistenceLayerException;
 import com.jmb.springfactory.model.bo.QueryTaskObject;
+import com.jmb.springfactory.model.dto.WorkGroupDto;
 import com.jmb.springfactory.model.entity.ProductionOrder;
 import com.jmb.springfactory.model.entity.ProductionSchedule;
 import com.jmb.springfactory.model.entity.Task;
+import com.jmb.springfactory.model.entity.WorkGroup;
 import com.jmb.springfactory.service.UtilsService;
 
 import lombok.val;
@@ -58,6 +60,11 @@ public class TaskMySQLServiceImpl extends GenericMySQLServiceImpl<Task, Integer>
             order.setId(queryParams.getOrderId());
             return order;
         };
+        final Function<Integer, WorkGroup> buildGroupWithId = groupId -> {
+            val group = new WorkGroup();
+            group.setId(queryParams.getGroupId());
+            return group;
+        };
 
         final Optional<QueryTaskObject> params = Optional.ofNullable(queryParams);
         final ExampleMatcher matcher = ExampleMatcher.matching();
@@ -72,6 +79,7 @@ public class TaskMySQLServiceImpl extends GenericMySQLServiceImpl<Task, Integer>
         params.map(QueryTaskObject::getStartDate).map(UtilsService::dateToLocalDate).ifPresent(queryTask::setStartDate);
         params.map(QueryTaskObject::getFinishDate).map(UtilsService::dateToLocalDate).ifPresent(queryTask::setFinishDate);
         params.map(QueryTaskObject::getOrderId).map(buildOrderWithId).ifPresent(queryTask::setOrder);
+        params.map(QueryTaskObject::getGroupId).map(buildGroupWithId).ifPresent(queryTask::setGroupAssigned);
 
         params.map(QueryTaskObject::getName).filter(StringUtils::isNotBlank).ifPresent(name -> {
             queryTask.setName(name);
