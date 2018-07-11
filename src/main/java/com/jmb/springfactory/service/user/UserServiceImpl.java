@@ -94,7 +94,7 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDto, BusinessO
     @Override
     public User merge(UserDto dto, User entity) {
 
-        if (UtilsService.exist(dto) && UtilsService.exist(entity)) {
+        if (UtilsService.existAll(dto, entity)) {
             mapUserDetails(dto, entity);
             mapUserRolDetails(dto, entity);
             mapUserGroupDetails(dto, entity);

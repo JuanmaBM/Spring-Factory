@@ -17,6 +17,7 @@ import com.jmb.springfactory.exceptions.ServiceLayerException;
 import com.jmb.springfactory.model.bo.BusinessObjectBase;
 import com.jmb.springfactory.model.dto.ProductionOrderDTO;
 import com.jmb.springfactory.model.entity.ProductionOrder;
+import com.jmb.springfactory.model.enumeration.StatusEnum;
 import com.jmb.springfactory.service.GenericServiceImpl;
 import com.jmb.springfactory.service.productionschedule.ProductionScheduleService;
 
@@ -66,26 +67,29 @@ public class ProductionOrderServiceImpl
     public ProductionOrderDTO save(final ProductionOrderDTO order, Integer idSchedule)
             throws ServiceLayerException, NotFoundException {
 
-        final Function<ProductionOrder, ProductionOrder> saveOrderWithSchedule = orderEntity ->{
+        final Function<ProductionOrder, ProductionOrder> saveOrderWithSchedule = orderEntity -> {
             ProductionOrder storedEntity = null;
             try {
-              storedEntity = productionOrderMySQL.save(orderEntity, idSchedule);
+                storedEntity = productionOrderMySQL.save(orderEntity, idSchedule);
             } catch (PersistenceLayerException e) {
-              serviceLog.error(String.format("Database error: %s", e.getMessage()));
+                serviceLog.error(String.format("Database error: %s", e.getMessage()));
             } catch (NotFoundException e) {
                 serviceLog.error(String.format("Schedule with id %s not found", idSchedule));
             }
             return storedEntity;
         };
 
-        final ProductionOrderDTO newOrder = Optional.ofNullable(order)
-            .map(this::dtoToEntity)
-            .map(saveOrderWithSchedule)
-            .map(this::entityToDto)
-            .orElseThrow(ServiceLayerException::new);
+        final ProductionOrderDTO newOrder = Optional.ofNullable(order).map(this::dtoToEntity).map(saveOrderWithSchedule)
+                .map(this::entityToDto).orElseThrow(ServiceLayerException::new);
         logCreatedEntity(newOrder, serviceLog);
 
         return newOrder;
+    }
+
+    @Override
+    public List<ProductionOrderDTO> findAllByGroup(Integer idSchedule, Integer groupId, StatusEnum status) {
+        return productionOrderMySQL.findAllByScheduleIdAndGroupIdAndStatus(groupId, status).map(this::entityToDto)
+                .collect(Collectors.toList());
     }
 
 }

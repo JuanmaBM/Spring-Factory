@@ -13,7 +13,7 @@ import com.jmb.springfactory.model.bo.QueryProductionScheduleObject;
 import com.jmb.springfactory.model.dto.PageDto;
 import com.jmb.springfactory.model.dto.ProductionScheduleDto;
 import com.jmb.springfactory.model.entity.ProductionSchedule;
-import com.jmb.springfactory.model.enumeration.ProductionScheduleStateEnum;
+import com.jmb.springfactory.model.enumeration.StatusEnum;
 import com.jmb.springfactory.service.GenericServiceImpl;
 import lombok.val;
 
@@ -47,7 +47,7 @@ public class ProductionScheduleServiceImpl
 
     @Override
     public ProductionScheduleDto save(ProductionScheduleDto schedule) throws ServiceLayerException {
-        schedule.setState(ProductionScheduleStateEnum.OPEN.name());
+        schedule.setState(StatusEnum.OPEN.name());
         return super.save(schedule);
     }
 

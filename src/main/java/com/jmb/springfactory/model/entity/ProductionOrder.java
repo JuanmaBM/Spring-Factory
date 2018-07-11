@@ -1,10 +1,13 @@
 package com.jmb.springfactory.model.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 
 import com.jmb.springfactory.model.enumeration.Measurements;
+import com.jmb.springfactory.model.enumeration.StatusEnum;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,6 +28,7 @@ public class ProductionOrder extends BaseEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   private ProductionSchedule productionSchedule;
   
-  // TODO: Añadir estado
+  @Enumerated(EnumType.STRING)
+  private StatusEnum status;
 
 }

@@ -47,5 +47,8 @@ public class Task extends BaseEntity {
   // TODO: cambiar por one to one
   @ManyToOne(fetch = FetchType.LAZY)
   private ProductionOrder order;
+  
+  @ManyToOne(fetch = FetchType.LAZY)
+  private WorkGroup groupAssigned;
 
 }

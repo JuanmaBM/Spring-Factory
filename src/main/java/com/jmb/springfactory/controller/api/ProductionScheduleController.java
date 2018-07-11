@@ -16,7 +16,7 @@ import com.jmb.springfactory.controller.GenericController;
 import com.jmb.springfactory.model.bo.QueryProductionScheduleObject;
 import com.jmb.springfactory.model.dto.PageDto;
 import com.jmb.springfactory.model.dto.ProductionScheduleDto;
-import com.jmb.springfactory.model.enumeration.ProductionScheduleStateEnum;
+import com.jmb.springfactory.model.enumeration.StatusEnum;
 import com.jmb.springfactory.service.GenericService;
 import com.jmb.springfactory.service.UtilsService;
 import com.jmb.springfactory.service.productionschedule.ProductionScheduleService;
@@ -46,7 +46,7 @@ public class ProductionScheduleController extends GenericController<ProductionSc
             @RequestParam(value = "size", required = false) Integer size,
             @RequestParam(value = "sort", required = false) List<String> sort) { 
 
-        val stateEnum = UtilsService.exist(state) ? ProductionScheduleStateEnum.valueOf(state) : null;
+        val stateEnum = UtilsService.exist(state) ? StatusEnum.valueOf(state) : null;
         val parameterScheduleObject = QueryProductionScheduleObject.builder().estimatedFinishDate(estimatedFinishDate)
                 .estimatedStartDate(estimatedStartDate).realFinishDate(realFinishDate).realStartDate(realStartDate)
                 .name(name).state(stateEnum).build();

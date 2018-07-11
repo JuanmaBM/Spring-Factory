@@ -11,7 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.jmb.springfactory.model.enumeration.ProductionScheduleStateEnum;
+import com.jmb.springfactory.model.enumeration.StatusEnum;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -35,5 +35,5 @@ public class ProductionSchedule extends BaseEntity {
   private Date realFinishDate;
   
   @Enumerated(EnumType.STRING)
-  private ProductionScheduleStateEnum state;
+  private StatusEnum state;
 }
