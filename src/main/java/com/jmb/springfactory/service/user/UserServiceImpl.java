@@ -35,10 +35,10 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDto, BusinessO
 
     @Autowired
     private UserMongoService userMongoService;
-    
+
     @Autowired
     private RolMongoService rolMongoService;
-    
+
     @Autowired
     private GroupMongoService groupMongoService;
 
@@ -80,7 +80,8 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDto, BusinessO
     @Override
     public UserDto save(UserDto userToSave) throws ServiceLayerException {
         userValidatorService.validateOnCreate(userToSave);
-        userToSave.setPassword(DigestUtils.sha1Hex(userToSave.getPassword()));
+        Optional.ofNullable(userToSave).map(UserDto::getPassword).map(DigestUtils::sha1Hex)
+                .ifPresent(userToSave::setPassword);
         return super.save(userToSave);
     }
 
@@ -104,21 +105,23 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDto, BusinessO
     }
 
     private void mapUserGroupDetails(UserDto dto, User entity) {
-        
+
         final Optional<Integer> idGroupDto = Optional.ofNullable(dto).map(UserDto::getGroup).map(WorkGroupDto::getId);
         val storedGroupId = Optional.ofNullable(entity).map(User::getGroup).map(WorkGroup::getId).orElse(null);
         val areNotTheSameGroup = idGroupDto.isPresent() && !idGroupDto.get().equals(storedGroupId);
-        
-        if (areNotTheSameGroup) idGroupDto.flatMap(groupMongoService::findOne).ifPresent(entity::setGroup);
+
+        if (areNotTheSameGroup)
+            idGroupDto.flatMap(groupMongoService::findOne).ifPresent(entity::setGroup);
     }
 
     private void mapUserRolDetails(UserDto dto, User entity) {
-        
+
         final Optional<Integer> idRolDto = Optional.ofNullable(dto).map(UserDto::getRol).map(RolDto::getId);
         val idRolStored = Optional.ofNullable(entity).map(User::getRol).map(Rol::getId).orElse(null);
         val areNotTheSameRole = idRolDto.isPresent() && !idRolDto.get().equals(idRolStored);
-        
-        if (areNotTheSameRole) idRolDto.flatMap(rolMongoService::findOne).ifPresent(entity::setRol);
+
+        if (areNotTheSameRole)
+            idRolDto.flatMap(rolMongoService::findOne).ifPresent(entity::setRol);
     }
 
     private void mapUserDetails(UserDto dto, User entity) {
