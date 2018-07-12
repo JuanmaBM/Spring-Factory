@@ -1,6 +1,5 @@
 package com.jmb.springfactory.dao.task;
 
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +13,7 @@ import com.jmb.springfactory.dao.GenericMySQLServiceImpl;
 import com.jmb.springfactory.dao.user.UserMongoService;
 import com.jmb.springfactory.exceptions.PersistenceLayerException;
 import com.jmb.springfactory.model.bo.QueryTaskObject;
-import com.jmb.springfactory.model.dto.WorkGroupDto;
 import com.jmb.springfactory.model.entity.ProductionOrder;
-import com.jmb.springfactory.model.entity.ProductionSchedule;
 import com.jmb.springfactory.model.entity.Task;
 import com.jmb.springfactory.model.entity.WorkGroup;
 import com.jmb.springfactory.service.UtilsService;
@@ -56,12 +53,12 @@ public class TaskMySQLServiceImpl extends GenericMySQLServiceImpl<Task, Integer>
     public Stream<Task> findAll(QueryTaskObject queryParams) {
         
         final Function<Integer, ProductionOrder> buildOrderWithId = orderId -> {
-            val order = new ProductionOrder();
+            final ProductionOrder order = new ProductionOrder();
             order.setId(queryParams.getOrderId());
             return order;
         };
         final Function<Integer, WorkGroup> buildGroupWithId = groupId -> {
-            val group = new WorkGroup();
+            final WorkGroup group = new WorkGroup();
             group.setId(queryParams.getGroupId());
             return group;
         };
