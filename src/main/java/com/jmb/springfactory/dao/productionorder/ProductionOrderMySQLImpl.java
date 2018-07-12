@@ -1,8 +1,10 @@
 package com.jmb.springfactory.dao.productionorder;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +67,7 @@ public class ProductionOrderMySQLImpl extends GenericMySQLServiceImpl<Production
     public Stream<ProductionOrder> findAllByScheduleIdAndGroupIdAndStatus(final Integer groupId,
             final StatusEnum status) {
 
-        final Function<Integer, Stream<ProductionOrder>> findByGroupId = id -> Optional.ofNullable(id)
+        Function<Integer, Stream<ProductionOrder>> findByGroupId = id -> Optional.ofNullable(id)
                 .flatMap(groupMongoService::findOne).map(WorkGroup::getOrdersAssigned).map(List::stream)
                 .orElse(Stream.empty());
 
@@ -73,7 +75,7 @@ public class ProductionOrderMySQLImpl extends GenericMySQLServiceImpl<Production
                 .filter(order -> status.equals(order.getStatus()));
 
         if (UtilsService.exist(status)) {
-            findByGroupId.andThen(filterByStatus);
+            findByGroupId = findByGroupId.andThen(filterByStatus);
         }
 
         return findByGroupId.apply(groupId);

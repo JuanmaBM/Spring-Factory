@@ -108,10 +108,14 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDto, BusinessO
 
         final Optional<Integer> idGroupDto = Optional.ofNullable(dto).map(UserDto::getGroup).map(WorkGroupDto::getId);
         val storedGroupId = Optional.ofNullable(entity).map(User::getGroup).map(WorkGroup::getId).orElse(null);
-        val areNotTheSameGroup = idGroupDto.isPresent() && !idGroupDto.get().equals(storedGroupId);
+        val dtoHaveGroup = idGroupDto.isPresent();
+        val areNotTheSameGroup = dtoHaveGroup && !idGroupDto.get().equals(storedGroupId);
 
-        if (areNotTheSameGroup)
+        if (!dtoHaveGroup) {
+            entity.setGroup(null);
+        } else if (areNotTheSameGroup) {
             idGroupDto.flatMap(groupMongoService::findOne).ifPresent(entity::setGroup);
+        }
     }
 
     private void mapUserRolDetails(UserDto dto, User entity) {

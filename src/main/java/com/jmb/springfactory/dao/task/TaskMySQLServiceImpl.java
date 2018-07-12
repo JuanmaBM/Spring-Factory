@@ -18,8 +18,6 @@ import com.jmb.springfactory.model.entity.Task;
 import com.jmb.springfactory.model.entity.WorkGroup;
 import com.jmb.springfactory.service.UtilsService;
 
-import lombok.val;
-
 import static com.jmb.springfactory.service.UtilsService.*;
 
 import java.util.Optional;
