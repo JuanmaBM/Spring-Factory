@@ -14,12 +14,15 @@ import com.jmb.springfactory.model.bo.QueryTaskObject;
 import com.jmb.springfactory.model.dto.CommentDto;
 import com.jmb.springfactory.model.dto.ProductionOrderDTO;
 import com.jmb.springfactory.model.dto.TaskDto;
+import com.jmb.springfactory.model.dto.WorkGroupDto;
 import com.jmb.springfactory.model.dto.WorkLogDto;
 import com.jmb.springfactory.model.entity.Task;
+import com.jmb.springfactory.model.entity.WorkGroup;
 import com.jmb.springfactory.model.enumeration.TaskStatusEnum;
 import com.jmb.springfactory.service.GenericServiceImpl;
 import com.jmb.springfactory.service.UtilsService;
 import com.jmb.springfactory.service.ValidatorService;
+import com.jmb.springfactory.service.group.GroupService;
 
 import static com.jmb.springfactory.service.UtilsService.notExist;
 import static com.jmb.springfactory.service.UtilsService.addIntoList;
@@ -42,7 +45,10 @@ public class TaskServiceImpl extends GenericServiceImpl<Task, TaskDto, BusinessO
 
     @Autowired
     private ProductionOrderService productionOrderService;
-    
+
+    @Autowired
+    private GroupService groupService;
+
     @Autowired
     @Qualifier("taskValidatorService")
     private ValidatorService taskValidatorService;
@@ -157,16 +163,56 @@ public class TaskServiceImpl extends GenericServiceImpl<Task, TaskDto, BusinessO
     public Task merge(TaskDto dto, Task entity) {
 
         if (UtilsService.existAll(dto, entity)) {
-            ProductionOrderDTO orderDto = null;
-            try {
-                orderDto = productionOrderService.findOne(entity.getOrder().getId());
-            } catch (NotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            dto.setOrder(orderDto);
+            mergeProductionOrder(dto, entity);
+            mergeWorkGroup(dto, entity);
         }
-        
+
         return super.merge(dto, entity);
+    }
+
+    private void mergeWorkGroup(TaskDto dto, Task entity) {
+        Optional.ofNullable(entity).map(Task::getGroupAssigned).map(WorkGroup::getId).map(this::findGroupById)
+                .ifPresent(dto::setGroupAssigned);
+    }
+
+    private void mergeProductionOrder(TaskDto dto, Task entity) {
+        ProductionOrderDTO orderDto = null;
+        try {
+            if (UtilsService.exist(entity.getOrder())) {
+                orderDto = productionOrderService.findOne(entity.getOrder().getId());
+            }
+        } catch (NotFoundException e) {
+            serviceLog.warn(e.getMessage());
+        }
+        dto.setOrder(orderDto);
+    }
+
+    private WorkGroupDto findGroupById(Integer id) {
+        WorkGroupDto group = null;
+        try {
+            group = groupService.findOne(id);
+        } catch (NotFoundException e) {
+            serviceLog.error(e.getMessage());
+            group = null;
+        }
+        return group;
+    }
+
+    @Override
+    public TaskDto saveByGroup(TaskDto task, Integer groupId) throws NotFoundException, ServiceLayerException {
+
+        if (UtilsService.notExist(task)) {
+            serviceLog.error("Task must be present");
+            throw new ServiceLayerException("Task must be present");
+        }
+
+        serviceLog.info(String.format("Searching group with id %s", groupId));
+        final WorkGroupDto groupDto = Optional.ofNullable(groupId).map(this::findGroupById)
+                .orElseThrow(NotFoundException::new);
+
+        task.setGroupAssigned(groupDto);
+        task.setStatus(TaskStatusEnum.OPENED.name());
+
+        return this.save(task);
     }
 }

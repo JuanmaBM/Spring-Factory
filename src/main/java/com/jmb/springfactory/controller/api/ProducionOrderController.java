@@ -37,7 +37,7 @@ public class ProducionOrderController {
             @RequestParam(value = "status", required = false) String status) throws NotFoundException {
 
         if (UtilsService.exist(groupId)) {
-            val statusEnum = UtilsService.exist(status) ? StatusEnum.valueOf(status) : StatusEnum.OPEN;
+            val statusEnum = UtilsService.exist(status) ? StatusEnum.valueOf(status) : StatusEnum.IN_PROGRESS;
             return productionOrderService.findAllByGroup(idSchedule, groupId, statusEnum);
         }
 

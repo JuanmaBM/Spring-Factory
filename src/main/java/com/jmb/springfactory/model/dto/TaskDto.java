@@ -40,6 +40,8 @@ public class TaskDto extends BaseDto {
 
   private String reasonRejection;
 
+  private String blockedReason;
+
   private Integer orderNumber;
 
   private List<CommentDto> comments;

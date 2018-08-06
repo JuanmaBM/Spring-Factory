@@ -42,6 +42,8 @@ public class Task extends BaseEntity {
 
   private String reasonRejection;
 
+  private String blockedReason;
+
   private Integer orderNumber;
 
   // TODO: cambiar por one to one
