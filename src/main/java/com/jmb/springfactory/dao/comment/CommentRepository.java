@@ -11,5 +11,6 @@ import com.jmb.springfactory.model.entity.Comment;
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
 
     List<Comment> findByTask_Id(Integer idTask);
+    List<Comment> findByTask_IdAndGroup_Id(Integer idTask, Integer groupId);
 
 }

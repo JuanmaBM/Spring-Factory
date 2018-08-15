@@ -5,6 +5,9 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -29,8 +32,10 @@ public class TaskDto extends BaseDto {
 
   private String status;
 
+  @DateTimeFormat(iso = ISO.DATE_TIME)
   private Date startDate;
 
+  @DateTimeFormat(iso = ISO.DATE_TIME)
   private Date finishDate;
 
   @NotNull

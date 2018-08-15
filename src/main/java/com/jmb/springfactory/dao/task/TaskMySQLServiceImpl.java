@@ -16,8 +16,6 @@ import com.jmb.springfactory.model.bo.QueryTaskObject;
 import com.jmb.springfactory.model.entity.ProductionOrder;
 import com.jmb.springfactory.model.entity.Task;
 import com.jmb.springfactory.model.entity.WorkGroup;
-import com.jmb.springfactory.service.UtilsService;
-
 import static com.jmb.springfactory.service.UtilsService.*;
 
 import java.util.Optional;
@@ -71,8 +69,8 @@ public class TaskMySQLServiceImpl extends GenericMySQLServiceImpl<Task, Integer>
 
         params.map(QueryTaskObject::getStatus).ifPresent(queryTask::setStatus);
         params.map(QueryTaskObject::getPriority).ifPresent(queryTask::setPriority);
-        params.map(QueryTaskObject::getStartDate).map(UtilsService::dateToLocalDate).ifPresent(queryTask::setStartDate);
-        params.map(QueryTaskObject::getFinishDate).map(UtilsService::dateToLocalDate).ifPresent(queryTask::setFinishDate);
+        params.map(QueryTaskObject::getStartDate).ifPresent(queryTask::setStartDate);
+        params.map(QueryTaskObject::getFinishDate).ifPresent(queryTask::setFinishDate);
         params.map(QueryTaskObject::getOrderId).map(buildOrderWithId).ifPresent(queryTask::setOrder);
         params.map(QueryTaskObject::getGroupId).map(buildGroupWithId).ifPresent(queryTask::setGroupAssigned);
 

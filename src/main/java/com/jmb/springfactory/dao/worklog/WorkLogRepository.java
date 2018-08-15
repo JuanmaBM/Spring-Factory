@@ -11,5 +11,6 @@ import com.jmb.springfactory.model.entity.WorkLog;
 public interface WorkLogRepository extends JpaRepository<WorkLog, Integer> {
 
     List<WorkLog> findByTask_Id(Integer idTask);
+    List<WorkLog> findByTask_IdAndGroup_Id(Integer taskId, Integer groupId);
 
 }

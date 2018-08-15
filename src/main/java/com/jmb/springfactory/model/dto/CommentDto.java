@@ -2,11 +2,14 @@ package com.jmb.springfactory.model.dto;
 
 import java.util.Date;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,9 +22,11 @@ public class CommentDto extends BaseDto {
 
   @NotNull
   private UserDto author;
+  
+  private WorkGroupDto group;
 
   @NotNull
-  @Max(value = 255, message = "El campo comentario tiene un limite de 255 caracteres")
+  @Size(min = 4, max = 255, message = "El campo comentario tiene un limite de 255 caracteres")
   private String text;
 
   @DateTimeFormat(iso = ISO.DATE)
