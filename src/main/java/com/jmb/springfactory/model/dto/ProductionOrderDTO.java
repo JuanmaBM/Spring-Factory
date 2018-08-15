@@ -1,6 +1,11 @@
 package com.jmb.springfactory.model.dto;
 
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,8 +18,16 @@ public class ProductionOrderDTO extends BaseDto {
 
   @NotNull
   private String name;
+
   @NotNull
   private String description;
+
   @NotNull
   private String measurements;
+  
+  private String status;
+
+  @JsonProperty(access = Access.WRITE_ONLY)
+  private List<WorkGroupDto> groupsAssigned;
+
 }

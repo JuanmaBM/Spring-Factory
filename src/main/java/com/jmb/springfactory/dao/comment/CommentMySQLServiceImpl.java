@@ -24,4 +24,9 @@ public class CommentMySQLServiceImpl extends GenericMySQLServiceImpl<Comment, In
     public List<Comment> findByTask(final Integer idTask) {
         return commentRepository.findByTask_Id(idTask);
     }
+
+    @Override
+    public List<Comment> findByTaskAndGroup(Integer idTask, Integer groupId) {
+        return commentRepository.findByTask_IdAndGroup_Id(idTask, groupId);
+    }
 }

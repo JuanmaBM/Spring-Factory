@@ -1,6 +1,5 @@
 package com.jmb.springfactory.dao.task;
 
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +14,8 @@ import com.jmb.springfactory.dao.user.UserMongoService;
 import com.jmb.springfactory.exceptions.PersistenceLayerException;
 import com.jmb.springfactory.model.bo.QueryTaskObject;
 import com.jmb.springfactory.model.entity.ProductionOrder;
-import com.jmb.springfactory.model.entity.ProductionSchedule;
 import com.jmb.springfactory.model.entity.Task;
-import com.jmb.springfactory.service.UtilsService;
-
-import lombok.val;
-
+import com.jmb.springfactory.model.entity.WorkGroup;
 import static com.jmb.springfactory.service.UtilsService.*;
 
 import java.util.Optional;
@@ -54,9 +49,14 @@ public class TaskMySQLServiceImpl extends GenericMySQLServiceImpl<Task, Integer>
     public Stream<Task> findAll(QueryTaskObject queryParams) {
         
         final Function<Integer, ProductionOrder> buildOrderWithId = orderId -> {
-            val order = new ProductionOrder();
+            final ProductionOrder order = new ProductionOrder();
             order.setId(queryParams.getOrderId());
             return order;
+        };
+        final Function<Integer, WorkGroup> buildGroupWithId = groupId -> {
+            final WorkGroup group = new WorkGroup();
+            group.setId(queryParams.getGroupId());
+            return group;
         };
 
         final Optional<QueryTaskObject> params = Optional.ofNullable(queryParams);
@@ -69,9 +69,10 @@ public class TaskMySQLServiceImpl extends GenericMySQLServiceImpl<Task, Integer>
 
         params.map(QueryTaskObject::getStatus).ifPresent(queryTask::setStatus);
         params.map(QueryTaskObject::getPriority).ifPresent(queryTask::setPriority);
-        params.map(QueryTaskObject::getStartDate).map(UtilsService::dateToLocalDate).ifPresent(queryTask::setStartDate);
-        params.map(QueryTaskObject::getFinishDate).map(UtilsService::dateToLocalDate).ifPresent(queryTask::setFinishDate);
+        params.map(QueryTaskObject::getStartDate).ifPresent(queryTask::setStartDate);
+        params.map(QueryTaskObject::getFinishDate).ifPresent(queryTask::setFinishDate);
         params.map(QueryTaskObject::getOrderId).map(buildOrderWithId).ifPresent(queryTask::setOrder);
+        params.map(QueryTaskObject::getGroupId).map(buildGroupWithId).ifPresent(queryTask::setGroupAssigned);
 
         params.map(QueryTaskObject::getName).filter(StringUtils::isNotBlank).ifPresent(name -> {
             queryTask.setName(name);

@@ -3,6 +3,7 @@ package com.jmb.springfactory.service.comment;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -10,14 +11,21 @@ import org.springframework.stereotype.Service;
 
 import com.jmb.springfactory.dao.GenericMySQLService;
 import com.jmb.springfactory.dao.comment.CommentMySQLService;
+import com.jmb.springfactory.dao.group.GroupMongoService;
 import com.jmb.springfactory.dao.task.TaskMySQLService;
+import com.jmb.springfactory.dao.user.UserMongoService;
 import com.jmb.springfactory.exceptions.NotFoundException;
 import com.jmb.springfactory.exceptions.PersistenceLayerException;
 import com.jmb.springfactory.exceptions.ServiceLayerException;
 import com.jmb.springfactory.model.bo.BusinessObjectBase;
 import com.jmb.springfactory.model.dto.CommentDto;
+import com.jmb.springfactory.model.dto.UserDto;
+import com.jmb.springfactory.model.dto.WorkGroupDto;
+import com.jmb.springfactory.model.dto.WorkLogDto;
 import com.jmb.springfactory.model.entity.Comment;
 import com.jmb.springfactory.model.entity.Task;
+import com.jmb.springfactory.model.entity.User;
+import com.jmb.springfactory.model.entity.WorkGroup;
 import com.jmb.springfactory.service.GenericServiceImpl;
 import com.jmb.springfactory.service.ValidatorService;
 
@@ -32,12 +40,15 @@ public class CommentServiceImpl extends GenericServiceImpl<Comment, CommentDto, 
     private CommentMySQLService commentMySQLService;
 
     @Autowired
+    private UserMongoService userMongoService;
+
+    @Autowired
     @Qualifier("commentValidatorService")
     private ValidatorService commentValidatorService;
 
     @Override
     public GenericMySQLService<Comment, Integer> genericDao() {
-        return null;
+        return commentMySQLService;
     }
 
     @Override
@@ -64,6 +75,12 @@ public class CommentServiceImpl extends GenericServiceImpl<Comment, CommentDto, 
         final Comment comment = Optional.ofNullable(commentDto).map(super::dtoToEntity).orElseThrow(
                 () -> new ServiceLayerException("A mapping error happened when trying map comment dto to entity"));
 
+        final User user = Optional.ofNullable(commentDto).map(CommentDto::getAuthor).map(UserDto::getNif)
+                .flatMap(userMongoService::findByNif)
+                .orElseThrow(() -> new ServiceLayerException("The author of comment not exists"));
+
+        comment.setGroup(user.getGroup());
+        comment.setAuthor(user);
         comment.setTask(task);
 
         return Optional.ofNullable(comment).map(this::saveComment).map(super::entityToDto)
@@ -91,6 +108,12 @@ public class CommentServiceImpl extends GenericServiceImpl<Comment, CommentDto, 
     public List<CommentDto> findAll(Integer idTask) throws NotFoundException {
         return Optional.ofNullable(idTask).map(commentMySQLService::findByTask).map(super::convertListEntityToListDto)
                 .orElse(Collections.emptyList());
+    }
+
+    @Override
+    public List<CommentDto> findByGroupId(Integer idTask, Integer groupId) {
+        return commentMySQLService.findByTaskAndGroup(idTask, groupId).stream().map(this::entityToDto)
+                .collect(Collectors.toList());
     }
 
 }

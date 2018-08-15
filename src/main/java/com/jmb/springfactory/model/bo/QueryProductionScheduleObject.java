@@ -2,7 +2,7 @@ package com.jmb.springfactory.model.bo;
 
 import java.util.Date;
 
-import com.jmb.springfactory.model.enumeration.ProductionScheduleStateEnum;
+import com.jmb.springfactory.model.enumeration.StatusEnum;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -18,7 +18,7 @@ public class QueryProductionScheduleObject {
   private Date estimatedFinishDate;
   private Date realStartDate;
   private Date realFinishDate;
-  private ProductionScheduleStateEnum state;
+  private StatusEnum state;
   
   public Boolean isEmpty() {
       return name == null && estimatedStartDate == null && estimatedFinishDate == null 

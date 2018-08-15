@@ -14,6 +14,7 @@ public class QueryTaskObject {
 
     private Integer scheduleId;
     private Integer orderId;
+    private Integer groupId;
     private String name;
     private TaskStatusEnum status;
     private Date startDate;

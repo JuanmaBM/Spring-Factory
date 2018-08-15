@@ -13,5 +13,10 @@ public class WorkLogDto extends BaseDto {
 
   @NotNull
   private Double hoursWorked;
-  private CommentDto comment;
+  @NotNull
+  private String description;
+  
+  private WorkGroupDto group;
+  
+  private UserDto author;
 }
