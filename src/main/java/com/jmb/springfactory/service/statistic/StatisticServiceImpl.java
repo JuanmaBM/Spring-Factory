@@ -78,7 +78,7 @@ public class StatisticServiceImpl extends BaseService implements StatisticServic
 
         final Function<Task, SimpleEntry<String, Long>> countCommentByTask = task -> {
             final Long numberOfComments = commentMySQLService.countByTask(task.getId());
-            return new SimpleEntry<String, Long>(task.getName(), numberOfComments);
+            return new SimpleEntry<>(task.getName(), numberOfComments);
         };
 
         return tasks.stream().map(countCommentByTask)
@@ -89,7 +89,7 @@ public class StatisticServiceImpl extends BaseService implements StatisticServic
 
         return groupMongoService.findAll().map(group -> {
             final Long numberOfTasks = taskMySQLService.countByGroupId(group.getId());
-            return new SimpleEntry<String, Long>(group.getName(), numberOfTasks);
+            return new SimpleEntry<>(group.getName(), numberOfTasks);
         }).collect(Collectors.toMap(SimpleEntry::getKey, SimpleEntry::getValue));
     }
 
