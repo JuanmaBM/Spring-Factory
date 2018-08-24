@@ -115,5 +115,10 @@ public class CommentServiceImpl extends GenericServiceImpl<Comment, CommentDto, 
         return commentMySQLService.findByTaskAndGroup(idTask, groupId).stream().map(this::entityToDto)
                 .collect(Collectors.toList());
     }
+    
+    @Override
+    public Long countByTask(final Integer taskId) {
+        return Optional.ofNullable(taskId).map(commentMySQLService::countByTask).orElse(0L);
+    }
 
 }

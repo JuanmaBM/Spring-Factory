@@ -9,5 +9,6 @@ import com.jmb.springfactory.model.entity.Task;
 public interface TaskRepository extends JpaRepository<Task, Integer> {
 
   public long countByOrder_Id(Integer orderId);
+  public long countByGroupAssigned_Id(Integer groupId);
 
 }

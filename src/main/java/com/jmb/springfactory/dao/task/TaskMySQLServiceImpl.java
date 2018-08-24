@@ -46,6 +46,12 @@ public class TaskMySQLServiceImpl extends GenericMySQLServiceImpl<Task, Integer>
     }
 
     @Override
+    public Long countByGroupId(Integer groupId) {
+
+        return taskRepository.countByGroupAssigned_Id(groupId);
+    }
+
+    @Override
     public Stream<Task> findAll(QueryTaskObject queryParams) {
         
         final Function<Integer, ProductionOrder> buildOrderWithId = orderId -> {

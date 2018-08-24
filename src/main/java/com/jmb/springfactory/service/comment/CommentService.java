@@ -14,4 +14,6 @@ public interface CommentService extends GenericService<CommentDto, Integer> {
     public List<CommentDto> findAll(Integer idTask) throws NotFoundException;
 
     public List<CommentDto> findByGroupId(Integer idTask, Integer groupId);
+
+    Long countByTask(Integer taskId);
 }
