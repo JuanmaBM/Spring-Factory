@@ -12,5 +12,7 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
 
     List<Comment> findByTask_Id(Integer idTask);
     List<Comment> findByTask_IdAndGroup_Id(Integer idTask, Integer groupId);
+    Long countByTask_Id(Integer taskId);
+    Long countByGroup_Id(Integer groupId);
 
 }

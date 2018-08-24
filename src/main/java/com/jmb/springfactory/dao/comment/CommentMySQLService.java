@@ -12,4 +12,8 @@ public interface CommentMySQLService extends GenericMySQLService<Comment, Intege
 
     List<Comment> findByTaskAndGroup(Integer idTask, Integer groupId);
 
+    Long countByTask(Integer taskId);
+
+    Long countByGroup(Integer groupId);
+
 }

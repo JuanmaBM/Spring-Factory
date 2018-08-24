@@ -9,6 +9,9 @@ import com.jmb.springfactory.model.entity.Task;
 
 public interface TaskMySQLService extends GenericMySQLService<Task, Integer> {
 
-  public Long countByOrderId(Integer orderId) throws PersistenceLayerException;
-  public Stream<Task> findAll(QueryTaskObject queryParams);
+    Long countByOrderId(Integer orderId) throws PersistenceLayerException;
+
+    Stream<Task> findAll(QueryTaskObject queryParams);
+
+    Long countByGroupId(Integer groupId);
 }

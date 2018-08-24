@@ -29,4 +29,14 @@ public class CommentMySQLServiceImpl extends GenericMySQLServiceImpl<Comment, In
     public List<Comment> findByTaskAndGroup(Integer idTask, Integer groupId) {
         return commentRepository.findByTask_IdAndGroup_Id(idTask, groupId);
     }
+    
+    @Override
+    public Long countByTask(final Integer taskId) {
+        return commentRepository.countByTask_Id(taskId);
+    }
+
+    @Override
+    public Long countByGroup(final Integer groupId) {
+        return commentRepository.countByGroup_Id(groupId);
+    }
 }
