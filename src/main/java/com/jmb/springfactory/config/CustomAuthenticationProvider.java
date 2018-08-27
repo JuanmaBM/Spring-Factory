@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
-import javax.security.sasl.AuthenticationException;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -16,9 +13,12 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+import com.jmb.springfactory.model.bo.ConnectedUser;
 import com.jmb.springfactory.model.dto.RolDto;
 import com.jmb.springfactory.model.dto.UserDto;
 import com.jmb.springfactory.service.user.UserService;
@@ -38,13 +38,15 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         val password = Optional.ofNullable(authentication).map(Authentication::getCredentials).map(Object::toString);
 
         if (username.isPresent() && password.isPresent()) {
-            return validateUserLogin(username.get(), password.get());
+            final Authentication token = validateUserLogin(username.get(), password.get());
+            SecurityContextHolder.getContext().setAuthentication(token);
+            return token;
         }
 
         throw new UsernameNotFoundException("Username and password must not be empty");
     }
 
-    private UsernamePasswordAuthenticationToken validateUserLogin(String userName, String password) {
+    private Authentication validateUserLogin(String userName, String password) {
 
         final Optional<UserDto> user = userService.findByNif(userName);
         val encryptPassword = Optional.ofNullable(password).map(DigestUtils::sha1Hex).orElse(StringUtils.EMPTY);
@@ -55,7 +57,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
             final List<SimpleGrantedAuthority> authorities = user.map(UserDto::getRol).map(getGrantedAuthoritiesFromRol)
                     .orElse(new ArrayList<>());
-            val userAuthenticated = user.orElseThrow(
+            final UserDetails userAuthenticated = user.map(this::createUserDetails).orElseThrow(
                     () -> new UsernameNotFoundException("It cannot extracts the user from the body of request"));
 
             return new UsernamePasswordAuthenticationToken(userAuthenticated, encryptPassword, authorities);
@@ -65,11 +67,18 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     }
 
     final Function<RolDto, List<SimpleGrantedAuthority>> getGrantedAuthoritiesFromRol = rol -> rol.getPermissions()
-            .parallelStream().map(p -> new SimpleGrantedAuthority(p.getName())).collect(Collectors.toList());
+            .stream().map(p -> new SimpleGrantedAuthority(p.getName())).collect(Collectors.toList());
 
     @Override
     public boolean supports(Class<?> authentication) {
         return authentication.equals(UsernamePasswordAuthenticationToken.class);
+    }
+
+    private UserDetails createUserDetails(final UserDto user) {
+
+        final List<SimpleGrantedAuthority> authorities = Optional.ofNullable(user).map(UserDto::getRol)
+                .map(getGrantedAuthoritiesFromRol).orElse(new ArrayList<>());
+        return new ConnectedUser(user.getName(), user.getPassword(), authorities, user.getPassword());
     }
 
 }

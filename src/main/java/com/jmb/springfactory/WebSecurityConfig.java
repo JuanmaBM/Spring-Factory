@@ -42,9 +42,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
       
     .authorizeRequests()    
         .antMatchers("/login").permitAll()
-        .antMatchers(HttpMethod.POST, "/authenticate").permitAll()
+        .antMatchers(HttpMethod.POST, "/api/login", "/authenticate").permitAll()
         .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-        .antMatchers("/api/**").hasAnyRole("MANAGE_TASK", "MANAGE_GROUP", "MANAGE_SCHEDULES", "MANAGE_ISSUE")
         
     .and()
         .exceptionHandling()
