@@ -1,7 +1,9 @@
 package com.jmb.springfactory.service.user;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -17,9 +19,11 @@ import com.jmb.springfactory.dao.user.UserMongoService;
 import com.jmb.springfactory.exceptions.NotFoundException;
 import com.jmb.springfactory.exceptions.ServiceLayerException;
 import com.jmb.springfactory.model.bo.BusinessObjectBase;
+import com.jmb.springfactory.model.dto.PermisionDto;
 import com.jmb.springfactory.model.dto.RolDto;
 import com.jmb.springfactory.model.dto.UserDto;
 import com.jmb.springfactory.model.dto.WorkGroupDto;
+import com.jmb.springfactory.model.entity.Permission;
 import com.jmb.springfactory.model.entity.Rol;
 import com.jmb.springfactory.model.entity.User;
 import com.jmb.springfactory.model.entity.WorkGroup;
@@ -71,6 +75,7 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDto, BusinessO
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<UserDto> findByNif(String nif) {
 
         serviceLog.info(String.format("Search user with nif %s", nif));
@@ -138,6 +143,25 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDto, BusinessO
             entity.setPhoneNumber(dto.getPhoneNumber());
             entity.setSurname(dto.getSurname());
         }
+    }
+
+    @Override
+    public List<PermisionDto> getPermission(final String nif) {
+
+        final Function<Permission, PermisionDto> permissionToPermissionDto = permission -> getMapper().map(permission,
+                PermisionDto.class);
+
+        final List<Permission> permissions = Optional.ofNullable(nif).flatMap(userMongoService::findByNif)
+                .map(User::getRol).map(Rol::getPermissions).orElse(Collections.emptyList());
+
+        return permissions.stream().map(permissionToPermissionDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public Integer getGroupId(final String nif) {
+
+        return Optional.ofNullable(nif).flatMap(userMongoService::findByNif).map(User::getGroup).map(WorkGroup::getId)
+                .orElse(null);
     }
 
     @Override
