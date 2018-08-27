@@ -1,6 +1,5 @@
 package com.jmb.springfactory.controller.api;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -11,9 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,7 +19,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 
 import com.jmb.springfactory.model.dto.ConnectedDto;
 import com.jmb.springfactory.model.dto.PermisionDto;
-import com.jmb.springfactory.model.entity.User;
 import com.jmb.springfactory.service.user.UserService;
 
 @RestController
