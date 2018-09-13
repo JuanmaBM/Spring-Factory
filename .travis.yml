@@ -21,4 +21,15 @@ install:
   - ./gradlew integration
 script: 
   - sonar-scanner
+deploy:
+  provider: elasticbeanstalk
+  access_key_id: $AWS_ID_KEY
+  secret_access_key:
+    secure: $AWS_SECRET_KEY
+  region: "eu-west-1"  
+  app: "Spring-Factory"
+  env: "SpringFactory-env-1"
+  bucket_name: "elasticbeanstalk-eu-west-2-537236310662"
+  on:
+    branch: master
 sudo: required
