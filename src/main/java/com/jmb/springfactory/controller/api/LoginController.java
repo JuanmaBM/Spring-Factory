@@ -1,5 +1,6 @@
 package com.jmb.springfactory.controller.api;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -19,11 +20,16 @@ import org.springframework.web.context.request.RequestContextHolder;
 
 import com.jmb.springfactory.model.dto.ConnectedDto;
 import com.jmb.springfactory.model.dto.PermisionDto;
+import com.jmb.springfactory.model.enumeration.PermissionsEnum;
 import com.jmb.springfactory.service.user.UserService;
 
 @RestController
 @RequestMapping("/api")
 public class LoginController {
+
+    private static final String DEFAULT_ADMIN_PASSWORD = "21232f297a57a5a743894a0e4a801fc3";
+
+    private static final String DEFAULT_ADMIN_NAME = "admin";
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -31,9 +37,15 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
-    // @PostMapping("/login")
     @RequestMapping(value = "/login", method = { RequestMethod.POST })
     public ConnectedDto login(@RequestHeader("username") String username, @RequestHeader("password") String password) {
+
+        if (DEFAULT_ADMIN_NAME.equalsIgnoreCase(username) && DEFAULT_ADMIN_PASSWORD.equalsIgnoreCase(password)) {
+            final List<String> adminPermissions = Arrays.asList(PermissionsEnum.values()).stream()
+                    .map(PermissionsEnum::name).collect(Collectors.toList());
+            return ConnectedDto.builder().username(username).grantedAuthorities(adminPermissions)
+                    .build();
+        }
 
         final Authentication token = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(username, password));

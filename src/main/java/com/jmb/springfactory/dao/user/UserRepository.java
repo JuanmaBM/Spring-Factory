@@ -6,4 +6,5 @@ import com.jmb.springfactory.model.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Integer>{
 
+    User findByNif(String nif);
 }

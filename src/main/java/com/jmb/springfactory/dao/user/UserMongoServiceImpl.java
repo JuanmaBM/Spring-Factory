@@ -11,9 +11,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.jmb.springfactory.dao.GenericMySQLServiceImpl;
-import com.jmb.springfactory.dao.rol.RolMongoService;
-import com.jmb.springfactory.exceptions.PersistenceLayerException;
-import com.jmb.springfactory.model.entity.Rol;
 import com.jmb.springfactory.model.entity.User;
 
 @Repository
@@ -21,9 +18,6 @@ public class UserMongoServiceImpl extends GenericMySQLServiceImpl<User, Integer>
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private RolMongoService rolMongoService;
 
     @Override
     public Stream<User> findByNameContain(String name) {
@@ -50,12 +44,7 @@ public class UserMongoServiceImpl extends GenericMySQLServiceImpl<User, Integer>
     @Override
     public Optional<User> findByNif(String nif) {
 
-        final User userWithNif = new User();
-        userWithNif.setNif(nif);
-
-        final Example<User> userByNifExample = Example.of(userWithNif);
-
-        return Optional.ofNullable(userRepository.findOne(userByNifExample));
+        return findByNifContain(nif).findFirst();
     }
 
     @Override
@@ -77,5 +66,14 @@ public class UserMongoServiceImpl extends GenericMySQLServiceImpl<User, Integer>
         }
 
         return ExampleMatcher.matching().withMatcher(propertyName, GenericPropertyMatcher::contains);
+    }
+
+    private ExampleMatcher createMatcherExact(String propertyName) {
+
+        if (propertyName == null) {
+            return null;
+        }
+
+        return ExampleMatcher.matching().withMatcher(propertyName, GenericPropertyMatcher::exact);
     }
 }
