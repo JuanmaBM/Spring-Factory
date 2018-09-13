@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table
-public class WorkGroup extends BaseEntity{
+public class WorkGroup extends BaseEntity {
 
-  private String name;
-  private String startHour;
-  private String finishHour;
+    private String name;
+    private String startHour;
+    private String finishHour;
 }

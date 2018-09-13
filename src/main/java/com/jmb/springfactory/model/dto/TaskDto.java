@@ -3,10 +3,14 @@ package com.jmb.springfactory.model.dto;
 import java.util.Date;
 import java.util.List;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,7 +25,6 @@ public class TaskDto extends BaseDto {
   private String name;
 
   @NotNull
-  @Max(value = 255, message = "El campo descripcion tiene un limite de 255 caracteres")
   private String description;
 
   @NotNull
@@ -29,19 +32,20 @@ public class TaskDto extends BaseDto {
 
   private String status;
 
-  @NotNull
+  @DateTimeFormat(iso = ISO.DATE_TIME)
   private Date startDate;
 
-  @NotNull
+  @DateTimeFormat(iso = ISO.DATE_TIME)
   private Date finishDate;
 
   @NotNull
   private String priority;
 
-  @NotNull
   private UserDto creator;
 
   private String reasonRejection;
+
+  private String blockedReason;
 
   private Integer orderNumber;
 
@@ -51,5 +55,8 @@ public class TaskDto extends BaseDto {
 
   @JsonIgnore
   private ProductionOrderDTO order;
+  
+  @JsonProperty(access = Access.WRITE_ONLY)
+  private WorkGroupDto groupAssigned;
 
 }

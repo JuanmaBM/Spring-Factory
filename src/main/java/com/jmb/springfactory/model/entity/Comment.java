@@ -21,6 +21,9 @@ public class Comment extends BaseEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   private User author;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  private WorkGroup group;
+
   private String text;
 
   @Temporal(TemporalType.TIMESTAMP)
@@ -28,5 +31,8 @@ public class Comment extends BaseEntity {
 
   @Temporal(TemporalType.TIMESTAMP)
   private Date modificationDate;
+  
+  @ManyToOne(fetch = FetchType.LAZY)
+  private Task task;
 
 }

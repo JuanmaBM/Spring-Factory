@@ -3,6 +3,7 @@ package com.jmb.springfactory.model.entity;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -28,6 +29,8 @@ public class User extends BaseEntity{
 
   @NotNull
   private String name;
+  
+  private String password;
 
   @NotNull
   private String surname;
@@ -39,7 +42,7 @@ public class User extends BaseEntity{
   @Pattern(regexp = VALIDATION_EMAIL_PATTERN, flags = Flag.CASE_INSENSITIVE)
   private String email;
   
-  @ManyToOne(fetch = FetchType.LAZY)
+  @OneToOne(fetch = FetchType.LAZY)
   private Rol rol;
   
   @ManyToOne(fetch = FetchType.LAZY)

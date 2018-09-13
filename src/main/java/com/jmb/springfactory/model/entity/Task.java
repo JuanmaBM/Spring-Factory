@@ -1,12 +1,9 @@
 package com.jmb.springfactory.model.entity;
 
-import java.time.LocalDate;
-import java.util.List;
-
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.jmb.springfactory.model.enumeration.PriorityEnum;
@@ -31,9 +28,9 @@ public class Task extends BaseEntity {
 
   private TaskStatusEnum status;
 
-  private LocalDate startDate;
+  private Date startDate;
 
-  private LocalDate finishDate;
+  private Date finishDate;
 
   private PriorityEnum priority;
 
@@ -42,15 +39,15 @@ public class Task extends BaseEntity {
 
   private String reasonRejection;
 
+  private String blockedReason;
+
   private Integer orderNumber;
 
-  @OneToMany(fetch = FetchType.LAZY)
-  private List<Comment> comments;
-
-  @OneToMany(fetch = FetchType.LAZY)
-  private List<WorkLog> workLogs;
-  
+  // TODO: cambiar por one to one
   @ManyToOne(fetch = FetchType.LAZY)
   private ProductionOrder order;
+  
+  @ManyToOne(fetch = FetchType.LAZY)
+  private WorkGroup groupAssigned;
 
 }

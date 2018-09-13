@@ -9,7 +9,11 @@ import com.jmb.springfactory.service.GenericService;
 
 public interface CommentService extends GenericService<CommentDto, Integer> {
 
-  public CommentDto save(Integer idTask, CommentDto commentDto) throws NotFoundException, ServiceLayerException;
-  public CommentDto findOne(Integer idTask, Integer id) throws NotFoundException;
-  public List<CommentDto> findAll(Integer idTask) throws NotFoundException;
+    public CommentDto save(Integer idTask, CommentDto commentDto) throws NotFoundException, ServiceLayerException;
+
+    public List<CommentDto> findAll(Integer idTask) throws NotFoundException;
+
+    public List<CommentDto> findByGroupId(Integer idTask, Integer groupId);
+
+    Long countByTask(Integer taskId);
 }

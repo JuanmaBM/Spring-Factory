@@ -14,11 +14,16 @@ import com.jmb.springfactory.service.GenericService;
 
 public interface TaskService extends GenericService<TaskDto, Integer> {
 
-  public TaskDto save(Integer orderId, TaskDto taskDto) throws ServiceLayerException, NotFoundException, 
-    PersistenceLayerException;
-  
-  public List<TaskDto> findAll(QueryTaskObject queryParams);
-  public void addComment(Integer idTask, CommentDto comment) throws NotFoundException, ServiceLayerException;
-  public void addWorkLog(Integer idTask, WorkLogDto workLog) throws NotFoundException, ServiceLayerException;
-  public Optional<TaskDto> findOneById(Integer id);
+    public TaskDto save(Integer orderId, TaskDto taskDto)
+            throws ServiceLayerException, NotFoundException, PersistenceLayerException;
+
+    public List<TaskDto> findAll(QueryTaskObject queryParams);
+
+    public void addComment(Integer idTask, CommentDto comment) throws NotFoundException, ServiceLayerException;
+
+    public void addWorkLog(Integer idTask, WorkLogDto workLog) throws NotFoundException, ServiceLayerException;
+
+    public Optional<TaskDto> findOneById(Integer id);
+
+    public TaskDto saveByGroup(TaskDto task, Integer groupId) throws NotFoundException, ServiceLayerException;
 }

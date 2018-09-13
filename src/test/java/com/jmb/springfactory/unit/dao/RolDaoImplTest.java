@@ -18,10 +18,13 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Example;
 
+import com.jmb.springfactory.dao.permission.PermissionMySQLService;
 import com.jmb.springfactory.dao.rol.RolMongoServiceImpl;
 import com.jmb.springfactory.dao.rol.RolRepository;
 import com.jmb.springfactory.exceptions.PersistenceLayerException;
+import com.jmb.springfactory.model.entity.Permission;
 import com.jmb.springfactory.model.entity.Rol;
+import com.jmb.springfactory.model.enumeration.PermissionsEnum;
 import com.jmb.springfactory.model.factory.rol.RolFactory;
 import com.jmb.springfactory.model.factory.rol.RolSamples;
 
@@ -35,20 +38,29 @@ public class RolDaoImplTest {
   private Rol rolSample;
   private Rol alreadyRolSample;
   private List<Rol> listRolSample;
+  private Permission permissionSample = new Permission();
 
   @Mock
   private RolRepository rolRepository;
+  
+  @Mock
+  private PermissionMySQLService permissionMySQLService;
 
   @SuppressWarnings("unchecked")
   @Before
   public void setUp() {
     rolSample = RolFactory.createSampleDefaultRol();
-    alreadyRolSample = RolFactory.createRol(RolSamples.ID_ROL_TEST_2, RolSamples.NAME_ROL_TEST_2);
+    alreadyRolSample = RolFactory.createRol(RolSamples.ID_ROL_TEST_2, RolSamples.NAME_ROL_TEST_2, 
+        RolFactory.createPermissions());
     listRolSample = RolFactory.createListSampleDefaultRoles();
+    
+    permissionSample.setId(1);
+    permissionSample.setName(PermissionsEnum.MANAGE_TASK);
 
     when(rolRepository.save(any(Rol.class))).thenReturn(rolSample);
     when(rolRepository.save(alreadyRolSample)).thenThrow(PersistenceLayerException.class);
     when(rolRepository.findAll(any(Example.class))).thenReturn(listRolSample);
+    when(permissionMySQLService.findPermissionByName(any(PermissionsEnum.class))).thenReturn(new Permission());
   }
 
   @Test

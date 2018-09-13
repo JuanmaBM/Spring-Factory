@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jmb.springfactory.exceptions.NotFoundException;
 import com.jmb.springfactory.exceptions.ServiceLayerException;
 import com.jmb.springfactory.model.dto.CommentDto;
+import static com.jmb.springfactory.service.UtilsService.exist;
 import com.jmb.springfactory.service.comment.CommentService;
 
 @RestController
@@ -33,14 +35,24 @@ public class CommentController {
   }
 
   @GetMapping("/{id}")
-  public CommentDto findOne(@PathVariable("idTask") Integer idTask, @PathVariable("id") Integer id)
+  public CommentDto findOne(@PathVariable("id") Integer id)
       throws NotFoundException {
-    return commentService.findOne(idTask, id);
+    return commentService.findOne(id);
   }
   
   @GetMapping
-  public List<CommentDto> findAll(@PathVariable("idTask") Integer idTask) throws NotFoundException {
-    return commentService.findAll(idTask);
+  public List<CommentDto> findAll(@PathVariable("idTask") Integer idTask,
+            @RequestParam(value = "groupId", required = false) Integer groupId) throws NotFoundException {
+      
+        final List<CommentDto> worklogs;
+
+        if (exist(groupId)) {
+            worklogs = commentService.findByGroupId(idTask, groupId);
+        } else {
+            worklogs = commentService.findAll(idTask);
+        }
+        
+        return worklogs;
   }
 
   @PutMapping("/{id}")
