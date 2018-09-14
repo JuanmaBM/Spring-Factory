@@ -29,7 +29,7 @@ deploy:
   region: "eu-west-1"  
   app: "Spring-Factory"
   env: "SpringFactory-env-1"
-  bucket_name: "elasticbeanstalk-eu-west-2-537236310662"
+  bucket_name: "elasticbeanstalk-eu-west-1-537236310662"
   on:
     branch: master
 sudo: required
