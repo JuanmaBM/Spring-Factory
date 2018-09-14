@@ -26,7 +26,7 @@ deploy:
   access_key_id: $AWS_ID_KEY
   secret_access_key:
     secure: $AWS_SECRET_KEY
-  region: "eu-west-1"  
+  region: "eu-west-2"
   app: "Spring-Factory"
   env: "SpringFactory-env-1"
   bucket_name: "elasticbeanstalk-eu-west-1-537236310662"
