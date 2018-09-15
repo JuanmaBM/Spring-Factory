@@ -31,6 +31,7 @@ deploy:
   env: "SpringFactory-env"
   bucket_name: "elasticbeanstalk-eu-west-2-537236310662"
   skip_cleanup: true
+  zip_file: 'build/libs/Spring-Factory.war'
   on:
     branch: master
 sudo: required

@@ -33,7 +33,6 @@ lombok {
 	sha256 = "3ca225ce3917eac8bf4b7d2186845df4e70dcdede356dca8537b6d78a535c91e"
 }
 
-version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
