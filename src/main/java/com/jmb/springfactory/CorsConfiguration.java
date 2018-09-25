@@ -9,8 +9,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 public class CorsConfiguration {
 
-    // private static final String PRE =
-    // "http://alsf-front-pre.s3-website-eu-west-1.amazonaws.com";
     private static final String PRE = "*";
 
     @Bean

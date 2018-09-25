@@ -1,13 +1,8 @@
 package com.jmb.springfactory.dao.productionorder;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +12,6 @@ import com.jmb.springfactory.dao.productionschedule.ProductionScheduleMySQLServi
 import com.jmb.springfactory.exceptions.NotFoundException;
 import com.jmb.springfactory.exceptions.PersistenceLayerException;
 import com.jmb.springfactory.model.entity.ProductionOrder;
-import com.jmb.springfactory.model.entity.WorkGroup;
 import com.jmb.springfactory.model.enumeration.StatusEnum;
 import com.jmb.springfactory.service.UtilsService;
 
@@ -32,9 +26,6 @@ public class ProductionOrderMySQLImpl extends GenericMySQLServiceImpl<Production
 
     @Autowired
     private ProductionScheduleMySQLService productionScheduleMySQLService;
-
-    @Autowired
-    private GroupMongoService groupMongoService;
 
     @Override
     public JpaRepository<ProductionOrder, Integer> getRepository() {

@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import com.jmb.springfactory.dao.GenericMySQLServiceImpl;
-import com.jmb.springfactory.model.dto.WorkLogDto;
 import com.jmb.springfactory.model.entity.WorkLog;
 
 @Service

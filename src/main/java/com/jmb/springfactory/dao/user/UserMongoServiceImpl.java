@@ -67,13 +67,4 @@ public class UserMongoServiceImpl extends GenericMySQLServiceImpl<User, Integer>
 
         return ExampleMatcher.matching().withMatcher(propertyName, GenericPropertyMatcher::contains);
     }
-
-    private ExampleMatcher createMatcherExact(String propertyName) {
-
-        if (propertyName == null) {
-            return null;
-        }
-
-        return ExampleMatcher.matching().withMatcher(propertyName, GenericPropertyMatcher::exact);
-    }
 }

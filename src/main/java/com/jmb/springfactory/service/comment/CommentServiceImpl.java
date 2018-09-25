@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.jmb.springfactory.dao.GenericMySQLService;
 import com.jmb.springfactory.dao.comment.CommentMySQLService;
-import com.jmb.springfactory.dao.group.GroupMongoService;
 import com.jmb.springfactory.dao.task.TaskMySQLService;
 import com.jmb.springfactory.dao.user.UserMongoService;
 import com.jmb.springfactory.exceptions.NotFoundException;
@@ -20,12 +19,9 @@ import com.jmb.springfactory.exceptions.ServiceLayerException;
 import com.jmb.springfactory.model.bo.BusinessObjectBase;
 import com.jmb.springfactory.model.dto.CommentDto;
 import com.jmb.springfactory.model.dto.UserDto;
-import com.jmb.springfactory.model.dto.WorkGroupDto;
-import com.jmb.springfactory.model.dto.WorkLogDto;
 import com.jmb.springfactory.model.entity.Comment;
 import com.jmb.springfactory.model.entity.Task;
 import com.jmb.springfactory.model.entity.User;
-import com.jmb.springfactory.model.entity.WorkGroup;
 import com.jmb.springfactory.service.GenericServiceImpl;
 import com.jmb.springfactory.service.ValidatorService;
 
