@@ -26,7 +26,6 @@ public class IssueController {
 
   @PostMapping
   public IssueDto create(@Valid @RequestBody IssueDto dto) throws ServiceLayerException {
-    // FIXME: Search user logged
     String username = "";
     return issueService.save(dto, username);
   }
