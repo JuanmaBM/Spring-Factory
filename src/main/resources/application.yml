@@ -1,4 +1,6 @@
 spring:
+  name: spring-factory
+  version: 1.0.0
   profiles: local
   datasource:
     url: jdbc:mysql://localhost:3306/factory
