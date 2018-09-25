@@ -114,7 +114,7 @@ public final class UtilsService extends BaseService {
   
   public static Boolean existAll(Object ... obj) {
       Boolean allObjectExists = true;
-      for (int i = 0; i < i && allObjectExists; i++) {
+      for (int i = 0; i < obj.length && allObjectExists; i++) {
           if (!exist(obj)) allObjectExists = false;
       }
       return allObjectExists;

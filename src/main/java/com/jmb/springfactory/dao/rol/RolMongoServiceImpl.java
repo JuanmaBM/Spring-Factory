@@ -3,8 +3,6 @@ package com.jmb.springfactory.dao.rol;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -14,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import com.jmb.springfactory.dao.GenericMySQLServiceImpl;
 import com.jmb.springfactory.dao.permission.PermissionMySQLService;
-import com.jmb.springfactory.model.entity.Permission;
 import com.jmb.springfactory.model.entity.Rol;
 import com.jmb.springfactory.model.factory.rol.RolFactory;
 

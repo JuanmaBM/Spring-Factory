@@ -40,7 +40,7 @@ public class IssueValidatorService extends BaseService implements ValidatorServi
 
   @Override
   public void validateOnUpdate(Object object) {
-    // TODO Auto-generated method stub
+    // There are not any rules to delete
   }
 
   @Override
