@@ -10,5 +10,5 @@ spring:
     show-sql: true
     format-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
       dialect: org.hibernate.dialect.MySQL5Dialect
